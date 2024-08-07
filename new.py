@@ -91,7 +91,7 @@ def send_command(device_id):
 
     try:
         # Enviando o comando
-        result = client.write_registers(0x10, new_reg)
+        result = client.holding_registers(0x10, new_reg)
         if result.isError():
             print(result)
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
