@@ -82,21 +82,24 @@ def send_command(device_id, mode):
 
     reg = [0x0000, 0x0000, 0x0000]
 
-    command_register, fan_attr = convert_to_holding_reg(com, reg)
+    new_reg, fan_attr = convert_to_holding_reg(com, reg)
 
-    print("Updated reg:", command_register)
+    print("Updated reg:", new_reg)
     print("Fan attr:", fan_attr)
+
+    # Verifique se os valores são inteiros
+    print("Types in new_reg:", [type(x) for x in new_reg])
 
     try:
         # Enviando o comando
-        result = client.write_registers('0x10', command_register)
+        result = client.write_registers(0x10, new_reg)
         if result.isError():
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
         return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
     except Exception as e:
         return {"status": "error", "message": f"Error sending command to device {device_id}: {e}"}
 
-device_id = 'ha001-00020'
+device_id = 'ha001-00010'
 mode = 'fan'
 response = send_command(device_id, mode)
 
