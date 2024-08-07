@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from pymodbus.client import ModbusSerialClient as ModbusClient
 import time
+import logging
 
 app = Flask(__name__)
 
@@ -56,6 +57,10 @@ def send_command(device_id, mode):
     except Exception as e:
         return {"status": "error", "message": f"Error sending command to device {device_id}: {e}"}
 
+@app.route('/')
+def home():
+    return jsonify({"status": "success", "message": "Servidor está funcionando corretamente!"})
+
 @app.route('/send_commands', methods=['POST'])
 def send_commands():
     if not client.connect():
@@ -74,6 +79,3 @@ def send_commands():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=3000)
-
-
-
