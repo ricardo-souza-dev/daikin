@@ -68,30 +68,28 @@ def convert_to_holding_reg(com, reg):
     return reg, fan_attr
 
 def send_command(device_id, mode):
-    mode_map = {'cool': 1, 'fan': 2}
-    command_value = mode_map.get(mode, 0)
-    command_register = 0x10
-    unit_id = 1  # ID do dispositivo Modbus
 
     # Exemplo de uso
     com = {
         'stat': 'on',
         'sp': '22.5',
-        'mode': 'cool',
-        'fanstep': 'M',
-        'flap': 'swing',
-        'filter_clr': True
+        'mode': 'cool'
     }
+
+        #     'fanstep': 'M',
+        # 'flap': 'swing',
+        # 'filter_clr': True
 
     reg = [0x0000, 0x0000, 0x0000]
 
-    new_reg, fan_attr = convert_to_holding_reg(com, reg)
-    print("Updated reg:", new_reg)
-    print("Fan attr:", fan_attr)
+    command_register, command_value = convert_to_holding_reg(com, reg)
+
+    print("Updated reg:", command_register)
+    print("Fan attr:", command_value)
 
     try:
         # Enviando o comando
-        result = client.write_registers(command_register, new_reg)
+        result = client.write_registers(command_register, command_value)
         if result.isError():
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
         return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
