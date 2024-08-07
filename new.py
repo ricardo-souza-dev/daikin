@@ -73,12 +73,11 @@ def send_command(device_id, mode):
     com = {
         'stat': 'on',
         'sp': '22.5',
-        'mode': 'cool'
+        'mode': 'cool',
+        'fanstep': 'M',
+        'flap': 'swing',
+        'filter_clr': True
     }
-
-        #     'fanstep': 'M',
-        # 'flap': 'swing',
-        # 'filter_clr': True
 
     reg = [0x0000, 0x0000, 0x0000]
 
