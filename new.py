@@ -70,28 +70,30 @@ def convert_to_holding_reg(com, reg):
 def send_command(device_id):
 
     # Exemplo de uso
-    com = {
-        'stat': 'on',
-        'sp': '22.5',
-        'mode': 'cool',
-        'fanstep': 'M',
-        'flap': 'swing',
-        'filter_clr': True
-    }
+    # com = {
+    #     'stat': 'on',
+    #     'sp': '22.5',
+    #     'mode': 'cool',
+    #     'fanstep': 'M',
+    #     'flap': 'swing',
+    #     'filter_clr': True
+    # }
 
-    reg = [0x0000, 0x0000, 0x0000]
+    # reg = [0x0000, 0x0000, 0x0000]
 
-    new_reg, fan_attr = convert_to_holding_reg(com, reg)
+    # new_reg, fan_attr = convert_to_holding_reg(com, reg)
 
-    print("Updated reg:", new_reg)
-    print("Fan attr:", fan_attr)
+    # print("Updated reg:", new_reg)
+    # print("Fan attr:", fan_attr)
 
-    # Verifique se os valores são inteiros
-    print("Types in new_reg:", [type(x) for x in new_reg])
+    # # Verifique se os valores são inteiros
+    # print("Types in new_reg:", [type(x) for x in new_reg])
+
+    values = [225]
 
     try:
         # Enviando o comando
-        result = client.holding_registers(0x10, new_reg)
+        result = client.write_registers(0x1000, values)
         if result.isError():
             print(result)
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
