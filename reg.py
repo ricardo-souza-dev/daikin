@@ -1,13 +1,13 @@
 from pymodbus.client import ModbusSerialClient as ModbusClient
 
-# Configuração do cliente Modbus
+# Criação do cliente Modbus RTU
 client = ModbusClient(
-    port='/dev/ttyUSB0',
-    baudrate=9600,
-    parity='N',
-    stopbits=1,
-    bytesize=8,
-    timeout=2
+    port='/dev/ttyUSB0',  # Porta serial
+    baudrate=9600,        # Taxa de transmissão
+    parity='N',           # Paridade
+    stopbits=1,           # Bits de parada
+    bytesize=8,           # Tamanho do byte
+    timeout=2             # Tempo de espera para resposta
 )
 
 # Conectando ao cliente
@@ -17,38 +17,9 @@ else:
     print("Falha na conexão.")
     exit()
 
-def scan_modbus_ids(start_id, end_id, register_address):
-    """
-    Varre IDs de dispositivos Modbus para descobrir quais estão ativos na rede.
+result = client.read_input_registers(0x04, 4, slave=1)
 
-    :param start_id: ID inicial a ser verificado.
-    :param end_id: ID final a ser verificado.
-    :param register_address: Endereço do registrador a ser lido para verificação.
-    :return: Lista de IDs de dispositivos encontrados.
-    """
-    found_ids = []
-
-    for unit_id in range(start_id, end_id + 1):
-        try:
-            # Tentando ler um registrador de cada dispositivo
-            result = client.read_input_registers(register_address, 1, unit=unit_id)
-            if not result.isError():
-                print(f"Dispositivo encontrado com ID {unit_id}")
-                found_ids.append(unit_id)
-        except Exception as e:
-            # Caso ocorra um erro, provavelmente o ID não está ativo
-            print(f"ID {unit_id} não responde ou erro: {e}")
-
-    return found_ids
-
-# Parâmetros de varredura
-start_id = 1
-end_id = 247
-register_address = 0x0000  # Endereço do registrador para verificar a resposta
-
-# Realizando a varredura
-found_devices = scan_modbus_ids(start_id, end_id, register_address)
-print(f"IDs encontrados: {found_devices}")
+print(result)
 
 # Desconectando o cliente
 client.close()
