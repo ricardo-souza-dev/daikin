@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 from pymodbus.client import ModbusSerialClient as ModbusClient
 import time
-import logging
 
 app = Flask(__name__)
 
@@ -29,13 +28,14 @@ commands = [
     {"type": "Fcu", "id": "ha001-00020", "mode": "fan"}
 ]
 
+# Criação do cliente Modbus RTU
 client = ModbusClient(
-    port='/dev/ttyUSB0',  # Porta serial (pode variar: COMx no Windows, /dev/ttyUSBx no Linux)
+    port='/dev/ttyUSB0',  # Porta serial
     baudrate=9600,        # Taxa de transmissão
     parity='N',           # Paridade (N: Nenhuma, E: Par, O: Ímpar)
     stopbits=1,           # Bits de parada
     bytesize=8,           # Tamanho do byte
-    timeout=30             # Tempo de espera para resposta
+    timeout=1             # Tempo de espera para resposta (em segundos)
 )
 
 def send_command(device_id, mode):
