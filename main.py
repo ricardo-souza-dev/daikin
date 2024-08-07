@@ -31,8 +31,8 @@ commands = [
 
 # Configurações do cliente Modbus Serial
 SERIAL_PORT = '/dev/ttyUSB0'  # Substitua pelo seu dispositivo serial
-BAUD_RATE = 9600
-PARITY = 'E'
+BAUD_RATE = 19200
+PARITY = 'EVEN'
 STOPBITS = 1
 BYTESIZE = 8
 
