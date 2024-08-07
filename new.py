@@ -82,14 +82,14 @@ def send_command(device_id, mode):
 
     reg = [0x0000, 0x0000, 0x0000]
 
-    command_register, command_value = convert_to_holding_reg(com, reg)
+    command_register, fan_attr = convert_to_holding_reg(com, reg)
 
     print("Updated reg:", command_register)
-    print("Fan attr:", command_value)
+    print("Fan attr:", fan_attr)
 
     try:
         # Enviando o comando
-        result = client.write_registers(command_register, command_value)
+        result = client.write_registers('0x10', command_register)
         if result.isError():
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
         return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
