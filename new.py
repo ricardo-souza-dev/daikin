@@ -67,6 +67,22 @@ def convert_to_holding_reg(com, reg):
 
     return reg, fan_attr
 
+# Função de leitura
+def read_temperature():
+
+    register_address = 0x1001  # Endereço do registrador para temperatura atual
+    num_registers = 1  # Número de registradores a serem lidos
+    unit_id = 1  # ID do dispositivo Modbus
+
+    try:
+        result = client.read_input_registers(register_address, num_registers, unit=unit_id)
+        if result.isError():
+            return {"status": "error", "message": f"Failed to read temperature from device with unit ID {unit_id}"}
+        temperature = result.registers[0] / 10.0  # Ajuste conforme a unidade
+        return {"status": "success", "temperature": temperature}
+    except Exception as e:
+        return {"status": "error", "message": f"Error reading temperature from device with unit ID {unit_id}: {e}"}
+
 def send_command(device_id):
 
     # Exemplo de uso
@@ -105,7 +121,7 @@ device_ids = [f'ha001-{str(i).zfill(5)}' for i in range(1, 21)]
 
 response = send_command('ha001-00011')
 
-print(response)
+print(read_temperature())
 
 # Desconectando o cliente
 client.close()
