@@ -30,7 +30,6 @@ commands = [
 ]
 
 client = ModbusClient(
-    method='rtu',
     port='/dev/ttyUSB0',  # Porta serial (pode variar: COMx no Windows, /dev/ttyUSBx no Linux)
     baudrate=9600,        # Taxa de transmissão
     parity='N',           # Paridade (N: Nenhuma, E: Par, O: Ímpar)
