@@ -35,7 +35,7 @@ client = ModbusClient(
     parity='N',           # Paridade (N: Nenhuma, E: Par, O: Ímpar)
     stopbits=1,           # Bits de parada
     bytesize=8,           # Tamanho do byte
-    timeout=1             # Tempo de espera para resposta
+    timeout=30             # Tempo de espera para resposta
 )
 
 def send_command(device_id, mode):
