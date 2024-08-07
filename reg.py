@@ -17,7 +17,7 @@ else:
     print("Falha na conexão.")
     exit()
 
-result = client.read_input_registers(0x04, 40000, slave='ha001-00015')
+result = client.read_input_registers(0x0000, 1, slave=1)
 
 print(result)
 
