@@ -53,6 +53,9 @@ def send_command(device_id, mode):
 
 @app.route('/')
 def home():
+    if not client.connect():
+        return jsonify({"status": "error", "message": "Failed to connect to Modbus server"}), 500
+
     return jsonify({"status": "success", "message": "Servidor está funcionando corretamente!"})
 
 @app.route('/send_commands', methods=['POST'])
