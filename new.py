@@ -23,5 +23,24 @@ else:
 # else:
 #     print("Valor do registrador:", result.registers[0])
 
+def send_command(device_id, mode):
+    mode_map = {'cool': 1, 'fan': 2}
+    command_value = mode_map.get(mode, 0)
+    command_register = 0x10
+
+    try:
+        result = client.write_register(command_register, command_value, unit=1)
+        if result.isError():
+            return {"status": "error", "message": f"Failed to send command to device {device_id}"}
+        return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
+    except Exception as e:
+        return {"status": "error", "message": f"Error sending command to device {device_id}: {e}"}
+
+device_id = 'ha001-00020'
+mode = 'fan'
+response = send_command(device_id, mode)
+
+print(response)
+
 # Desconectando o cliente
 client.close()
