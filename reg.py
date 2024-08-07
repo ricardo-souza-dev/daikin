@@ -56,7 +56,7 @@ def read_temperature(register_address, num_registers, unit_id):
 # Exemplo de uso
 register_address = 0x1001  # Endereço do registrador para temperatura atual
 num_registers = 1  # Número de registradores a serem lidos
-unit_id = ha001-00009  # ID do dispositivo Modbus
+unit_id = 'ha001-00009'  # ID do dispositivo Modbus
 
 # Leitura de temperatura
 response = read_temperature(register_address, num_registers, unit_id)
