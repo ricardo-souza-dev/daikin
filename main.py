@@ -29,19 +29,14 @@ commands = [
     {"type": "Fcu", "id": "ha001-00020", "mode": "fan"}
 ]
 
-# Configurações do cliente Modbus Serial
-SERIAL_PORT = '/dev/ttyUSB0'  # Substitua pelo seu dispositivo serial
-BAUD_RATE = 9600
-PARITY = 'NONE'
-STOPBITS = 1
-BYTESIZE = 8
-
 client = ModbusClient(
-    port=SERIAL_PORT,
-    baudrate=BAUD_RATE,
-    parity=PARITY,
-    stopbits=STOPBITS,
-    bytesize=BYTESIZE
+    method='rtu',
+    port='/dev/ttyUSB0',  # Porta serial (pode variar: COMx no Windows, /dev/ttyUSBx no Linux)
+    baudrate=9600,        # Taxa de transmissão
+    parity='N',           # Paridade (N: Nenhuma, E: Par, O: Ímpar)
+    stopbits=1,           # Bits de parada
+    bytesize=8,           # Tamanho do byte
+    timeout=1             # Tempo de espera para resposta
 )
 
 def send_command(device_id, mode):
