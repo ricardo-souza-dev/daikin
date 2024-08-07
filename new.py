@@ -16,15 +16,82 @@ if client.connect():
 else:
     print("Falha na conexão.")
 
+def convert_to_holding_reg(com, reg):
+    fan_attr = reg[0] & 0xff00
+
+    for key, val in com.items():
+        if key == 'stat':
+            if val == 'on':
+                reg[0] |= 0x0001
+            elif val == 'off':
+                reg[0] &= 0xfffe
+        elif key == 'sp':
+            reg[2] = round(float(val) * 10)
+        elif key == 'mode':
+            reg[1] &= 0xfff0
+            if val == 'heat':
+                reg[1] |= 0x0001
+            elif val == 'cool':
+                reg[1] |= 0x0002
+            elif val == 'auto':
+                reg[1] |= 0x0003
+            elif val == 'temp':
+                reg[1] |= 0x0006
+            elif val == 'dry':
+                reg[1] |= 0x0007
+        elif key == 'fanstep':
+            fan_attr &= 0x0fff
+            reg[0] &= 0x0fff
+            if val == 'L':
+                reg[0] |= 0x1000
+            elif val == 'LM':
+                reg[0] |= 0x2000
+            elif val == 'M':
+                reg[0] |= 0x3000
+            elif val == 'MH':
+                reg[0] |= 0x4000
+            elif val == 'H':
+                reg[0] |= 0x5000
+            fan_attr |= (reg[0] & 0xf000)
+        elif key == 'flap':
+            fan_attr &= 0xf0ff
+            reg[0] &= 0xf0ff
+            if val == 'swing':
+                reg[0] |= 0x0700
+            else:
+                reg[0] |= (val << 8)
+            fan_attr |= (reg[0] & 0x0f00)
+        elif key == 'filter_clr':
+            if val:
+                reg[1] |= 0xf0
+
+    return reg, fan_attr
+
 def send_command(device_id, mode):
     mode_map = {'cool': 1, 'fan': 2}
     command_value = mode_map.get(mode, 0)
     command_register = 0x10
     unit_id = 1  # ID do dispositivo Modbus
 
+    # Exemplo de uso
+    com = {
+        'stat': 'on',
+        'sp': '22.5',
+        'mode': 'cool',
+        'fanstep': 'M',
+        'flap': 'swing',
+        'filter_clr': True
+    }
+
+    reg = [0x0000, 0x0000, 0x0000]
+
+    new_reg, fan_attr = convert_to_holding_reg(com, reg)
+    print("Updated reg:", new_reg)
+    print("Fan attr:", fan_attr)
+
     try:
         # Enviando o comando
-        result = client.write_register(command_register, command_value, unit=unit_id)
+        result = client.write_registers(command_register, new_reg, unit=unit_id)
         if result.isError():
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
         return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
