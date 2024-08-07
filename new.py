@@ -72,7 +72,7 @@ def read_temperature():
 
     register_address = 0x1001  # Endereço do registrador para temperatura atual
     num_registers = 1  # Número de registradores a serem lidos
-    unit_id = 1  # ID do dispositivo Modbus
+    unit_id = 'ha001-00011'  # ID do dispositivo Modbus
 
     try:
         result = client.read_input_registers(register_address, num_registers, unit=unit_id)
