@@ -37,6 +37,7 @@ STOPBITS = 1
 BYTESIZE = 8
 
 client = ModbusClient(
+    method='rtu',
     port=SERIAL_PORT,
     baudrate=BAUD_RATE,
     parity=PARITY,
