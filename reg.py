@@ -1,13 +1,13 @@
 from pymodbus.client import ModbusSerialClient as ModbusClient
 
-# Criação do cliente Modbus RTU
+# Configuração do cliente Modbus
 client = ModbusClient(
-    port='/dev/ttyUSB0',  # Porta serial
-    baudrate=9600,        # Taxa de transmissão
-    parity='N',           # Paridade
-    stopbits=1,           # Bits de parada
-    bytesize=8,           # Tamanho do byte
-    timeout=2             # Tempo de espera para resposta
+    port='/dev/ttyUSB0',
+    baudrate=9600,
+    parity='N',
+    stopbits=1,
+    bytesize=8,
+    timeout=2
 )
 
 # Conectando ao cliente
@@ -17,58 +17,38 @@ else:
     print("Falha na conexão.")
     exit()
 
-# Função para enviar comandos
-def send_command(register_address, values, unit_id):
+def scan_modbus_ids(start_id, end_id, register_address):
     """
-    Envia uma lista de valores para um registrador específico.
+    Varre IDs de dispositivos Modbus para descobrir quais estão ativos na rede.
 
-    :param register_address: Endereço do registrador onde os dados serão escritos.
-    :param values: Lista de valores a serem escritos nos registradores.
-    :param unit_id: ID do dispositivo Modbus.
-    :return: Resultado da operação.
+    :param start_id: ID inicial a ser verificado.
+    :param end_id: ID final a ser verificado.
+    :param register_address: Endereço do registrador a ser lido para verificação.
+    :return: Lista de IDs de dispositivos encontrados.
     """
-    try:
-        # Enviando os valores para os registradores
-        result = client.write_registers(register_address, values, unit=unit_id)
-        if result.isError():
-            return {"status": "error", "message": "Failed to send command to device"}
-        return {"status": "success", "message": "Command sent to device"}
-    except Exception as e:
-        return {"status": "error", "message": f"Error sending command to device: {e}"}
+    found_ids = []
 
-# Função para ler registradores
-def read_temperature(register_address, num_registers, unit_id):
-    """
-    Lê a temperatura atual do dispositivo.
+    for unit_id in range(start_id, end_id + 1):
+        try:
+            # Tentando ler um registrador de cada dispositivo
+            result = client.read_input_registers(register_address, 1, unit=unit_id)
+            if not result.isError():
+                print(f"Dispositivo encontrado com ID {unit_id}")
+                found_ids.append(unit_id)
+        except Exception as e:
+            # Caso ocorra um erro, provavelmente o ID não está ativo
+            print(f"ID {unit_id} não responde ou erro: {e}")
 
-    :return: Resposta com o status e a temperatura lida.
-    """
-    try:
-        # Lendo os registradores de entrada
-        result = client.read_input_registers(register_address, num_registers, unit=unit_id)
-        if result.isError():
-            return {"status": "error", "message": "Failed to read temperature from device"}
-        temperature = result.registers[0] / 10.0  # Ajuste conforme a unidade
-        return {"status": "success", "temperature": temperature}
-    except Exception as e:
-        return {"status": "error", "message": f"Error reading temperature from device: {e}"}
+    return found_ids
 
-# Exemplo de uso
-register_address = 0x1001  # Endereço do registrador para temperatura atual
-num_registers = 1  # Número de registradores a serem lidos
-unit_id = 'ha001-00009'  # ID do dispositivo Modbus
+# Parâmetros de varredura
+start_id = 1
+end_id = 247
+register_address = 0x0000  # Endereço do registrador para verificar a resposta
 
-# Leitura de temperatura
-response = read_temperature(register_address, num_registers, unit_id)
-print(response)
-
-# Enviar um comando para o dispositivo
-register_address = 0x1002  # Endereço do registrador para modo de operação
-mode_value = 0x01  # Exemplo: 0x01 para aquecimento
-values = [mode_value]
-
-response = send_command(register_address, values, unit_id)
-print(response)
+# Realizando a varredura
+found_devices = scan_modbus_ids(start_id, end_id, register_address)
+print(f"IDs encontrados: {found_devices}")
 
 # Desconectando o cliente
 client.close()
