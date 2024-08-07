@@ -67,7 +67,7 @@ def convert_to_holding_reg(com, reg):
 
     return reg, fan_attr
 
-def send_command(device_id, mode):
+def send_command(device_id):
 
     # Exemplo de uso
     com = {
@@ -95,13 +95,14 @@ def send_command(device_id, mode):
         if result.isError():
             print(result)
             return {"status": "error", "message": f"Failed to send command to device {device_id}"}
-        return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
+        return {"status": "success", "message": f"Command sent to device {device_id}"}
     except Exception as e:
         return {"status": "error", "message": f"Error sending command to device {device_id}: {e}"}
 
-device_id = 'ha001-00010'
-mode = 'fan'
-response = send_command(device_id, mode)
+device_ids = [f'ha001-{str(i).zfill(5)}' for i in range(1, 21)]
+
+for device_id in device_ids:
+    response = send_command(device_id)
 
 print(response)
 
