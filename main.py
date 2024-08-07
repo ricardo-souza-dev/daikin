@@ -1,81 +1,79 @@
-from flask import Flask, jsonify
-from pymodbus.client import ModbusSerialClient as ModbusClient
+from flask import Flask, request, jsonify
+import serial
 import time
-import logging
 
 app = Flask(__name__)
 
-# Lista de comandos a serem enviados
-commands = [
-    {"type": "Fcu", "id": "ha001-00001", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00002", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00003", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00004", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00005", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00006", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00007", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00008", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00009", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00010", "mode": "fan"},
-    {"type": "Fcu", "id": "ha001-00011", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00012", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00013", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00014", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00015", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00016", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00017", "mode": "cool"},
-    {"type": "Fcu", "id": "ha001-00018", "mode": "fan"},
-    {"type": "Fcu", "id": "ha001-00019", "mode": "fan"},
-    {"type": "Fcu", "id": "ha001-00020", "mode": "fan"}
-]
+class ComunicadorSerial:
+    def __init__(self, port='/dev/ttyUSB0', baudrate=19200, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE):
+        self.port = port
+        self.baudrate = baudrate
+        self.parity = parity
+        self.stopbits = stopbits
+        self.serial_port = None
 
-# Configurações do cliente Modbus Serial
-SERIAL_PORT = '/dev/ttyUSB0'  # Substitua pelo seu dispositivo serial
-BAUD_RATE = 19200
-PARITY = 'EVEN'
-STOPBITS = 1
-BYTESIZE = 8
+    def abrir(self):
+        if not self.serial_port:
+            self.serial_port = serial.Serial(self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, timeout=1)
+            print("Porta serial aberta.")
+        else:
+            print("A porta serial já está aberta.")
 
-client = ModbusClient(
-    port=SERIAL_PORT,
-    baudrate=BAUD_RATE,
-    parity=PARITY,
-    stopbits=STOPBITS,
-    bytesize=BYTESIZE
-)
+    def fechar(self):
+        if self.serial_port and self.serial_port.is_open:
+            self.serial_port.close()
+            print("Porta serial fechada.")
+        else:
+            print("A porta serial já está fechada ou não foi aberta.")
 
-def send_command(device_id, mode):
-    mode_map = {'cool': 1, 'fan': 2}
-    command_value = mode_map.get(mode, 0)
-    command_register = 0x10
+    def enviar_comando(self, comando):
+        if not self.serial_port or not self.serial_port.is_open:
+            print("A porta serial não está aberta.")
+            return
+
+        comando_string = f"{comando['type']} {comando['id']} {comando['mode']}\n"
+        self.serial_port.write(comando_string.encode())
+        time.sleep(0.1)  # Espera para garantir que o comando seja processado
+
+# Instância global do comunicador serial
+comunicador = ComunicadorSerial(port='/dev/ttyUSB0', baudrate=19200, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE)
+
+@app.route('/enviar_comando', methods=['POST'])
+def enviar_comando():
+    dados = request.get_json()
+    if 'type' not in dados or 'id' not in dados or 'mode' not in dados:
+        return jsonify({"erro": "Dados inválidos"}), 400
+
+    comando = {
+        "type": dados['type'],
+        "id": dados['id'],
+        "mode": dados['mode']
+    }
 
     try:
-        result = client.write_register(command_register, command_value, unit=1)
-        if result.isError():
-            return {"status": "error", "message": f"Failed to send command to device {device_id}"}
-        return {"status": "success", "message": f"Command sent to device {device_id} with mode {mode}"}
+        comunicador.abrir()
+        comunicador.enviar_comando(comando)
+        comunicador.fechar()
+        return jsonify({"status": "comando enviado com sucesso"})
     except Exception as e:
-        return {"status": "error", "message": f"Error sending command to device {device_id}: {e}"}
+        return jsonify({"erro": str(e)}), 500
 
-@app.route('/')
-def home():
-    return jsonify({"status": "success", "message": "Servidor está funcionando corretamente!"})
+@app.route('/enviar_comandos', methods=['POST'])
+def enviar_comandos():
+    comandos = request.get_json()
+    if not isinstance(comandos, list):
+        return jsonify({"erro": "A lista de comandos deve ser um array JSON"}), 400
 
-@app.route('/send_commands', methods=['POST'])
-def send_commands():
-    if not client.connect():
-        return jsonify({"status": "error", "message": "Failed to connect to Modbus server"}), 500
-
-    responses = []
-    for cmd in commands:
-        device_id = cmd['id']
-        mode = cmd['mode']
-        response = send_command(device_id, mode)
-        responses.append(response)
-        time.sleep(1)  # Intervalo entre comandos para evitar sobrecarga
-
-    client.close()
-    return jsonify(responses)
+    try:
+        comunicador.abrir()
+        for comando in comandos:
+            if 'type' not in comando or 'id' not in comando or 'mode' not in comando:
+                return jsonify({"erro": "Comando inválido"}), 400
+            comunicador.enviar_comando(comando)
+        comunicador.fechar()
+        return jsonify({"status": "comandos enviados com sucesso"})
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=5000)
