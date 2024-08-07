@@ -101,8 +101,7 @@ def send_command(device_id):
 
 device_ids = [f'ha001-{str(i).zfill(5)}' for i in range(1, 21)]
 
-for device_id in device_ids:
-    response = send_command(device_id)
+response = send_command('ha001-00011')
 
 print(response)
 
