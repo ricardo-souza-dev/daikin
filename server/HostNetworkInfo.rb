@@ -19,19 +19,19 @@ class HostNetworkInfo
 		@mask_array = ["0","128","192","224","240","248","252","254","255"]
 
 		if(RUBY_PLATFORM.index("linux"))
-			@path = "/etc/dhcpcd.conf"
+			@path = "/etc/dhcp/dhclient.conf"
 			@wifi = true if(`ifconfig wlan0 | grep inet`.length > 0)
 
 			path = @path
-				
+
 			File.open(path, "r") do |f|
 				f.each_line do |line|
 					line.strip!
 					next if(line[0] == '#')
 					if(line.index("ip_address="))
 						info = line.split("=")
-						next if(info.size < 2 || info[1].length < 1) 
-						info = info[1].split("/") 
+						next if(info.size < 2 || info[1].length < 1)
+						info = info[1].split("/")
 						@ipaddr = info[0].strip
 						@netmask = make_mask(info[1].to_i) if info.length > 1
 						@dhcp = false
@@ -61,16 +61,16 @@ class HostNetworkInfo
 		@dns = network_info['dns']
 
 		@wifi = network_info['wifi'] if(network_info['wifi'] != nil)
-		if(@wifi == 'true' || @wifi == true) 
+		if(@wifi == 'true' || @wifi == true)
 			@wifi = true
-		else 
+		else
 			@wifi = false
 		end
 
 		@dhcp = network_info['dhcp'] if(network_info['dhcp'] != nil)
-		if(@dhcp == 'true' || @dhcp == true) 
+		if(@dhcp == 'true' || @dhcp == true)
 			@dhcp = true
-		else 
+		else
 			@dhcp = false
 		end
 		begin
@@ -85,7 +85,7 @@ class HostNetworkInfo
 				f.puts "option interface_mtu"
 				f.puts "require dhcp_server_identifier"
 				f.puts "slaac private"
-				
+
 				if(@dhcp == 'false' || @dhcp == false)
 					if(@wifi == 'true' || @wifi == true)
 						f.puts "interface wlan0"
@@ -113,7 +113,7 @@ class HostNetworkInfo
 
 	def make_mask(bits)
 		mask = ""
-		4.times do 
+		4.times do
 			mask = mask + "." if mask.length > 0
 			if bits >= 8
 				mask = mask + @mask_array[8]
@@ -137,7 +137,7 @@ class HostNetworkInfo
 	end
 end
 
-#n = HostNetworkInfo.new 
+#n = HostNetworkInfo.new
 #puts n.get_network_info
 #n.set_network("192.168.10.20", "255.255.255.0", "192.168.10.1", "61.122.241.180")
 #puts n.get_network_info
