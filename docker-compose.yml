@@ -1,0 +1,17 @@
+version: "3"
+services:
+    app:
+        image: daikin
+        container_name: daikin
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        ports:
+            - "8092:80"
+        volumes:
+            - .:/var/www/html
+        networks:
+            - daikin
+networks:
+    daikin:
+        driver: bridge

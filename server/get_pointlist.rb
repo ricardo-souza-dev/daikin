@@ -1,0 +1,24 @@
+#! /usr/bin/ruby
+#coding: utf-8
+
+require 'cgi'
+require 'json'
+
+list = []
+begin
+	File.open('point_list.json','r') do |io|
+		while(line = io.gets)
+			next if(line.strip.length == 0)
+			next if(line[0] == '#')
+			begin
+				point = JSON.load(line)
+				list << point
+			rescue
+			end
+		end
+	end
+rescue
+end
+
+puts "Content-type: application/json; charset=utf-8\r\n\r\n"
+puts "#{JSON.generate(list)}"

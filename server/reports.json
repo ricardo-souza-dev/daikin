@@ -1,0 +1,58 @@
+{
+  "reportTypes": [
+    {
+      "title": "graph_report",
+      "owner": "",
+      "name": "ambient_trend",
+      "icon": "image/Temp_Report.png"
+    },
+    {
+      "title": "graph_report",
+      "owner": "",
+      "name": "energy_management",
+      "icon": "image/Power_Report.png"
+    },
+    {
+      "title": "graph_report",
+      "owner": "",
+      "name": "water_management",
+      "icon": "image/Water_Management.png"
+    },
+    {
+      "title": "operation",
+      "owner": "",
+      "name": "op_time",
+      "icon": "image/op_report.png"
+    },
+    {
+      "title": "operation",
+      "owner": "",
+      "name": "err_reporting",
+      "icon": "image/err_report.png"
+    },
+    {
+      "title": "bei_rating",
+      "owner": "",
+      "name": "energy_mon",
+      "icon": "image/BEI_Display.png"
+    },
+    {
+      "title": "bei_rating",
+      "owner": "",
+      "name": "bei_analysis",
+      "icon": "image/BEI_Analysis.png"
+    }
+  ],
+  "startDate": [
+    {
+      "date": 1,
+      "month": 0
+    }
+  ],
+  "beiRegulations": [
+    {
+      "upperLimit": "0",
+      "lowerLimit": "0"
+    }
+  ]
+}

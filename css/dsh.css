@@ -1,0 +1,8 @@
+.opening .dsh-logo {
+}
+
+@media(max-width: 788px) {
+	.opening .dsh-logo {
+		width: 300px;
+	}
+}

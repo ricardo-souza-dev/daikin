@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='schedule'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='sched'>schedule</span>
+				<div class='selectable-list' id='prog-list'>
+					<div class='list-title mls' param='prog_list'>program list</div>
+					<ul class='check list'>
+						<li class='checked'><img src='image/check-g.png'><span>program name</span></li>
+						<li><img src='image/check-g.png'><span>program name</span></li>
+						<li class='checked'><img src='image/check-g.png'><span>program name</span></li>
+						<li class='add'>+</li>
+					</ul>
+				</div>
+				<div class='std-popup' id='prog-content'>
+					<input type='text'>
+					<div class='slide'>
+						<div class='disable mls' param='disable'>disable</div>
+						<div class='slidesw'></div>
+						<div class='enable hide mls' param='enable'>enable</div>
+					</div>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+					<div>
+						<div class='std-list' id='ctrl-target'>
+							<div class='list-title'><span class='mls' param='ctrl_target'>control target</span><img src='image/edit-w.png' class='img-button'></div>
+							<ul class='list'>
+								<li>point name</li>
+								<li>point name</li>
+								<li>point name</li>
+							</ul>
+						</div>
+						<div class='selectable-list' id='sched-list'>
+							<div class='list-title mls' param='sched'>schedule</div>
+							<table class='multi-col-list'>
+								<tr>
+									<td class='sched-name'>schedule name</td>
+									<td class='dow'>
+										<span class='dow-name'>M</span>
+										<span class='dow-name'>T</span>
+										<span class='dow-name'>W</span>
+										<span class='dow-name'>Th</span>
+										<span class='dow-name'>F</span>
+									</td>
+								</tr>
+								<tr>
+									<td class='sched-name'>schedule name</td>
+									<td class='dow'>
+										<span class='dow-name'>Sa</span>
+										<span class='dow-name'>S</span>
+									</td>
+								</tr>
+								<tr><td class='sched-name add' colspan='2'>+</td></tr>
+							</table>
+						</div>
+					</div>
+					<div class='dialog point-select'>
+						<div style="text-align: right;">
+							<span class='scene subtitle check'><span class='mls' param='scenes'>scenes</span><img src='image/check-w.png'></span>
+							<span class='interlock subtitle check'><span class='mls' param='interlock'>interlock</span><img src='image/check-w.png'></span>
+						</div>
+						<div class='multi-selectable-list'>
+							<ul class='list'>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+								<li>Management Point</li>
+							</ul>
+						</div>
+						<div class='button-area'>
+							<div class='button ok'>OK</div>
+							<div class='button cancel'>Cancel</div>
+						</div>
+					</div>
+				</div>
+				<div class='std-popup' id='patn-set'>
+					<div class='panel'>
+						<div class='selectable-list inline' id='patn-list'>
+							<span class='list-title mls' param='patn_list'>pattern list</span>
+							<ul class='list'>
+								<li>pattern name</li>
+								<li>pattern name</li>
+								<li>pattern name</li>
+								<li>pattern name</li>
+								<li class='add'>+</li>
+							</ul>
+						</div>
+					</div>
+					<div class='panel'>
+						<div class='button-area'>
+							<span class='button mls' id='set' param='select'>select</span>
+							<span class='button mls' id='cancel' param='cancel'>cancel</span>
+							<span class='button mls' id='delete' param='del'>delete</span>
+						</div>
+						<div class='std-frame'>
+							<div class='selectable-list inline' id='daily-patn'>
+								<input id='patn-name' type='text'>
+								<span class='button-area'>
+									<span class='button mls' id='set-btn' param='set_patn'>set pattern</span>
+									<span class='button mls' id='del-btn' param='del_patn'>delete pattern</span>
+								</span>
+								<table class='multi-col-list'>
+									<tr>
+										<td class='time'>00:00</td>
+										<td class='action'>
+										</td>
+									</tr>
+									<tr><td class='action add' colspan='2'>+</td></tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='std-popup' id='action-set'>
+					<span id='time-set'>
+						<div class='selectable-input' id='hour'>
+							<div class='current-val'>00</div>
+							<ul class='popup-list selectable-list'>
+							</ul>
+						</div>
+						:
+						<div class='selectable-input' id='min'>
+							<div class='current-val'>00</div>
+							<ul class='popup-list selectable-list'>
+							</ul>
+						</div>
+					</span>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+					<!-- class check should have id which name is command -->
+					<div class='std-frame' id='action'>
+						<div class='an-action' id='stat' val='off'>
+							<span class='subtitle check'><span class='mls' param='onoff'>on/off</span><img src='image/check-w.png'></span>
+							<img class='img-button' id='stat-btn' src='image/power-gray.png'>
+						</div>
+						<div class='an-action' id='sp' val='22.0'>
+							<span class='subtitle check'><span class='mls'param='setpoint'>setpoint</span><img src='image/check-w.png'></span>
+							<div class='selectable-input'>
+								<div class='current-val'>22.0</div>
+								<ul class='popup-list selectable-list'>
+								</ul>
+							</div>
+							<span class='unit'>&deg;C</span>
+						</div>
+						<div class='an-action' id='fanstep' val='L'>
+							<span class='subtitle check'><span class='mls' param='fanstep'>fanstep</span><img src='image/check-w.png'></span>
+							<img class='img-button' id='fanstep-btn' src='image/fanstep3-1.png'>
+						</div>
+						<div class='an-action' id='flap' val='swing'>
+							<span class='subtitle check'><span class='mls' param='flap'>flap</span><img src='image/check-w.png'></span>
+							<img class='img-button' id='flap-btn' src='image/wflap7.png'>
+						</div>
+						<div class='an-action' id='mode' val='cool'>
+							<span class='subtitle check'><span class='mls' param='mode'>mode</span><img src='image/check-w.png'></span>
+							<img class='img-button' id='mode-btn' src='image/cool.png'>
+						</div>
+						<div class='an-action' id='off_timer' val='off'>
+							<span class='subtitle check'><span class='mls' param='off_timer'>offtimer</span><img src='image/check-w.png'></span>
+							<img class='img-button' id='off-timer-btn' src='image/offtimer-gray.png'>
+						</div>
+						<div class='inline' id='setback'>
+							<div class='subtitle mls' param='setback'>setback</div>
+							<span class='an-action' id='csp_sb' val='22.0'>
+								<span class='subtitle check'><span class='mls'param='cool'>cool</span><img src='image/check-w.png'></span>
+								<div class='selectable-input'>
+									<div class='current-val'>22.0</div>
+									<ul class='popup-list selectable-list'>
+									</ul>
+								</div>
+								<span class='unit'>&deg;C</span>
+							</span>
+							<span class='an-action' id='hsp_sb' val='22.0'>
+								<span class='subtitle check'><span class='mls'param='heat'>heat</span><img src='image/check-w.png'></span>
+								<div class='selectable-input'>
+									<div class='current-val'>22.0</div>
+									<ul class='popup-list selectable-list'>
+									</ul>
+								</div>
+								<span class='unit'>&deg;C</span>
+							</span>
+						</div>
+						<div class='an-action' id='scene' val='on'>
+							<span class='subtitle check'><span class='mls' param='scene_exec'>scene execute</span><img src='image/check-w.png'></span>
+						</div>
+						<div class='an-action' id='interlock' val=false>
+							<span class='subtitle check'><span class='mls' param='interlock'>interlock</span><img src='image/check-w.png'></span>
+							<div class='slide'>
+								<div class='disable mls' param='disable'>disable</div>
+								<div class='slidesw'></div>
+								<div class='enable hide mls' param='enable'>enable</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class='std-popup' id='day-assign'>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+					</div>
+					<div class='item-title'></div>
+					<div class='title-frame' id='day-of-week'>
+						<div class='title mls' param='day_of_week'>day of week</div>
+						<span class='subtitle check' id='mon'><span class='mls' param='mon'>mon</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='tue'><span class='mls' param='tue'>tue</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='wed'><span class='mls' param='wed'>wed</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='thu'><span class='mls' param='thu'>thu</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='fri'><span class='mls' param='fri'>fri</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='sat'><span class='mls' param='sat'>sat</span><img src='image/check-w.png'></span>
+						<span class='subtitle check' id='sun'><span class='mls' param='sun'>sun</span><img src='image/check-w.png'></span>
+					</div>
+					<div class='selectable-list' id='sp-cal'>
+						<span class='list-title mls' param='sp_cal'>special day calendar</span>
+						<span class='button mls' id='select' param='select'>select</span>
+						<ul class='check list'>
+							<li><img src='image/check-b.png'><span>calendar name</span></li>
+							<li><img src='image/check-b.png'><span>calendar name</span></li>
+							<li><img src='image/check-b.png'><span>calendar name</span></li>
+							<li><img src='image/check-b.png'><span>calendar name</span></li>
+						</ul>
+					</div>
+				</div>
+				<div class='std-popup' id='cal-set'>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<div class='button mls' id='delete' param='del'>delete</div>
+					</div>
+					<input type='text' id='cal-name'>
+					<div class='calendar'>
+						<span class='month'></span>
+						<span class='year'></span>
+						<span class='button-area'>
+							<span class='button' id='prev'><<</span>
+							<span class='button' id='next'>>></span>
+						</span>
+				    <table>
+				      <tr class='dow'>
+				      	<th class='day1'></th>
+				      	<th class='day2'></th>
+				      	<th class='day3'></th>
+				      	<th class='day4'></th>
+				      	<th class='day5'></tH>
+				      	<th class='day6'></th>
+				      	<th class='day7'></th>
+				      </tr>
+				      <tr class='week1'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				      <tr class='week2'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				      <tr class='week3'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				      <tr class='week4'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				      <tr class='week5'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				      <tr class='week6'>
+				      	<td class='day1'></td>
+				      	<td class='day2'></td>
+				      	<td class='day3'></td>
+				      	<td class='day4'></td>
+				      	<td class='day5'></td>
+				      	<td class='day6'></td>
+				      	<td class='day7'></td>
+				      </tr>
+				    </table>
+				    <div class='legend'><div class='sqr' id='sp_d'></div><span class='mls' param='date_sp'>specified by date</span></div>
+				    <div class='legend'><div class='sqr' id='sp_w'></div><span class='mls' param='dow_sp'>specified by day of week</span></div>
+				  </div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

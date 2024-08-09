@@ -1,0 +1,547 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>Screen Editor</title>
+
+<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="../css/svmparts.css">
+<link rel="stylesheet" href="../css/svmc1.css">
+<link rel="stylesheet" href="../css/visual.css">
+
+<style>
+.container * {
+ font-family: 'Myriad';
+}
+.panel {
+	float: left;
+  background-color: lightgray;
+	overflow: auto;
+}
+
+.edit-area {
+	float: left;
+  background-color: white;
+}
+
+.button {
+	color: black;
+	background-color: white;
+}
+.button#save {
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+
+.title {
+	font-size: 24px;
+	font-style: italic;
+	margin: 5px 10px;
+}
+.subtitle {
+	color: black;
+	font-size: 20px;
+	display: inline;
+	margin-right: 10px;
+  margin-left: -15px;
+}
+
+.setup-panel input {
+	width: 78px;
+	margin-left: -5px;
+	margin-right: 0;
+	font-size: 14px;
+	padding: 1px;
+}
+
+.setup-panel #screen-list {
+	margin-top: -15px;
+	margin-bottom: 20px;
+	margin-left: -15px;
+}
+.setup-panel #screen-list * {
+	color: black;
+}
+.setup-panel #screen-list .list {
+  background-color: white;
+	height: 140px;
+	width: 260px;
+}
+.setup-panel #screen-list li {
+	font-size: 14px;
+}
+
+.bgimg {
+	display: none;
+}
+.scrn-type {
+	display: none;
+}
+
+.edit-area {
+	position: relative;
+	overflow: auto;
+}
+.visual-area {
+	position: absolute;
+	top:0;
+	left:0;
+}
+.visual-area img.bg {
+	position: absolute;
+}
+
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="../script/CommModule.js"></script>
+<script src='../script/svmparts.js'></script>
+<script src="../script/GlobalVal.js"></script>
+<script src="../script/ScrnBtnGenerator.js"></script>
+<script src="../script/IconGenerator.js"></script>
+
+<script>
+var WIDTH, HEIGHT;
+var PANELWIDTH = 310;
+var SCREEN_LIST;
+var POINT_LIST;
+var BG_LIST = {};
+var FD;
+$(document).ready(function() {
+	// read device_list.json
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/screen_list.json",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				SCREEN_LIST = data;
+			},
+			error: function(data,textStatus,jqXHR) {
+				alert(textStatus+": "+jqXHR);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/get_pointlist_json.rb",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				POINT_LIST = data;
+			},
+			error: function(data,textStatus,jqXHR) {
+				alert(textStatus+": "+jqXHR);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+	setScreenData(SCREEN_LIST);
+
+	setWindowSize();
+	$('#selector').tabs();
+});
+
+$(window).on('resize',function(e) {
+	setWindowSize();
+});
+
+function setWindowSize() {
+	// without this, scroll bar will appear when window change to small
+	$('.container').hide(); 
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	// adjust screen size to window sise
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.container').show();
+	resize();
+}
+
+function resize() {
+	$('.panel').width(PANELWIDTH);
+	$('.panel').height(HEIGHT);
+	$('.edit-area').width(WIDTH-PANELWIDTH);
+	$('.edit-area').height(HEIGHT);
+}
+
+$(document).on('click','#save',function(e) {
+	delete SCREEN_LIST.top.pcimg;
+	for(var i in SCREEN_LIST) {
+		delete SCREEN_LIST[i].pcimg;
+	}
+
+	// send SCREEN_LIST
+	var param = JSON.stringify(SCREEN_LIST);
+	$.ajax({
+		type: "POST",
+		url: "../server/set_screenlist.rb",
+		async: false,
+		data: {data: param},
+		success: function(data, textStatus, jqXHR) {
+		},
+		error: function(data, textStatus, jqXHR) {
+			alert(textStatus+":"+jqXHR);
+			return;
+		}
+	});
+
+	// send background screen image file
+	if(Object.keys(BG_LIST).length > 0) {
+		var fd = new FormData();
+		for(var i in BG_LIST) {
+			fd.append(i,BG_LIST[i]);
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "../server/set_bgscreen.rb",
+			async: false,
+			data: fd,
+			processData: false,
+			contentType: false,
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			},
+			error: function(data, textStatus, jqXHR) {
+				alert(textStatus+":"+jqXHR);
+				return;
+			}
+		});
+	}
+});
+
+$(document).on('tabsactivate','#selector',function(e,ui) {
+	if(ui.newPanel[0].id == 'top') {
+		setTopScreenEditArea();
+	} else {
+		setOtherScreenEditArae();
+	}
+});
+
+$(document).on('click','.panel #top .slide', function(e) {
+	if($('.panel #top .slide .disable').hasClass('hide')) {
+		// select enable
+		$('.panel #top .bgimg').show();
+		SCREEN_LIST.top.type = "visual";
+	} else {
+		// select disable
+		$('.panel #top .bgimg').hide();
+		SCREEN_LIST.top.type = "standard";
+		SCREEN_LIST.top.bgimg = null;
+		SCREEN_LIST.top.pcimg = null;
+		$('.visual-area img.bg').remove();
+	}
+});
+
+$(document).on('click', '.panel #other #screen-list li', function(e) {
+	$('.panel #other .scrn-type').show();
+	var sid = this.id;
+	if(SCREEN_LIST[sid].type == "standard") {
+		$('.panel #other .slide .disable').removeClass('hide');
+		$('.panel #other .slide .enable').addClass('hide');
+		$('.panel #other .bgimg').hide();
+	} else {
+		$('.panel #other .slide .disable').addClass('hide');
+		$('.panel #other .slide .enable').removeClass('hide');
+		$('.panel #other .bgimg').show();
+	}
+	setScreenEditArea(sid);
+});
+
+$(document).on('change','#top .bgimg input',function(e) {
+	var file = this.files[0];
+	SCREEN_LIST.top.bgimg = "screen/"+file.name;
+	BG_LIST[file.name] = file;
+
+	var fileReader = new FileReader();
+	fileReader.onload = function() {
+		if($('.visual-area img.bg').attr('src') != null) {
+			$('.visual-area img.bg').attr('src',fileReader.result);
+		} else {
+			$('.visual-area').prepend("<img class='bg' src='"+fileReader.result+"'>");
+		}
+		SCREEN_LIST.top.pcimg = fileReader.result;
+	}
+	fileReader.readAsDataURL(file);
+});
+
+$(document).on('change','#other .bgimg input',function(e) {
+	var file = this.files[0];
+	var sid = $('.panel #other #screen-list .selected').attr('id');
+	SCREEN_LIST[sid].bgimg = "screen/"+file.name;
+	BG_LIST[file.name] = file;
+
+	var fileReader = new FileReader();
+	fileReader.onload = function() {
+		if($('.visual-area img.bg').attr('src') != null) {
+			$('.visual-area img.bg').attr('src',fileReader.result);
+		} else {
+			$('.visual-area').prepend("<img class='bg' src='"+fileReader.result+"'>");
+		}
+		SCREEN_LIST[sid].pcimg = fileReader.result;
+	}
+	fileReader.readAsDataURL(file);
+});
+
+$(document).on('click','.panel #other .slide', function(e) {
+	var sid = $('.panel #other #screen-list .selected').attr('id');
+	if($('.panel #other .slide .disable').hasClass('hide')) {
+		// select enable
+		$('.panel #other .bgimg').show();
+		SCREEN_LIST[sid].type = "visual";
+	} else {
+		// select disable
+		$('.panel #other .bgimg').hide();
+		var sid = $('.panel #other #screen-list .selected').attr('id');
+		SCREEN_LIST[sid].type = "standard";
+		SCREEN_LIST[sid].bgimg = null;
+		SCREEN_LIST[sid].pcimg = null;
+		$('.visual-area img.bg').remove();
+	}
+});
+
+function setScreenData(data) {
+	if(data.top.type == 'visual') {
+		$('.panel #top .slide .disable').addClass('hide');
+		$('.panel #top .slide .enable').removeClass('hide');
+		$('.panel #top .bgimg').show();
+	} else {
+		$('.panel #top .slide .disable').removeClass('hide');
+		$('.panel #top .slide .enable').addClass('hide');
+		$('.panel #top .bgimg').hide();
+	}
+
+	$('#other #screen-list .list').html('');
+	for(var i in data.top.screen) {
+		var sid = data.top.screen[i];
+		// set screen name to the list
+		$('#other #screen-list .list').append("<li id='"+sid+"'>"+data[sid].name+"</li>");
+	}
+	setTopScreenEditArea();
+}
+
+function setTopScreenEditArea() {
+	$('.edit-area .visual-area').html('');
+	if(SCREEN_LIST.top.pcimg != null) {
+		$('.edit-area .visual-area').html("<img class='bg' src='"+SCREEN_LIST.top.pcimg+"'>");
+	}	else if(SCREEN_LIST.top.bgimg != null) { 
+		$('.edit-area .visual-area').html("<img class='bg' src='"+location.origin+"/"+SCREEN_LIST.top.bgimg+"'>");
+	}
+
+	if(SCREEN_LIST.top.screen != null && SCREEN_LIST.top.screen.length > 0) {
+		for(var i in SCREEN_LIST.top.screen) {
+			var sid = SCREEN_LIST.top.screen[i];
+			// put screen button on the edit area
+			$('.edit-area .visual-area').append(scrnBtnGenerator(SCREEN_LIST[sid]));
+			if(SCREEN_LIST.top.layout != null && SCREEN_LIST.top.layout[sid] != null) {
+				var x = SCREEN_LIST.top.layout[sid].x;
+				var y = SCREEN_LIST.top.layout[sid].y;
+				$('.visual-area #'+sid).css({top:y,left:x});
+			} else $('.visual-area #'+sid).css({top:0,left:0});
+		}
+	} else {
+		for(var pid in POINT_LIST) {
+			var point = POINT_LIST[pid];
+			if(point == null) continue;
+			$('.edit-area .visual-area').append(iconGeneratorLite(point));
+			if(point.type == "Fcu" || point.type == "Ahu") {
+				$('.visual-area #'+pid+' .csp').removeClass('hide');
+			}
+			$('.visual-area #'+pid+' .icon-area .icon').removeClass('off');
+			if(SCREEN_LIST.top.layout != null && SCREEN_LIST.top.layout[pid] != null) {
+				var x = SCREEN_LIST.top.layout[pid].x;
+				var y = SCREEN_LIST.top.layout[pid].y;
+				$('.visual-area #'+pid).css({top:y,left:x});
+			} else $('.visual-area #'+pid).css({top:0,left:0});
+		}
+
+	}
+}
+
+function setOtherScreenEditArae() {
+	var sid = $('.panel #other #screen-list li.selected').attr('id');
+	if(sid != null) {
+		setScreenEditArea(sid);
+	} else {
+		$('.edit-area .visual-area').html('');
+	}
+}
+
+function setScreenEditArea(sid) {
+	var bgimg = SCREEN_LIST[sid].bgimg;
+	var pcimg = SCREEN_LIST[sid].pcimg;
+	var points = SCREEN_LIST[sid].point;	// point id list
+	var layout = SCREEN_LIST[sid].layout;	// layout[pid] -> axis
+
+	$('.edit-area .visual-area').html('');
+	if(pcimg != null) {
+		$('.edit-area .visual-area').html("<img class='bg' src='"+pcimg+"'>");
+	} else if(bgimg != null) {
+		$('.edit-area .visual-area').html("<img class='bg' src='"+location.origin+"/"+bgimg+"'>");
+	}
+
+	for(var i in points) {
+		var pid = points[i];
+		// find point data in POINT_LIST by pid
+		var point = POINT_LIST[pid];
+		if(point == null) continue;
+		$('.edit-area .visual-area').append(iconGeneratorLite(point));
+		if(point.type == "Fcu" || point.type == "Ahu") {
+			$('.visual-area #'+pid+' .csp').removeClass('hide');
+		}
+		$('.visual-area #'+pid+' .icon-area .icon').removeClass('off');
+		if(layout != null && layout[pid] != null) {
+			var x = layout[pid].x;
+			var y = layout[pid].y;
+			$('.visual-area #'+pid).css({top:y,left:x});
+		} else $('.visual-area #'+pid).css({top:0,left:0});
+	}
+}
+
+$(document).on('mousedown','.visual-area .scrnbtn',function(e) {
+	var sid = $(this).attr('id');
+	var ox = $(this).css('left');
+	var oy = $(this).css('top');
+	ox = parseInt(ox);
+	oy = parseInt(oy);
+	var omx = e.pageX;
+	var omy = e.pageY;
+  $(document).on('mousemove.move', function(e) {
+  	var dx = e.pageX-omx;
+  	var dy = e.pageY-omy;
+  	var x = ox+dx;
+  	var y = oy+dy;
+  	if(e.shiftKey == true) {
+  		x = Math.round(x/10)*10;
+  		y = Math.round(y/10)*10;
+  	}
+	  $('.visual-area .scrnbtn#'+sid).css({top:y,left:x});
+  	return false;
+  }).on('mouseup', function() {
+	  $(document).off('mousemove.move');
+	  if(SCREEN_LIST.top.layout == null) SCREEN_LIST.top.layout = {};
+	  if(SCREEN_LIST.top.layout[sid] == null) SCREEN_LIST.top.layout[sid] = {};
+	  SCREEN_LIST.top.layout[sid].x = parseInt($('.visual-area .scrnbtn#'+sid).css('left'));
+	  SCREEN_LIST.top.layout[sid].y = parseInt($('.visual-area .scrnbtn#'+sid).css('top'));
+ 	  $(document).off('mouseup');
+  });
+  return false;
+});
+
+$(document).on('mousedown','.visual-area .icon',function(e) {
+	var sid = 'top';
+	if(SCREEN_LIST.top.screen != null && SCREEN_LIST.top.screen.length > 0) {
+		sid = $('.panel #other #screen-list .selected').attr('id');
+	}
+	var pid = $(this).parents('.layout').attr('id');
+	var ox = $(this).parents('.layout').css('left');
+	var oy = $(this).parents('.layout').css('top');
+	ox = parseInt(ox);
+	oy = parseInt(oy);
+	var omx = e.pageX;
+	var omy = e.pageY;
+  $(document).on('mousemove.move', function(e) {
+  	var dx = e.pageX-omx;
+  	var dy = e.pageY-omy;
+  	var x = ox+dx;
+  	var y = oy+dy;
+  	if(e.shiftKey == true) {
+  		x = Math.round(x/10)*10;
+  		y = Math.round(y/10)*10;
+  	}
+	  $('.visual-area .layout#'+pid).css({top:y,left:x});
+  	return false;
+  }).on('mouseup', function() {
+ 	  $(document).off('mousemove.move');
+	  console.log(sid);
+ 	  if(SCREEN_LIST[sid].layout == null) SCREEN_LIST[sid].layout = {};
+ 	  if(SCREEN_LIST[sid].layout[pid] == null) SCREEN_LIST[sid].layout[pid] = {};
+	  SCREEN_LIST[sid].layout[pid].x = parseInt($('.visual-area .layout#'+pid).css('left'));
+	  SCREEN_LIST[sid].layout[pid].y = parseInt($('.visual-area .layout#'+pid).css('top'));
+	  console.log(pid);
+	  console.log(SCREEN_LIST[sid].layout[pid]);
+ 	  $(document).off('mouseup');
+  });
+  return false;
+});
+
+// show management point name by mouse over and hide
+$(document).on('mouseenter','.visual-area .icon',function() {
+	var name = $(this).parents('.layout').children('.name');
+	$(name).css({top:50,left:10});
+	$(name).show();
+});
+$(document).on('mouseleave','.visual-area .icon',function() {
+	var name = $(this).parents('.layout').children('.name');
+	$(name).hide();
+});
+
+</script>
+
+</head>
+<body>
+<div class='container'>
+	<div class='panel'>
+		<div class='title'>Layout View Editor</div>
+		<div class='button' id='save'>Save Data</div>
+		<div style='clear:both' id='selector'>
+			<ul>
+				<li><a href='#top'>Top Screen</a></li>
+				<li><a href='#other'>Section Screen</a></li>
+			</ul>
+			<div class='setup-panel' id='top'>
+				<div class='subtitle'>Screen Type</div>
+				<div class='slide'>
+					<div class='disable'>Standard</div>
+					<div class='slidesw'></div>
+					<div class='enable hide'>Visual</div>
+				</div>
+
+				<div class='bgimg'>
+					<div class='subtitle'>Background Image</div>
+					<input type='file' accept='image/*'>
+				</div>
+			</div>
+			<div class='setup-panel' id='other'>
+				<div class='selectable-list set-width' id='screen-list'>
+					<div class='list-title'>Screen List</div>
+					<ul class='list'>
+						<li>Screen Name</li>
+					</ul>
+				</div>
+
+				<div class='scrn-type'>
+					<div class='subtitle'>Screen Type</div>
+					<div class='slide'>
+						<div class='disable'>Standard</div>
+						<div class='slidesw'></div>
+						<div class='enable hide'>Visual</div>
+					</div>
+				</div>
+
+				<div class='bgimg'>
+					<div class='subtitle'>Background Image</div>
+					<input type='file'>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='edit-area'>
+		<div class='visual-area'>
+		</div>
+	</div>
+</div>
+</body>
+</html>

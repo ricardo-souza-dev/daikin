@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>Scroll Test</title>
+
+<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="../css/svmparts.css">
+
+<style>
+.pain {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+.frame {
+	background-image: url('../screen/Background.jpg');
+	width: image-width('../screen/Background.jpg');
+	height: image-height('../screen/Background.jpg');
+}
+.menu {
+	margin:0;
+	padding: 0;
+	background-color: darkblue;
+}
+.menu #message {
+	color: white;
+	font-size: 18px;
+}
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="../jquery/hammer.min.js"></script>
+
+<script>
+var HEIGHT;
+var WIDTH;
+var MENUHEIGHT = 50;
+var SCALE=1;
+var ORGX,ORGY;
+
+$(document).ready(function() {
+	resizeWindow();
+
+	var img = new Image();
+	img.src = '../screen/Background.jpg';
+	img.onload = function() {
+		console.log("IMG:"+img.width+":"+img.height);
+		$('.frame').css({width:img.width,height:img.height});
+	}
+//	var obj = $('.frame');
+	var hammer = new Hammer($('.frame')[0]);
+	hammer.get('pinch').set({enable:true});
+	hammer.get('pan').set({threshold:0});
+//	hammer.add(new Hammer.Pan({direction:Hammer.DIRECTION_ALL, threshold:0}));
+
+	hammer.on('panstart', function(e) {
+		$('#message').html("start");
+		var pos = $('.frame').offset();
+		ORGX = pos.left;
+		ORGY = pos.top;
+	}).on('panmove',function(e) {
+		var neworgx = ORGX+e.deltaX;
+		var neworgy = ORGY+e.deltaY;
+		$('.frame').offset({top:neworgy,left:neworgx});
+		$('#message').html("move:"+e.deltaX+":"+e.deltaY+" ORG:"+ORGX+":"+ORGY);
+	}).on('panend',function(e) {
+	});
+
+	hammer.on('pinchstart',function(e) {
+	}).on('pinchmove',function(e) {
+		var zoom = SCALE*e.scale;
+		if(zoom < 0.5) zoom = 0.5;
+		$('.frame').css({transform:'scale('+zoom+')'});
+		$('#message').html(SCALE+":"+e.scale);
+	}).on('pinchend',function(e) {
+		var zoom = SCALE*e.scale;
+		if(zoom < 0.5) zoom = 0.5;
+		SCALE = zoom;
+		$('#message').html(SCALE);
+	});
+});
+
+$(window).on('resize',function(e) {
+	resizeWindow();	
+});
+
+function resizeWindow() {
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	$('.pain').width(WIDTH);
+	$('.pain').height(HEIGHT-MENUHEIGHT);
+	$('.menu').width(WIDTH);
+	$('.menu').height(MENUHEIGHT);	
+	console.log("WxH:"+WIDTH+"x"+HEIGHT);
+}
+
+
+</script>
+
+</head>
+<body>
+	<div class='all-screen'>
+		<div class='pain'>
+			<div class='frame'>
+<!--				<img class='bg' src='../screen/Background.jpg'> -->
+			</div>
+		</div>
+		<div class='menu'>
+			<span id='message'>Message</span>
+		</div>
+	</div>
+</body>
+</html>

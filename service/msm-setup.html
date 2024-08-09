@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>MSM connection Setup</title>
+
+<link rel="stylesheet" href="../jqm/jquery.mobile-1.4.2.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<style>
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jqm/jquery.mobile-1.4.2.js"></script>
+<script src="../script/CommModule.js"></script>
+<script src="../script/GlobalVal.js"></script>
+<script src="../script/service.js"></script>
+
+<script>
+$(document).on("pagebeforeshow", "#msm-setup-page", function(e,data) {
+	try {
+		$.ajax({
+			type: "POST",
+			url: "/server/get_msm.rb",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				if(data['msm']) $('#msm-setup-page #msm-enable').val('true');
+				else $('#msm-setup-page #msm-enable').val('false');
+				$('#msm-setup-page #msm-enable').slider('refresh');
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+$(document).on("click", "#msm-save", function(e) {
+	try {
+		var msm = false
+		if($('#msm-setup-page #msm-enable').val() == 'true') msm = true;
+		$.ajax({
+			type: "POST",
+			url: "/server/set_msm.rb",
+			async: false,
+			data: {msm: msm},
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+</script>
+
+</head>
+<body>
+	<div data-role="page" id="msm-setup-page">
+		<div data-role="header" data-id="comm-header" data-position="fixed" data-tap-toggle="false" class='header'>
+			<img class="header-logo" src="../image/logo.png">
+			<h1 class="page-header-title">MSM connection Setting</h1>
+		</div>
+
+		<div data-role="content" class="contents-area">
+			<h4 class='item-title'>MSM Connection</h4>
+			<select id='msm-enable' data-role='slider'>
+				<option value='false'>Disable</option>
+				<option value='true'>Enable</option>
+			</select>
+		</div>
+		
+		<div data-role="footer" data-id="comm-footer" data-position="fixed" class="footer" data-tap-toggle="false">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" data-icon="edit" data-iconpos="top" id="msm-save" data-transition="slide" data-direction="reverse">Set</a></li>
+				</ul>
+			</div>
+	</div>
+</body>
+</html>

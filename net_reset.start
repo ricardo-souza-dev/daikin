@@ -1,0 +1,3 @@
+#! /bin/sh
+/usr/bin/ruby -C/var/www/html/server net_reset.rb 
+

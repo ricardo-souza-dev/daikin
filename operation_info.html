@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="apple-touch-icon-precomposed" href="image/icon.png">
+<link rel="shortcut icon" href="image/icon.png">
+
+<title>SVM-C1 Ver.1.0</title>
+
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="jquery-ui-1.11.2/jquery-ui.css">
+<link rel="stylesheet" href="css/svmparts.css">
+<link rel="stylesheet" href="css/svmc1.css">
+<link rel="stylesheet" href="css/svmc1m.css">
+
+<style>
+
+</style>
+
+<script src="jquery/jquery-2.1.3.min.js"></script>
+<script src="jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="script/CommModule.js"></script>
+<script src="script/GlobalVal.js"></script>
+<script src="script/svmparts.js"></script>
+<script src="script/common.js"></script>
+<script src="script/svmc1.js"></script>
+<script src="script/svmc1_event.js"></script>
+<script src="script/Schedule.js"></script>
+<script src="script/interlock.js"></script>
+<script src="script/history.js"></script>
+<script src="script/scenes.js"></script>
+<script src="script/reports.js"></script>
+
+<script>
+$(document).ready(function() {
+	if(window.localStorage) {
+		var lang = window.localStorage.getItem('lang');
+		if(lang && lang.length > 0) {
+			LANG = lang;
+		}
+	}
+
+	loadStringTable();
+	setMultiLang('body .mls');
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.screen').show();
+	resize();
+	initInterlockDialogs();
+
+	getInterlock();
+	
+	// show program list
+	//setProgramList();
+});
+
+// SVM-C1 methods
+// SVM-C1 event
+$(window).on('resize',function(e) {
+	// without this, scroll bar will appear when window change to small
+	$('.container').hide(); 
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	// adjust screen size to window sise
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.container').show();
+	resize();
+});
+
+</script>
+
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='operation_info'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='operation_info_report'>Operation Information Report</span>
+				<div class='AITable'>
+					<div id = "Reports_lCol" class="whiteBGchart">
+						<!-- <div id="chart"></div>
+						<script>generateChart();</script>
+						<div id='graphFootNote' class='graphFootNote'></div> -->
+						<div>
+							<span class="item-title mls" param="period" id="period_title">Period</span>
+							<div class="item-title subtitle" id="op_info_period"></div><br>
+						</div>
+						
+						<div id="op_info_content"> 
+							<table id="op_info_table">
+								<thead>
+									<th class="item-title mls" param="management_points" id="h_mp">Management Point</th>
+									<!-- <th class="item-title" id="h_op"><span class="mls" param = "op_info">Operation Time</span>(<span class="mls" param="hours"></span>)</th> -->
+									<th class="item-title mls" param="h_op" id="h_op">Operation Time</th>
+									<!-- <th class="item-title" id="h_tot_op"><span class="mls" param = "total_operation">Total Operation Time</span>(<span class="mls" param="hours"></span>)</th> -->
+									<th class="item-title mls" param="tot_optime" id="h_tot_op">Total Operation Time</th>
+									<th class="item-title mls" param="ontimes" id="h_on">Number of Times Device Turned On</th>
+									<th class="item-title mls" param="tot_ontimes" id="h_tot_on">Total Number of Times Device Turned On</th>
+								</thead>
+								<tbody id="op_info_table_body"></tbody>
+							</table>
+						</div>
+					</div>
+					<div id = "Reports_rCol">
+						<div>
+							<div id="QueryButton"><span class='button mls' id='Query' param='query'>Query</span></div>
+							<div id="Export"><span class='button mls' id='export' param='export'>Export</span></div>
+						</div>
+						<div id="TimeControl" class="TimeControl">
+							<div id='TimePeriod' class="TimePeriod">
+								<div id="TimePeriod_Day" class="SelectTimePeriod"><input type="radio" id="SelectTimePeriod_day" name="SelectTimePeriod" value="Day"><span class="mls" param="day">Day</span></div>
+								<div id="TimePeriod_Month" class="SelectTimePeriod"><input type="radio" id="SelectTimePeriod_month" name="SelectTimePeriod" value="Month"><span class="mls" param="month">Month</span></div>
+								<div id="TimePeriod_Year" class="SelectTimePeriod"><input type="radio" id="SelectTimePeriod_year" name="SelectTimePeriod" value="Year"><span class="mls" param="year">Year</span></div>
+							</div>
+							<div id="ChangeTimePeriodInput" >
+								<div id="FromD" >
+									<div class="input">
+										<input type='text' name='from' id='from' style='float: none; margin-left: -40px; width: 250px;'>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='std-popup menu-popup' id='startDate-ctrl'>
+				<div id='startDate_Controls'>
+					<div class='subtitle mls' param="start_date_pop_up_inst">Please specify start date and <br>month for graphical comparisons</div>
+					<div id='month'>
+						<div class='item-title mls' style='float: left' param="month">Month: </div>
+						<div>
+							<div class="selectable-input" id='selectMonth' ></div>
+						</div>
+					</div>
+					<div id='date'>
+						<div class='item-title mls' style='float: left' param="date">Date: </div>
+						<div>
+							<div class="selectable-input" id='selectDate'></div>
+						</div>
+						<script>getMonthForSelection();</script>
+						<script>getDateForSelection(false);</script>
+					</div>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='startDateSetting'><img src='jqm/images/icons-png/bullets-white.png'><div class='mls' param='start_date_month'>Start Date/Month</div></span>
+				<span class='menu-item' id='backToReports'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+		
+</body>
+</html>

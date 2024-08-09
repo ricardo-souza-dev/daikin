@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='ppd'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='bill_title'>air-conditioning bill</span>
+				<div class='setup-area'>
+				
+					<div class='ppd'>
+						<div class='title mls' param='reg_tenant'>registered tenant</div>
+						<ul class='tenant-list' id='tlist'>
+						</ul>
+						<div class='panel'>
+							<div class='billing frame'>
+								<div class='title mls' param='bill'>bill</div>
+								<div class='period'>
+									<span class='subtitle mls' param='from'>from</span>
+									<input type='text' name='from' id='from'>
+									<span class='subtitle mls' param='to'>to</span>
+									<input type='text' name='to' id='to'>
+								</div>
+								<ul class='operation'>
+									<div class='button mls' id='show' param='show'>show</div>
+									<div class='button mls' id='show-all' param='show_all'>show all</div>
+								</ul>	
+							</div>
+							
+							<div class='tenant frame'>
+								<div class='title mls' param='tenant_edit'>tenant edit</div>
+								<ul class='operation'>
+									<li class='button mls' id='add' param='add'>add</li>
+									<li class='button mls' id='edit' param='edit'>edit</li>
+									<li class='button mls' id='delete' param='del'>delete</li>
+								</ul>
+							</div>
+							
+							<div class='prepaid frame'>
+								<div class='title mls' param='prepaid'>prepaid</div>
+								<ul class='operation'>
+									<li class='button mls' id='tenant-charge' param='charge'>charge</li>
+									<li class='button mls' id='show-log' param='charge_log'>charge log</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div class='tenant-edit setup'>
+						<div class='page-title mls' param='tenant_edit'>tenant edit</div>
+						<div class='tenant-name-sect'>
+							<span class='regend mls' param='tenant_name'>tenant name</span>
+							<input type='text' id='input'>
+						</div>
+						<div class='registered-points'>
+							<div class='name mls' param='reg_point'>registered points</div>
+							<ul class='point-list'>
+							</ul>
+						</div>
+						<div class='reg-button-panel'>
+							<div class='button' id='reg'><<</div>
+							<div class='button' id='un-reg'>>></div>
+						</div>
+						<div class='un-registered-points'>
+							<div class='name mls' param='un_reg_point'>unregistered points</div>
+							<ul class='point-list'>
+							</ul>
+						</div>
+						<div class='op-panel'>
+							<div class='button mls' id='save' param='save'>save</div>
+						</div>
+					</div>
+					
+					<div class='charge setup'>
+						<div class='page-title mls' param='charge'>charge</div>
+						<div class='tenant-name'></div>
+						<table>
+							<tr id='remain'>
+								<td class='item-title mls' param='remain'>remain</td>
+								<td class='currency'></td>
+								<td class='value'></td>
+								<td><div class='button mls' param='clear'>clear</div></td>
+							</tr>
+							<tr id='charge-amount'>
+								<td class='item-title mls' param='charge'>charge</td>
+								<td class='currency'></td>
+								<td><input type='text' id='cainput'></td>
+								<td><div class='button mls' param='add'>add</div></td>
+							</tr>
+							<tr id='alarm'>
+								<td class='item-title mls' param='alarm_level'>alarm level</td>
+								<td class='currency'></td>
+								<td><input type='text'></td>
+								<td></td>
+							</tr>
+						</table>
+						<div class='op-panel'>
+							<div class='button mls' id='save' param='save'>save</div>
+						</div>
+					</div>
+					
+					<div class='charge-log setup'>
+						<div class='page-title mls' param='charge_log'>charge log</div>
+						<div class='log-content'>
+							<div class='header'>
+								<table>
+									<thead>
+										<tr>
+											<th class='mls' param='date_time'>date/time</th>
+											<th class='mls' param='charge_tenant'>charged tenant</th>
+											<th class='mls' param='charge_amount'>charged amount</th>
+											<th class='mls' param='total_amount'>total amount</th>
+											<th class='mls' param='charge_person'>charged person</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div class='scrol-frame'>
+								<table>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<div class='owner setup'>
+						<div class='title mls' param='owner_info'>owner information</div>
+						<div class='menu-content' id='owner-content'>
+							<table>
+								<tr id='owner-info'><td class='subtitle mls' param='owner'>owner</td><td><input type='text' maxlength='40'/></td></tr>
+								<tr id='addr-info1'><td class='subtitle mls' param='addr'>address</td><td><input type='text' id='addr1' maxlength='40'/></td></tr>
+								<tr id='addr-info2'><td class='subtitle mls' param='addr2'>address line 2</td><td><input type='text' id='addr2' maxlength='40'/></td></tr>
+								<tr id='addr-info3'><td class='subtitle mls' param='pcode'>postal code</td><td><input type='text' id='addr3' maxlength='40'/></td></tr>
+								<tr id='contact-info1'><td class='subtitle mls' param='contact'>contact</td><td><input type='text' id='contact1' maxlength='40'/></td></tr>
+								<tr id='contact-info2'><td class='subtitle mls' param='phone'>phone</td><td><input type='text' id='contact2' maxlength='40'/></td></tr>
+								<tr id='contact-info3'><td class='subtitle mls' param='email'>email</td><td><input type='text' id='contact3' maxlength='40'/></td></tr>
+							</table>
+							<div class='button mls' id='save' param='save'>save</div>
+						</div>
+					</div>
+					
+					<div class='unitprice setup' id='currency-content'><!-- <div class='menu-content'>	<!-- Unit Price Start-->
+						<div class='title mls' param='currency_set'>unit price settings</div>
+						<div class='currency-panel'>
+							<div class='currency'>
+								<span class='subtitle mls' param='currency'>currency</span><input type='text' maxlength='4'/>
+							</div>
+							<div class='subtitle mls' class='price-title mls' param='price_title'>price/time zone</div>
+							<table>
+								<tr><td class='subtitle mls' param='priority'>priority</td><td class='subtitle mls' param='name'>name</td><td class='subtitle mls' param='tzone' colspan=3>time zone</td><td class='subtitle mls' param='uprice' colspan=2>unit price</td></tr>
+								<tr class='t1 tzp'><td class='priority'>1</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle' class='unit'><span class='cmk'></span>/kWh</td></tr>
+								<tr class='t2 tzp'><td class='priority'>2</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle' class='unit'><span class='cmk'></span>/kWh</td></tr>
+								<tr class='t3 tzp'><td class='priority'>3</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle' class='unit'><span class='cmk'></span>/kWh</td></tr>
+								<tr class='t4 tzp'><td class='priority'>4</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle' class='unit'><span class='cmk'></span>/kWh</td></tr>
+								<tr class='t5 tzp'><td class='priority'>5</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle' class='unit'><span class='cmk'></span>/kWh</td></tr>
+
+								<tr class='t6 tzp holiday' id='holiday'><td class='priority'>*</td><td class='name'><input type='text'></td><td class='tz tzf'><input type='text' value='00:00'></td><td>-</td><td class='tz tzt'><input type='text' value='24:00'></td><td class='price'><input type='text' value='0.0'></td><td class='subtitle mls' class='unit'><span class='cmk'></span>/kWh</td></tr>
+							</table>
+							<div class='dialog time-select'>
+								<ul>
+									<li id='h00'>00:00</li>
+									<li id='h01'>01:00</li>
+									<li id='h02'>02:00</li>
+									<li id='h03'>03:00</li>
+									<li id='h04'>04:00</li>
+									<li id='h05'>05:00</li>
+									<li id='h06'>06:00</li>
+									<li id='h07'>07:00</li>
+									<li id='h08'>08:00</li>
+									<li id='h09'>09:00</li>
+									<li id='h10'>10:00</li>
+									<li id='h11'>11:00</li>
+									<li id='h12'>12:00</li>
+									<li id='h13'>13:00</li>
+									<li id='h14'>14:00</li>
+									<li id='h15'>15:00</li>
+									<li id='h16'>16:00</li>
+									<li id='h17'>17:00</li>
+									<li id='h18'>18:00</li>
+									<li id='h19'>19:00</li>
+									<li id='h20'>20:00</li>
+									<li id='h21'>21:00</li>
+									<li id='h22'>22:00</li>
+									<li id='h23'>23:00</li>
+									<li id='h24'>24:00</li>
+								</ul>
+							</div>
+						</div>
+						<div class='currency-panel'>
+							<canvas class='zone-price' width='150' height='315'>
+							</canvas>
+						</div>
+						<div class='calendar-panel holiday'>
+							<div class='item-title mls' class='price-title mls' param='holiday'>holiday</div>
+
+							<div class='calendar-ppd'>
+								<div class='month-area'>
+									<div class='year'>2017</div>
+									<div>
+										<span class='button' id='prev'><<</span>
+										<span class='month'>april</span>
+										<span class='button' id='next'>>></span>
+									</div>
+								</div>
+							<table>
+							  <tr class='dow'>
+								<th class='d0 mls' param='sun'>sun</th>
+								<th class='d1 mls' param='mon'>mon</th>
+								<th class='d2 mls' param='tue'>tue</th>
+								<th class='d3 mls' param='wed'>wed</th>
+								<th class='d4 mls' param='thu'>thu</tH>
+								<th class='d5 mls' param='fri'>fri</th>
+								<th class='d6 mls' param='sat'>sat</th>
+							  </tr>
+							  <tr class='week1'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							  <tr class='week2'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							  <tr class='week3'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							  <tr class='week4'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							  <tr class='week5'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							  <tr class='week6'>
+								<td class='selectable d0 selected'></td>
+								<td class='selectable d1'></td>
+								<td class='selectable d2'></td>
+								<td class='selectable d3'></td>
+								<td class='selectable d4'></td>
+								<td class='selectable d5'></td>
+								<td class='selectable d6 selected'></td>
+							  </tr>
+							</table>
+						  </div>
+						</div>
+						<div class='button mls' id='currency-save' param='save'>save</div>
+					</div>	<!-- Unit Price Stop-->
+				</div>
+				<div id='tenant_name'></div>
+			</div>
+			<div class='dialog'>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='owner'><img src='jqm/images/icons-png/user-white.png'><div class='mls' param='owner_info'>owner information</div></span>
+				<span class='menu-item' id='unitprice'><img src='image/dollar.png'><div class='mls' param='currency_set'>unit price settings</div></span>
+				
+				<span class='menu-item' id='back1'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

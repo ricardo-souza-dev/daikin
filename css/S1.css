@@ -1,0 +1,916 @@
+@font-face {
+  font-family: "Nunito";
+  src: url("../font/Nunito-Regular.ttf") format("truetype");
+}
+
+body {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+}
+.screen {
+  font-family: 'Nunito',sans-serif;
+  position: relative;
+  width: 860px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.page-title {
+  font-size: 40px;
+  font-weight: bold;
+  font-style: italic;
+  color: royalblue;
+  margin: -10px 0 20px 10px;
+  text-align: center;
+}
+
+.button {
+  border-radius: 4px;
+  background-color: royalblue;
+  color: white;
+  text-align: center;
+  padding: 5px 15px;
+  margin: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#login .title {
+  width: 600px;
+  margin: 30px auto;
+}
+
+#login .title img {
+  width: 600px;
+}
+
+.title .subtitle {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  color: royalblue;
+}
+
+.title .model {
+  font-size: 18px;
+  text-align: center;
+}
+
+.title .model .sub {
+  font-size: 14px;
+}
+
+.title .version {
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+#login .panel {
+  margin: 50px auto;
+}
+
+#login td {
+  border: none;
+}
+
+.panel .label {
+  width: 120px;
+  text-align: right;
+}
+
+.panel input {
+  width: 200px;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 4px;
+}
+
+.panel #login-btn {
+  width: 100px;
+  margin: 10px auto;
+}
+
+.screen#main {
+  width: 750px;
+}
+#main .name {
+  font-size: 20px;
+  width:250px; 
+}
+
+#main .tenant-list {
+  float: left;
+  border: 1px inset black;
+  border-radius: 5px;
+  width: 340px;
+  height: 452px;
+  padding: 5px;
+  list-style: none;
+  overflow: auto;
+  margin-top: 3px;
+}
+
+#main .tenant-list .tenant {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+#main .tenant-list .selected {
+  background-color: royalblue;
+  color: white;
+}
+
+#main .tenant-list .charged {
+  font-size: 18px;
+}
+
+#main .tenant-list .warn {
+  color: red;
+}
+
+#main .panel {
+  float: left;
+}
+
+.frame {
+  border-radius: 5px;
+  border: 1px inset gray;
+  margin: 4px 0 20px 20px;
+  padding: 5px;
+}
+
+.frame .title {
+  display: block;
+  width: 120px;
+  text-align: center;
+  margin-top: -20px;
+  font-size: 18px;
+  background-color: white;
+}
+
+#main .period .mls {
+  font-size: 14px;
+  margin-left: 10px;;
+}
+
+#main .period input {
+  font-size: 14px;
+  font-family: 'nunito';
+  text-align: center;
+  width: 90px;
+}
+
+#main .frame .button {
+  margin: 10px 50px 5px 50px;
+}
+
+
+#main .operation {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+#system-setup .button, #charge-log .button {
+  background-color: rgba(0,0,0,0);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#system-setup .button:active {
+  color: gray;
+}
+
+#system-setup input {
+  border: 1px solid gray;
+  border-radius: 5px;
+  height: 22px;
+  font-size: 18px;
+  padding: 5px;
+}
+
+#system-setup #back, #charge-log #back {
+  float: right;
+}
+
+#system-setup .setup-content {
+  margin-top: 60px;
+}
+
+#system-setup ul {
+  list-style: none;
+}
+
+.menu .menu-item {
+  background-color: royalblue;
+  color: white;
+  padding: 3px 10px;
+  width: 860px;
+  cursor: pointer;
+}
+
+#system-setup ul li:first-child {
+  border-radius: 5px 5px 0 0;
+}
+#system-setup ul li:nth-last-child(2) {
+  border-radius: 0 0 5px 5px;
+}
+
+.menu .menu-content {
+  display: none;
+  padding: 10px 20px;
+}
+
+.menu table td {
+  border: none;
+}
+
+#system-setup #lang-content select {
+  padding: 5px;
+  border-radius: 5px;
+  font-family: 'nunito',serif;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+#system-setup #lang-content #dpoint {
+  width: 50px;
+  font-size: 20px;
+}
+
+#system-setup #clock-content li {
+  font-size: 20px;
+  margin-top: 10px;
+}
+#system-setup #clock-content dt {
+  margin-left: 20px;
+}
+
+#system-setup #owner-content input {
+  width: 600px;
+  margin-left: 10px;
+}
+
+#system-setup #currency-content .currency-panel {
+  float: left;
+}
+#system-setup #currency-content .currency {
+  margin: 10px 0;
+}
+#system-setup #currency-content .currency span {
+  margin: 0 10px 0 0px;
+  font-size: 20px;
+}
+#system-setup #currency-content .currency input {
+  width: 50px;
+  text-align: center;
+  font-size: 18px;
+}
+#system-setup #currency-content .price-title {
+  font-size: 20px;
+}
+#system-setup #currency-content table .title {
+  text-align: center;
+}
+#system-setup #currency-content table .tzp {
+  opacity: 0.4;
+}
+#system-setup #currency-content table .priority {
+  text-align: center;
+  cursor: pointer;
+}
+#system-setup #currency-content table .name input {
+  width: 100px;
+  font-size: 16px;
+  text-align: left;
+}
+#system-setup #currency-content table .tzf input {
+  margin: 0 0 0 10px;
+  width: 50px;
+  font-size: 16px;
+  text-align: center;
+}
+#system-setup #currency-content table .tzt input {
+  margin: 0 10px 0 0;
+  width: 50px;
+  font-size: 16px;
+  text-align: center;
+}
+#system-setup #currency-content table .t6 td {
+  padding: 20px 0 20px 0;
+}
+#system-setup #currency-content table .t6 .tzf input {
+  border: none;
+  color: black;
+  background-color: white;
+}
+#system-setup #currency-content table .t6 .tzt input {
+  border: none;
+  color: black;
+  background-color: white;
+}
+#system-setup #currency-content table .price {
+  text-align: center;
+}
+#system-setup #currency-content table .price input {
+  width: 60px;
+  font-size: 16px;
+  text-align: right;
+}
+#system-setup #currency-content table .t1 .price input {
+  color: white;
+  background-color: red;
+}
+#system-setup #currency-content table .t2 .price input {
+  color: black;
+  background-color: yellow;
+}
+#system-setup #currency-content table .t3 .price input {
+  color: white;
+  background-color: royalblue;
+}
+#system-setup #currency-content table .t4 .price input {
+  color: black;
+  background-color: lime;
+}
+#system-setup #currency-content table .t5 .price input {
+  color: black;
+  background-color: mistyrose;
+}
+#system-setup #currency-content table .t6 .price input {
+  color: black;
+  background-color: gold;  
+}
+#system-setup #currency-content table .unit {
+  font-size: 12px;
+}
+#system-setup #currency-content .zone-price {
+  margin: 0 0 0 50px;
+}
+#system-setup #currency-content .calendar-panel {
+  clear: both;
+}
+#system-setup #currency-content .time-select {
+  position: absolute;
+  display: none;
+  width: 70px;
+  height: 90px;
+  overflow: auto;
+  border: 1px solid gray;
+  background-color: white;
+  color: black;
+}
+#system-setup #currency-content .time-select ul {
+  list-style-type: none;
+  padding: 0;
+}
+#system-setup #currency-content .time-select li {
+  border-radius: 0;
+  padding: 1px 5px;
+  font-size: 14px;
+}
+#system-setup #currency-content .time-select ul .selected {
+  background-color: royalblue;
+  color: white;
+}
+
+#system-setup #currency-content .calendar-panel .calendar {
+  margin-left: 20px;
+  font-size: 16px;
+}
+#system-setup #currency-content .calendar-panel .year {
+  margin: 5px 0 0 20px;
+  font-size: 24px;
+}
+#system-setup #currency-content .calendar-panel .month {
+  font-size: 20px;
+  width: 120px;
+  text-align: center;
+  display: inline-block;
+}
+#system-setup #currency-content .calendar-panel th {
+  width: 60px;
+  background-color: lightgray;
+  padding: 3px 0px;
+}
+#system-setup #currency-content .calendar-panel td {
+  background-color: lightgray;
+  padding: 3px 0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 18px;
+}
+#system-setup #currency-content .calendar-panel td.selected {
+  background-color: gold;
+}
+
+#system-setup #currency-save {
+  clear: both;
+}
+
+#system-setup table {
+  display: inline;
+  margin: 5px 50px 5px 5px;
+}
+
+#system-setup .list {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 5px;
+  border: 1px gray inset;
+  border-radius: 5px;
+  width: 200px;
+  height: 160px;
+  overflow: auto;
+  padding: 0;
+}
+
+#system-setup .list li {
+  cursor: pointer;
+  padding: 2px 0 0 5px;
+}
+
+#system-setup .list .selected {
+  border-radius: 0;
+  background-color: royalblue;
+  color: white;
+}
+
+#system-setup .deactive {
+  color: lightgray;
+}
+
+#system-setup #passwd-content {
+  margin: 5px 5px;
+}
+
+#system-setup #passwd-content span {
+  margin-right: 10px;
+}
+
+.screen #tenant-edit {
+  width: 650px;;
+}
+
+#tenant-edit .tenant-name-sect {
+  margin-bottom: 10px;
+}
+
+#tenant-edit .regend {
+  font-size: 18px;
+  margin-right: 5px;
+}
+#tenant-edit input {
+  font-size: 24px;
+  width: 300px;
+}
+
+#tenant-edit .name {
+  font-size: 18px;
+  width: 200px;
+  text-align: center;
+}
+
+#tenant-edit .registered-points {
+  display: inline-block;
+  margin: 10px 5px 0 0;
+}
+
+#tenant-edit .un-registered-points {
+  display: inline-block;
+  margin: 10px 0 0 5px;
+}
+
+#tenant-edit .reg-button-panel {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 60px;
+}
+
+#tenant-edit .reg-button-panel .button {
+  margin: 30px 0 30px 0;
+}
+
+#tenant-edit .point-list {
+  width: 200px;
+  height: 200px;
+  border: 2px inset gray;
+  margin-top: 3px;
+  padding: 2px;
+  overflow: auto;
+}
+
+#tenant-edit .op-panel {
+  width: 120px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 30px 0 0 20px;
+}
+
+#tenant-edit .point-list li {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#tenant-edit .point-list .selected {
+  background-color: royalblue;
+  color: white;
+}
+
+#tenant-edit .limit {
+  margin-top: 20px;
+}
+#tenant-edit .limit .title {
+  font-size: 18px;
+  margin-right: 10px;
+}
+#tenant-edit .limit .currency {
+  font-size: 14px;
+  width: 40px;
+  text-align: right;
+}
+#tenant-edit .limit input {
+  font-size: 24px;
+  width: 100px;
+  text-align: left;
+  margin-left: 5px;
+  border: none;
+}
+#tenant-edit .limit .note {
+  font-size: 12px;
+  margin: 0 0 0 10px;
+}
+#tenant-edit .limit .period {
+  margin: 15px 0 0 0px;
+}
+#tenant-edit .limit .period span {
+  font-size: 18px;
+  margin: 0
+}
+#tenant-edit .limit .period input {
+  width: 40px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.dialog {
+  display: none;
+  font-family: 'Nunito';
+}
+
+.dialog#tenant-edit {
+  top: 40px;
+  left: 15px;
+  position: absolute;
+  margin: auto;
+  padding: 25px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px;
+  background-color: white;
+}
+
+.dialog#charge {
+  top: 100px;
+  left: 350px;
+  position: absolute;
+  margin: auto;
+  padding: 25px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px;
+  background-color: white;
+  font-size: 18px;
+}
+.dialog#charge .tenant-name {
+  font-size: 28px;
+}
+.dialog#charge table td {
+  border-style: none;
+}
+.dialog#charge table .item-title {
+  min-width: 120px;
+}
+.dialog#charge table .currency {
+  text-align: right;
+}
+.dialog#charge table #remain .value {
+  font-size: 30px;
+}
+.dialog#charge table input {
+  width: 80px;
+  font-size: 20px;
+}
+.dialog#charge .op-panel .button {
+  float: right;
+  margin: 30px 10px 0 20px;
+}
+
+
+#bill .menubar .menu {
+  float: left;
+  margin: 0 30px 0 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media screen {
+   #bill .menubar {
+    top: 42px;
+    left: 0;
+    position: absolute;
+    height: 18px;
+    width: 720px;
+    padding: 0px 15px 5px 15px;
+    border: 1px solid black;
+    border-radius: 5px 5px 0 0 ;
+    background-color: white;
+    box-shadow: 2px 2px 2px;
+  }
+  /* A4 210mmx297mm*/
+  #bill .page {
+    top: 65px;
+    left:0px;
+    width: 630px;
+    height: 1000px;
+    background-color: white;
+    position: absolute;
+    float:left;
+    padding: 25px 60px;
+    margin: 0 auto 0 auto;
+    border: solid 1px black;
+    box-shadow: 2px 2px 2px;
+  }
+}
+
+@media print {
+  @page {
+    size: portrait;
+    margin: 20mm 0 0 0;
+  }
+
+  #main .title, #main .contents-area {
+    display: none;
+  }
+  #main #bill .button-panel {
+    display: none;
+  }
+
+  #main #bill .page {
+    width: 630px;
+    height: 990px;
+    padding: 0px 25px;
+    margin: 0 auto 0 auto;
+    font-family: 'Nunito';
+    page-break-before: always;
+  }
+  #main #bill .page#p1 {
+    page-break-before: avoid;
+  }
+
+  #bill .menubar {
+    display: none;
+  }
+} 
+
+#bill .bill-title {
+  text-align: center;
+  font-size: 30px;
+}
+
+#bill .page .owner {
+  width: 250px;
+  margin:  20px 10px 0 400px;
+}
+
+#bill .p1 .owner {
+  width: 250px;
+  margin:  100px 10px 0 400px;
+}
+
+#bill .owner .name {
+  font-size: 18px;  
+  margin: 0;
+}
+#bill .owner .address {
+  font-size: 11px;
+  line-height: 11px;
+  margin: 0 0 0 10px;
+}
+#bill .owner .contact {
+  font-size: 10px;
+  line-height: 10px;
+  margin: 5px 0 0 20px;
+}
+
+#bill .print-date {
+  font-size: 14px;
+  margin: 20px 0 0 420px;
+  text-align: left;
+}
+
+#bill .tenant-name {
+  font-size: 36px;
+  margin: 50px 0 10px 0;
+  border-bottom: solid 1px black;
+  width: 15em;
+  padding-left: 0.5em;
+}
+
+#bill .page .data-table {
+  margin: 50px auto;  
+  font-size: 14px;
+}
+
+#bill .p1 .data-table {
+  margin: 5px auto;
+  font-size: 16px;
+}
+#bill .p2 .data-table {
+  margin: 5px auto;
+}
+
+#bill .page .data-table .pname {
+  padding: 0 0 0 5px;
+}
+#bill .page .data-table .zname {
+  text-align: right;
+  padding: 0 5px 0 0;
+}
+
+#bill .page .data-table th {
+  font-size: 12px;
+}
+#bill .p1 .data-table .zone-name {
+  width: 180px;
+  padding: 2px 0 0 10px;
+}
+#bill .p1 .data-table .power {
+  width: 150px;
+  padding: 2px 10px 0 0;
+  text-align: right;
+}
+#bill .p1 .data-table .unit-price {
+  width: 140px;
+  padding: 2px 10px 0 0;
+  text-align: right;
+}
+#bill .p1 .data-table .price {
+  width: 150px;
+  padding: 2px 10px 0 0;
+  text-align: right;
+}
+#bill .p1 .data-table #total .unit-price {
+  border: none;
+}
+
+#bill .table-title {
+  margin-top: 20px;
+  font-size: 20px;
+}
+#bill .tunit {
+  font-size: 14px;
+  margin-left: 10px;
+}
+#bill .data-period {
+  margin: 5px 0 5px 20px;
+  font-size: 14px;
+}
+
+#bill .data-period .date {
+  font-size: 18px;
+}
+
+#bill .data-table .pname {
+  width: 180px;
+}
+#bill .data-table .zname {
+  width: 100px;
+}
+
+#bill .total {
+  display: inline-block;
+  margin: 30px 0 10px 60px;
+  padding: 0 10px 0 5px;
+  font-size: 18px;
+  border-bottom: 1px solid black;
+}
+
+#bill .total .currency {
+  font-size: 28px;
+}
+
+#bill .total .result {
+  font-size: 36px;
+}
+
+#bill .data-table {
+  margin: 25px 10px 5px 20px;
+  border-collapse: collapse;
+}
+
+#bill .data-table th, td {
+  border: 1px black solid;
+}
+
+#bill .data-table th {
+  font-size: 14px;
+}
+#bill .data-table th.name {
+  width: 15em;
+}
+
+#bill .data-table th.value {
+  width: 8em;
+}
+
+#bill .data-table th.op-time {
+  width: 7em;
+}
+
+#bill .data-table th.on-times {
+  width: 7em;
+}
+
+#bill .data-table td.name {
+  text-align: left;
+  padding-left: 0.5em;
+}
+
+#bill .data-table td.value, td.op-time, td.on-times {
+  text-align: right;
+  padding-right: 0.5em;
+}
+
+#bill .data-table .none {
+  border: none;
+}
+
+#charge-log .log-content {
+  margin-top: 60px;
+}
+
+.scrol-frame {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0;
+  overflow: auto;
+}
+
+
+#charge-log .log-content {
+  margin-top: 60px;
+}
+#charge-log .header table {
+  width: 860px;
+}
+#charge-log .scrol-frame {
+  width: 860px;
+}
+#charge-log table {
+  border-collapse: collapse;
+}
+#charge-log table th {
+  font-size: 14px;
+}
+#charge-log table td {
+  border: none;
+}
+#charge-log table th:first-child {
+  width: 200px;
+}
+#charge-log table th:nth-child(2) {
+  width: 240px;
+}
+#charge-log table th:nth-child(3) {
+  width: 120px;
+}
+#charge-log table th:nth-child(4) {
+  width: 120px;
+}
+#charge-log table th:nth-child(5) {
+  width: 160px;
+}
+#charge-log table tr td:first-child {
+  width: 200px;
+  text-align: center;
+}
+#charge-log table tr td:nth-child(2) {
+  width: 240px;
+  text-align: center;
+}
+#charge-log table tr td:nth-child(3) {
+  width: 120px;
+  text-align: right;
+}
+#charge-log table tr td:nth-child(4) {
+  width: 120px;
+  text-align: right;
+}
+#charge-log table tr td:nth-child(5) {
+ width: 160px;
+ text-align: center;
+}

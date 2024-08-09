@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen lsw-op' id='operation'>
+			<div class='contents-area'>
+				<div class='operation-panel'>
+					<div class='top-area'>
+						<span id='point-name'>Management Point Name</span>
+					</div>
+					<div class='single-area'>
+						<div class='block'>
+							<img src='image/power-green.png' class='img-button circle status'>
+							<img src='image/offtimer-green.png' class='img-button circle offtimer'>
+							<div class='selectable-input off-timer-duration'>
+								<div class='subtitle mls' param='off_duration'>off timer duration</div>
+								<div class='current-val'>value</div>
+								<ul class='popup-list selectable-list'>
+									<li id='d5'>00:05</li>
+									<li id='d60' class='selected'>01:00</li>
+									<li id='d720'>12:00</li>
+								</ul>
+							</div>
+						</div>
+						<div class='block'>
+							<div class='slide-ctrl' id='analog-val'>
+								<div class='val'></div>
+								<div class='slider'></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='Analog_Input_Report'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='ambient_trend_report'>Reports</span>
+				<div class='AITable'>
+					<div id = "Reports_lCol" class="whiteBGchart">
+						<div id="chart"></div>
+						<script>generateChart();</script>
+						<div id='graphFootNote' class='graphFootNote mls' param="temperature_footnote">*Note: Dotted lines represents the upper/lower limits of Management Points</div>
+					</div>
+					<div id = "Reports_rCol">
+						<div>
+							<div id="QueryButton"><span class='button mls' id='Query' param='query'>Query</span></div>
+							<div id="Export"><span class='button mls' id='export' param='export'>Export</span></div>
+						</div>
+						<div>
+							<div id="TimeControl" class="TimeControl">
+								<div id="FromD" >
+									<div class="FromD"><span class="labels mls" param="from">From: </span></div> 
+									<div class="input">
+										<input type='text' name='from' id='from'>
+										<div id = 'fromHH'><script>getFromHHMM()</script></div>
+									</div>
+								</div>
+								<div id="ToD" >
+									<div class="ToD"><span class="labels mls" param="to">To: </span></div>
+									<div class="input">
+										<input type='text' name='to' id='to'>
+										<div id = 'toHH'><script>getToHHMM()</script></div>
+									</div>
+								</div>
+								<div id="Intervals" >
+									<div class="Intervals"><span class="labels mls" param="intervals">Intervals: </span></div> 
+									<div id="SelectIntervals" class="SelectIntervals">
+										 <script>getIntervals()</script></div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div id="Management_Points" class="Management_Points">
+							<div class="containerManagementPoint"><span class="managementPointLabels mls" param="management_points">Management Points</span></div>
+							<div class="containerSelectAll"><span class='selectAllButton mls' id='selectAll' param='select_all'>Select All</span></div>
+								<div class="multi-selectable-list">
+									<div id="ManagementPointList" class="ManagementPointList"></div>
+								</div>
+								<script>getManagementPoints();</script>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='backToReports'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

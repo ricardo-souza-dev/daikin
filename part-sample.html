@@ -1,0 +1,405 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Parts sample for SVM</title>
+
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
+<link rel="stylesheet" media="all" href="css/svmparts.css" />
+
+<style>
+body {
+}
+
+.std-popup {
+	margin: 30px;
+	display: block;
+	width: 300px;
+}
+.title-frame {
+	position: absolute;
+	top: 150px;
+	left: 400px;
+	width: 200px;
+	height: 100px;
+}
+.set-width {
+	width: 180px;
+	display: inline-block;
+}
+.std-list {
+	width: 150px;
+	display: inline-block;
+}
+.list {
+	height: 100px;
+}
+.multi-col-list {
+	height: 100px;
+}
+.multi-col-list td:first-child {
+	width: 50px;
+}
+.multi-col-list td:nth-child(2) {
+	width:90px;
+}
+.img-button {
+	width: 60px;
+}
+.selectable-input .current-val {
+	width: 100px;
+}
+
+.std-frame .selectable-input {
+	display: inline-block;
+}
+.std-frame .selectable-img {
+	display: inline-block;
+}
+
+.sp-control {
+	transform-origin: 0% 0%;
+	-moz-transform-origin: 0% 0%;
+	-webkit-transform-origin: 0% 0%;
+	transform: scale(0.7);
+	-moz-transform: scale(0.7);
+	-webkit-transform: scale(0.7);
+	position: absolute;
+	top: 120px;
+	left: 700px;
+}
+
+</style>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src='script/svmparts.js'></script>
+
+<script>
+var SP_INFO = null;
+var SPSTEP = 0.5;
+
+$(document).ready(function() {
+	resize(0,0);
+	SP_INFO = {'range_min':16,'range_max':32,'csp_l':16,'csp_h':32,'hsp_l':16,'hsp_h':32,'csp':23.5,'hsp':23.5,'mode':'cool','csp_sb':28,'current_mode':'cool'};
+	drawSpControlButton($('.sp-control'));
+	drawSpRange($('.sp-control'));
+	setSp($('.sp-control'));
+	drawSetback($('.sp-control'));
+	setCalendar($('.calendar'),2016,1,true);
+});
+
+function resize(ofsetH,ofsetW) {
+	$('.auto-resize').height($(window).height()-ofsetH);
+	$('.auto-resize').width($(window).width()-ofsetW);
+}
+
+$(document).on('click','.list-title .img-button',function(e) {
+	$('.point-select.dialog').css('top',100);
+	$('.point-select.dialog').css('left',100);
+	$('.point-select.dialog').show();
+});
+
+</script>
+
+</head>
+<body class='auto-resize horizontal-gradation'>
+	<div class='button-area std-frame'>
+		<div class='button'>Button</div>	
+		<img src='image/power-green.png' class='img-button circle'>
+		<img src='image/cool.png' class='img-button circle active'>
+		<img src='image/fanstep3-3.png' class='img-button'>
+		<div class='slide'>
+			<div class='disable'>disable</div>
+			<div class='slidesw'></div>
+			<div class='enable hide'>enable</div>
+		</div>
+		<div class='radio button'>Mon</div>
+		<div class='selectable-input'>
+			<div class='current-val'>value</div>
+			<ul class='popup-list selectable-list'>
+				<li>selectable1</li>
+				<li>selectable2</li>
+				<li class='selected'>selectable3</li>
+				<li>selectable4</li>
+				<li>selectable5</li>
+				<li>selectable6</li>
+				<li>selectable7</li>
+			</ul>
+		</div>
+		<div class='selectable-img'>
+			<img src='image/cool.png' class='current-val'>
+			<ul class='img-list'>
+				<li><img src='image/heat.png'></li>
+				<li class='selected'><img src='image/cool.png'></li>
+				<li><img src='image/fan.png'></li>
+			</ul>
+		</div>
+	</div>
+	<div class='std-popup dlg-popup'>
+		<input type='text' placeholder='input'>
+		<div class='page-title'>Page-Title</div>
+		<div class='item-title'>Item-Title</div>
+		<div class='subtitle'>Subtitle</div>
+	</div>
+	<div class='title-frame'>
+		<div class='title'>Title-Frame</div>
+		<div>
+			Contents
+			<div class='subtitle check checked'><span>Title with Check</span><img src='image/check-w.png'></div>
+		</div>
+	</div>
+	<div class='sp-control' >
+		<div class='sp-frame'>
+			<div class='sp-area'>
+				<div class='sp-container'>
+					<span class='val'>23</span>.<span class='decp'>5</span><span class='unit'>&deg;C</span>
+				</div>
+			</div>
+		</div>
+		<canvas class='sp-canvas' width="300" height="300"></canvas>
+		<canvas class='sp-button down'></canvas>
+		<canvas class='sp-button up'></canvas>
+		<img class='sp-pointer csp' src='image/csp_pointer.png'>
+		<img class='sp-pointer hsp' src='image/hsp_pointer.png'>
+		<img class='sb-pointer csb' src='image/csb_pointer.png'>
+		<img class='sb-pointer hsb' src='image/hsb_pointer.png'>
+	</div>
+
+	<div class='std-frame'>
+		<div class='selectable-list set-width'>
+			<div class='list-title'>Selectable-List</div>
+			<ul class='list'>
+				<li>Item</li>
+				<li>Item</li>
+				<li class='selected'>Item</li>
+				<li>Item</li>
+				<li>Item</li>
+			</ul>
+		</div>
+		<div class='std-list'>
+			<div class='list-title'>Std-List<img src='image/edit-w.png' class='img-button'></div>
+			<ul class='list'>
+				<li>Item</li>
+				<li>Item</li>
+				<li>Item</li>
+				<li>Item</li>
+				<li>Item</li>
+			</ul>
+		</div>
+		<div class='selectable-list set-width' style='width:150px'>
+			<div class='list-title'>Multi-Col-List</div>
+			<table class='multi-col-list'>
+				<tr class='selected'><td>Data</td><td>Data</td></tr>
+				<tr><td>Data</td><td>Data</td></tr>
+				<tr><td>Data</td><td>Data</td></tr>
+				<tr><td>Data</td><td>Data</td></tr>
+			</table>
+		</div>
+		<div class='multi-selectable-list set-width'>
+			<div class='list-title'>Multi-Selectable-List</div>
+			<ul class='list'>
+				<li>Item</li>
+				<li>Item</li>
+				<li class='selected'>Item</li>
+				<li>Item</li>
+				<li>Item</li>
+			</ul>
+		</div>
+		<div class='selectable-list set-width'>
+			<div class='list-title'>With Check</div>
+			<ul class='check list'>
+				<li class='checked'><img src='image/check-b.png'><span>selectable</span></li>
+				<li><img src='image/check-b.png'><span>selectable</span></li>
+				<li class='checked'><img src='image/check-b.png'><span>selectable</span></li>
+				<li><img src='image/check-b.png'><span>selectable</span></li>
+				<li><img src='image/check-b.png'><span>selectable</span></li>
+				<li><img src='image/check-b.png'><span>selectable</span></li>
+			</ul>
+		</div>
+		<select class='pulldown' onChange='call_func()'>
+			<option value='en'>English</option>
+			<option value='es'>Español</option>
+			<option value='br'>Portugues(Brasil)</option>
+			<option value='jp'>日本語</optino>
+			<option value='cn'>中文</optino>
+		</select>
+	</div>
+	<div class='std-frame'>
+		<div class='cell fcu'>
+			<div class='name'>Management Point Name</div>
+			<div class='icon-area'>
+				<img class='icon stat off' src='icon/FXFQA.png'>
+				<img class='chmaster' src='image/chmaster.png'>
+				<img class='filter' src='image/filter.png'>
+				<img class='error' src='image/error.png'>
+				<div class='errcode'>UC</div>
+				<img class='op-cond' src='image/csb.png'>
+				<div class='info-area'>
+					<img class='mode' src='image/cool.png'>
+					<img class='fanstep' src='image/fanstep3-5.png'>
+					<img class='flap' src='image/wflap7.png'>
+					<Img class='off-timer' src='image/offtimer-green.png'>
+				</div>
+			</div>
+			<div class='stat-area'>
+				<div class='temp-area'>
+					<div class='sp'>
+						<span class='csp'>
+							<span class='val'>22</span>.<span class='dp-val'>5</span><span class='unit'>&deg;C</span>
+						</span>
+						<span class='hsp'>
+							<span class='val'>22</span>.<span class='dp-val'>5</span><span class='unit'>&deg;C</span>
+						</span>
+					</div>
+					<div class='temp'>
+						<img src='image/thermo.png'>
+						<span class='val'>21.4</span>
+						<span class='unit'>&deg;C</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='cell dio'>
+			<div class='name'>Management Point Name</div>
+			<div class='icon-area'>
+				<img class='icon stat off' src='icon/DIO.png'>
+				<img class='error' src='image/error.png'>
+				<div class='info-area'>
+					<Img class='off-timer' src='image/offtimer-green.png'>
+				</div>
+			</div>
+			<div class='stat-area'>
+			</div>
+		</div>
+		<div class='cell ai'>
+			<div class='name'>Management Point Name</div>
+			<div class='icon-area'>
+				<img class='icon' src='icon/AI.png'>
+				<img class='error' src='image/error.png'>
+			</div>
+			<div class='stat-area'>
+				<div class='val-area'>
+					<div class='val'>293.23</div>
+					<div class='unit'>ppm</div>
+				</div>
+			</div>
+		</div>
+		<div class='cell ai'>
+			<div class='name'>Management Point Name</div>
+			<div class='icon-area'>
+				<img class='icon' src='icon/PI.png'>
+				<img class='error' src='image/error.png'>
+			</div>
+			<div class='stat-area'>
+				<div class='val-area'>
+					<div class='val'>123456</div>
+					<div class='unit'>kWh</div>
+				</div>
+			</div>
+		</div>
+		<div class='cell msi'>
+			<div class='name'>Management Point Name</div>
+			<div class='icon-area'>
+				<img class='icon' src='icon/MSI.png'>
+				<img class='error' src='image/error.png'>
+			</div>
+			<div class='stat-area'>
+				<div class='val-area'>
+					<div class='val'>Status</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='std-frame'>
+		<div class='calendar'>
+			<div class='month'></div>
+	    <table>
+	      <tr class='dow'>
+	      	<th class='day1'></th>
+	      	<th class='day2'></th>
+	      	<th class='day3'></th>
+	      	<th class='day4'></th>
+	      	<th class='day5'></tH>
+	      	<th class='day6'></th>
+	      	<th class='day7'></th>
+	      </tr>
+	      <tr class='week1'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	      <tr class='week2'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	      <tr class='week3'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	      <tr class='week4'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	      <tr class='week5'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	      <tr class='week6'>
+	      	<td class='day1'></td>
+	      	<td class='day2'></td>
+	      	<td class='day3'></td>
+	      	<td class='day4'></td>
+	      	<td class='day5'></td>
+	      	<td class='day6'></td>
+	      	<td class='day7'></td>
+	      </tr>
+	    </table>
+	  </div>
+	</div>
+	<div class='dialog point-select'>
+		<div class='multi-selectable-list'>
+			<ul class='list'>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+				<li>Management Point</li>
+			</ul>
+		</div>
+		<div class='button-area'>
+			<div class='button ok'>OK</div>
+			<div class='button cancel'>Cancel</div>
+		</div>
+	</div>
+</body>
+</html>

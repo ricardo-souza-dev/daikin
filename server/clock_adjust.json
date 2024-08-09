@@ -1,0 +1,7 @@
+# clock adjust method
+# in case iTM clock will be master
+# ["itm",false]
+# in case iTM clock will be adjusted by internet time
+# ["internet",true]
+# default setting
+["internet",false]

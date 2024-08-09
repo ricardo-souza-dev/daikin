@@ -1,0 +1,1025 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>Device Connection Setup</title>
+
+<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="../css/svmparts.css">
+
+<style>
+body {
+  padding: 5px 10px 10px 20px;
+}
+
+#save {
+	margin-top: 50px;
+}
+
+table {
+	background-color: white;
+	font-size: 18px;
+	margin: 10px 0 20px 40px;
+}
+table tr * {
+	padding: 0 10px 0 10px;
+}
+table td.id {
+	text-align: right;
+	cursor: pointer;
+}
+table td.usb {
+	text-align: center;
+	cursor: pointer;
+}
+table td.mod-addr {
+	text-align: right;
+	cursor: pointer;
+}
+table td.type {
+	text-align: center;
+	cursor: pointer;
+}
+table td.ip-addr {
+	cursor: pointer;	
+}
+table td.port {
+	cursor: pointer;
+}
+table td.del-btn {
+	cursor: pointer;
+}
+
+.add-dev {
+	margin-left: 50px;
+}
+
+.note {
+	font-size: 16px;
+	color: white;
+	margin-left: 70px;
+}
+
+.pop-in {
+	border: 1px solid black;
+	font-size: 15px;
+}
+
+#svmps3 {
+	display: inline-block;
+}
+input {
+	font-size: 18px;
+}
+input#ps3ipaddr {
+	width:180px;
+}
+input#flcipaddr {
+	width:180px;
+}
+input#svmipaddr {
+	width:180px;
+}
+input#roomid {
+	width: 100px;
+}
+input#floorid {
+	width: 100px;
+}
+input#floorpw {
+	width: 100px;
+}
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src='../script/svmparts.js'></script>
+<script src="../script/CommModule.js"></script>
+<script src="../script/GlobalVal.js"></script>
+<script src="../script/service.js"></script>
+
+<script>
+var USB_DEV = {};
+var LAN_DEV = {};
+var ZW_DEV = false;
+var ZWAVE_DATA = ["ZWave",1,{"ip_addr":"127.0.0.1","port":8083,"user":"admin","passwd":"zadmin"}];
+var IN_DI = false;
+var INTERNAL_DI = ["InternalDi",1,{}]
+var BL_RM = false;
+var BROADLINK_RM = ["BroadlinkRemote",1,{}]
+var SMETER = null;
+var SPLITON = null;
+var NETPRO = null;
+var ALCO2 = null;
+var TONGDY = null;
+var USB_ID = 0;
+var LAN_ID = 0;
+var PS3 = false;
+var PS3_DATA = ["RoomsClient",1,{"ip_addr":"","port":60000,"user":""}];
+var FLOORC = false;
+var FLOOR_DATA = ["FloorClient",1,{"ip_addr":"","port":60000,"user":"","passwd":""}];
+var SVMC = false;
+var SVM_DATA = ["SvmClient",1,{"ip_addr":"","port":60000}];
+var RCU = false;
+var RCU_DATA = ["LutronRcu",1,{"ip_addr":"","port":23,"user":"","passwd":"","attr":[]}];
+var METER_TYPE = {
+	"ShPM5300":"Shneider PM/iEM series",
+	"Lavato":"Lavato DMG210",
+	"KRON":"KRON Multi-K series",
+	"SelecMfm383":"SELEC MFM383A",
+	"NeAce3e1":"Network Electricals Ace3E1"
+};
+var DLG_TARG = {'dev':null,'did':null,'param':null};
+var SMETER_TARG = null;
+
+$(document).ready(function() {
+	// read device_list.json
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/get_devices.rb",
+			async: false,
+			dataType: "json"
+		}).then(
+			function(data) {
+				USB_DEV = {};
+				LAN_DEV = {};
+				for(var i = 0; i < data.length; i++) {
+					switch(data[i][0]) {
+						case 'Dta116':
+							USB_DEV[USB_ID++] = data[i];
+							break;
+						case 'SmartMeter':
+							SMETER = data[i];
+							break;
+						case 'Spliton':
+							SPLITON = data[i];
+							break;
+						case 'NetPro':
+							NETPRO = data[i];
+							break;
+						case 'AlCo2':
+							ALCO2 = data[i];
+							break;
+						case 'Tongdy':
+							TONGDY = data[i];
+							break;
+						case 'Itm':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'Itc':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'WagoIo':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'Dmobile':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'DmobileA':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'SvmClient':
+							LAN_DEV[LAN_ID++] = data[i];
+							break;
+						case 'GlobalCache':
+							LAN_DEV[LAN_ID++] = data[i];
+						case 'ZWave':
+							ZW_DEV = true;
+							break;
+						case 'InternalDi':
+							IN_DI = true;
+							break;
+						case 'BroadlinkRemote':
+							BL_RM = true;
+							break;
+						case 'RoomsClient':
+							PS3 = true;
+							PS3_DATA = data[i];
+							break;
+						case 'FloorClient':
+							FLOORC = true;
+							FLOOR_DATA = data[i];
+							break;
+						case 'LutronRcu':
+							RCU = true;
+							RCU_DATA = data[i];
+							break;
+//						case 'SvmClient':
+//							SVMC = true;
+//							SVM_DATA = data[i];
+					}					
+				}
+				update_usb_dev();
+				update_lan_dev();
+				update_zw_dev();
+				update_in_di();
+				update_bl_rm();
+				update_ps3();
+				update_floorc();
+				update_rcu();
+//				update_svmc();
+			},
+			function() {
+				update_usb_dev();
+				update_lan_dev();
+				update_zw_dev();
+				update_in_di();
+				update_bl_rm();
+				update_ps3();
+				update_floorc();
+				update_rcu();
+//				update_svmc();
+			}
+		);
+	} catch(e) {
+		alert(e);
+	}
+
+});
+
+
+$(document).on('click','#save',function() {
+	// generate json file from data
+	var list = make_dev_data();
+	try {
+		var param = JSON.stringify(list);
+		console.log(param);
+		$.ajax({
+			type: "POST",
+			url: "../server/set_devices.rb",
+			async: false,
+			data: {data: param},
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+$(document).on('click','.button#dta',function() {
+	USB_DEV[USB_ID++] = ["Dta116",1,{"address":1,"port":"/dev/ttyUSB0","speed":19200,"parity":"EVEN","stopbit":1}];
+	update_usb_dev();
+});
+
+$(document).on('click','.button#sm',function() {
+	if(SMETER == null) {
+		SMETER = ["SmartMeter",1,{"port":"/dev/ttyUSB1","speed":19200,"parity":"EVEN","stopbit":1,"meters":{"1":"ShPM5300"}}];
+	} else {
+		var addr = make_addr(SMETER[2].meters);
+		SMETER[2].meters[addr] = "ShPM5300";
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.button#st',function() {
+	if(SPLITON == null) {
+		SPLITON = ["Spliton",1,{"port":"/dev/ttyUSB1","speed":9600,"parity":"EVEN","stopbit":1,"netpro":[1]}];
+	} else {
+		var addr = make_addr_sensor(SPLITON[2].netpro);
+		SPLITON[2].netpro.push(addr);
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.button#np',function() {
+	if(NETPRO == null) {
+		NETPRO = ["NetPro",1,{"port":"/dev/ttyUSB1","speed":9600,"parity":"EVEN","stopbit":1,"netpro":[1]}];
+	} else {
+		var addr = make_addr_sensor(NETPRO[2].netpro);
+		NETPRO[2].netpro.push(addr);
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.button#al',function() {
+	if(ALCO2 == null) {
+		ALCO2 = ["AlCo2",1,{"port":"/dev/ttyUSB1","speed":115200,"parity":"NONE","stopbit":1,"sensors":[1]}];
+	} else {
+		var addr = make_addr_sensor(ALCO2[2].sensors);
+		ALCO2[2].sensors.push(addr);
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.button#tongdy',function() {
+	if(TONGDY == null) {
+		TONGDY = ["Tongdy",1,{"port":"/dev/ttyUSB1","speed":9600,"parity":"NONE","stopbit":1,"sensors":[1]}];
+	} else {
+		var addr = make_addr_sensor(TONGDY[2].sensors);
+		TONGDY[2].sensors.push(addr);
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.button#itm',function() {
+	LAN_DEV[LAN_ID++] = ["Itm",1,{"ip_addr":"192.168.0.1","port":8081,"user":"svm","passwd":"svm"}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#itc',function() {
+	LAN_DEV[LAN_ID++] = ["Itc",1,{"ip_addr":"192.168.0.1","port":80}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#wago',function() {
+	LAN_DEV[LAN_ID++] = ["WagoIo",1,{"ip_addr":"192.168.0.1","port":502}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#dm',function() {
+	LAN_DEV[LAN_ID++] = ["Dmobile",1,{"ip_addr":"192.168.0.1","port":502}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#dma',function() {
+	LAN_DEV[LAN_ID++] = ["DmobileA",1,{"ip_addr":"192.168.0.1","port":80}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#svm',function() {
+	LAN_DEV[LAN_ID++] = ["SvmClient",1,{"ip_addr":"192.168.0.1","port":60000}];
+	update_lan_dev();
+});
+
+$(document).on('click','.button#gc',function() {
+	LAN_DEV[LAN_ID++] = ["GlobalCache",1,{"ip_addr":"192.168.0.1"}];
+	update_lan_dev();
+});
+
+$(document).on('click','.del-btn',function() {
+	var class_name = $(this).parent().attr('class');
+	if(class_name == 'dta') {
+		var did = $(this).parent().attr('did');
+		delete(USB_DEV[did]);
+		update_usb_dev();
+	} else if(class_name == 'sm') {
+		var addr = parseInt($(this).parent().find('.mod-addr').text());
+		delete_meter(addr);
+		update_usb_dev();
+	} else if(class_name == 'st') {
+		var addr = parseInt($(this).parent().find('.mod-addr').text());
+		delete_spliton(addr);
+		update_usb_dev();
+	} else if(class_name == 'np') {
+		var addr = parseInt($(this).parent().find('.mod-addr').text());
+		delete_netpro(addr);
+		update_usb_dev();
+	} else if(class_name == 'al') {
+		var addr = parseInt($(this).parent().find('.mod-addr').text());
+		delete_al(addr);
+		update_usb_dev();
+	} else if(class_name == 'tongdy') {
+		var addr = parseInt($(this).parent().find('.mod-addr').text());
+		delete_tongdy(addr);
+		update_usb_dev();
+	} else {
+		var did = $(this).parent().attr('did');
+		delete(LAN_DEV[did]);
+		update_lan_dev();
+	}	
+});
+
+$(document).on('click','.usb',function() {
+	var parent = $(this).parent();
+	var did = $(parent).attr('did');
+	if(parent.attr('class') == 'dta') {
+		var port = parseInt(USB_DEV[did][2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		USB_DEV[did][2].port = '/dev/ttyUSB'+port;
+	} else if(parent.attr('class') == 'sm') {
+		var port = parseInt(SMETER[2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		SMETER[2].port = '/dev/ttyUSB'+port;
+	} else if(parent.attr('class') == 'st') {
+		var port = parseInt(SPLITON[2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		SPLITON[2].port = '/dev/ttyUSB'+port;
+	} else if(parent.attr('class') == 'np') {
+		var port = parseInt(NETPRO[2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		NETPRO[2].port = '/dev/ttyUSB'+port;
+	} else if(parent.attr('class') == 'al') {
+		var port = parseInt(ALCO2[2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		ALCO2[2].port = '/dev/ttyUSB'+port;
+	} else if(parent.attr('class') == 'tongdy') {
+		var port = parseInt(TONGDY[2].port.replace(/[^0-9^\.]/g,""));	
+		port++;
+		if(port > 3) port = 0;
+		TONGDY[2].port = '/dev/ttyUSB'+port;
+	}
+	update_usb_dev();
+});
+
+$(document).on('click','.id',function() {
+	DLG_TARG.dev = $(this).parent().attr('class');
+	DLG_TARG.did = $(this).parent().attr('did');
+	DLG_TARG.param = 'id';
+	var pos = $(this).offset();
+	$('.dialog input').val($(this).text());
+	$('.dialog').show().offset(pos);
+});
+
+$(document).on('click','.mod-addr',function() {
+	DLG_TARG.dev = $(this).parent().attr('class');
+	if(DLG_TARG.dev == 'dta') return;
+	DLG_TARG.param = 'mod_addr';
+	DLG_TARG.did = $(this).text();
+	var pos = $(this).offset();
+	$('.dialog input').val($(this).text());
+	$('.dialog').show().offset(pos);
+});
+
+$(document).on('click','.type',function() {
+	var mod_addr = $(this).parent().find('.mod-addr').text();
+	var meter = SMETER[2].meters[mod_addr];
+	var keys = Object.keys(METER_TYPE);
+	var i = keys.indexOf(meter)
+	i++; if(i >= keys.length) i = 0;
+	SMETER[2].meters[mod_addr] = keys[i];
+	update_usb_dev();
+});
+
+$(document).on('click','.ip',function() {
+	DLG_TARG.dev = $(this).parent().attr('class');
+	DLG_TARG.did = $(this).parent().attr('did');
+	DLG_TARG.param = 'ip';
+	var pos = $(this).offset();
+	$('.dialog input').val($(this).text());
+	$('.dialog').show().offset(pos);
+});
+
+$(document).on('click','.port',function() {
+	DLG_TARG.dev = $(this).parent().attr('class');
+	DLG_TARG.did = $(this).parent().attr('did');
+	DLG_TARG.param = 'port';
+	var pos = $(this).offset();
+	$('.dialog input').val($(this).text());
+	$('.dialog').show().offset(pos);
+});
+
+$(document).on('click','.dialog #set',function() {
+	var val = $('.dialog input').val();
+
+	try {
+		switch(DLG_TARG.dev) {
+			case 'dta':
+				if(DLG_TARG.param == 'id') {
+					USB_DEV[DLG_TARG.did][1] = parseInt(val);
+				}
+				update_usb_dev();
+				break;
+			case 'sm':
+				if(DLG_TARG.param == 'id') {
+					SMETER[1] = parseInt(val);
+				} else if(DLG_TARG.param == 'mod_addr') {
+					if(SMETER[2].meters[val] != null) {
+						alert('Same modbus address cannot specify.');
+						return;
+					}
+					var meter = SMETER[2].meters[DLG_TARG.did];
+					delete(SMETER[2].meters[DLG_TARG.did]);
+					SMETER[2].meters[val] = meter;
+				}
+				update_usb_dev();
+				break;
+			case 'st':
+				if(DLG_TARG.param == 'id') {
+					SPLITON[1] = parseInt(val);
+				} else if(DLG_TARG.param == 'mod_addr') {
+					if(SPLITON[2].netpro.includes(val) == true) {
+						alert('Same modbus address cannot specify.');
+						return;
+					}
+					var index = SPLITON[2].netpro.indexOf(parseInt(DLG_TARG.did));
+					SPLITON[2].netpro[index] = parseInt(val);
+				}
+				update_usb_dev();
+				break;
+			case 'np':
+				if(DLG_TARG.param == 'id') {
+					NETPRO[1] = parseInt(val);
+				} else if(DLG_TARG.param == 'mod_addr') {
+					if(NETPRO[2].netpro.includes(val) == true) {
+						alert('Same modbus address cannot specify.');
+						return;
+					}
+					var index = NETPRO[2].netpro.indexOf(parseInt(DLG_TARG.did));
+					NETPRO[2].netpro[index] = parseInt(val);
+				}
+				update_usb_dev();
+				break;
+			case 'al':
+				if(DLG_TARG.param == 'id') {
+					ALCO2[1] = parseInt(val);
+				} else if(DLG_TARG.param == 'mod_addr') {
+					if(ALCO2[2].sensors.includes(val) == true) {
+						alert('Same modbus address cannot specify.');
+						return;
+					}
+					var index = ALCO2[2].sensors.indexOf(parseInt(DLG_TARG.did));
+					ALCO2[2].sensors[index] = parseInt(val);
+				}
+				update_usb_dev();
+				break;
+			case 'tongdy':
+				if(DLG_TARG.param == 'id') {
+					TONGDY[1] = parseInt(val);
+				} else if(DLG_TARG.param == 'mod_addr') {
+					if(TONGDY[2].sensors.includes(val) == true) {
+						alert('Same modbus address cannot specify.');
+						return;
+					}
+					var index = TONGDY[2].sensors.indexOf(parseInt(DLG_TARG.did));
+					TONGDY[2].sensors[index] = parseInt(val);
+				}
+				update_usb_dev();
+				break;
+			case 'itm':
+			case 'itc':
+			case 'wago':
+			case 'dm':
+			case 'dma':
+			case 'gc':
+			case 'svm':
+				if(DLG_TARG.param == 'id') {
+					LAN_DEV[DLG_TARG.did][1] = parseInt(val);
+				} else if(DLG_TARG.param == 'ip') {
+					LAN_DEV[DLG_TARG.did][2].ip_addr = val;
+				} else if(DLG_TARG.param == 'port') {
+					LAN_DEV[DLG_TARG.did][2].port = parseInt(val);
+				}
+				update_lan_dev();
+				break;
+		}
+		$('.dialog').offset({top:0,left:0})
+		$('.dialog').hide();
+	} catch(e) {
+
+	}
+});
+
+$(document).on('click','.dialog #cancel',function() {
+	$('.dialog input').val('');
+	$('.dialog').offset({top:0,left:0})
+	$('.dialog').hide();
+});
+
+function update_usb_dev() {
+	$('#usb .dta').remove();
+	$('#usb .sm').remove();
+	$('#usb .st').remove();
+	$('#usb .np').remove();
+	$('#usb .al').remove();
+	$('#usb .tongdy').remove();	
+
+	for(var i  in USB_DEV) {
+		var line;
+		var port = parseInt(USB_DEV[i][2].port.replace(/[^0-9^\.]/g,""));
+		line = "<tr class='dta' did='"+i+"'><td class='dev'>DTA116A51</td><td class='id'>"+USB_DEV[i][1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		line += "</td><td></td><td></td><td class='del-btn'>Delete</td></tr>";
+		$('#usb').append(line);
+	}
+	if(SMETER != null) {
+		var port = parseInt(SMETER[2].port.replace(/[^0-9^\.]/g,""));
+		var line = "<tr class='sm'><td class='dev'>Smart Meter</td><td class='id'>"+SMETER[1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		for(var addr in SMETER[2].meters) {
+			line2 = "</td><td class='mod-addr'>";
+			line2 += addr;				
+			line2 += "</td><td class='type'>";
+			line2 += METER_TYPE[SMETER[2].meters[addr]];
+			line2 += "</td><td class='del-btn'>Delete</td></tr>";
+			$('#usb').append(line+line2);
+		}
+	}
+	if(SPLITON != null) {
+		var port = parseInt(SPLITON[2].port.replace(/[^0-9^\.]/g,""));
+		var line = "<tr class='st'><td class='dev'>Spliton</td><td class='id'>"+SPLITON[1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		for(var addr in SPLITON[2].netpro) {
+			line2 = "</td><td class='mod-addr'>";
+			line2 += SPLITON[2].netpro[addr];				
+			line2 += "</td><td>";
+			line2 += "</td><td class='del-btn'>Delete</td></tr>";
+			$('#usb').append(line+line2);
+		}
+	}
+	if(NETPRO != null) {
+		var port = parseInt(NETPRO[2].port.replace(/[^0-9^\.]/g,""));
+		var line = "<tr class='np'><td class='dev'>NetPro</td><td class='id'>"+NETPRO[1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		for(var addr in NETPRO[2].netpro) {
+			line2 = "</td><td class='mod-addr'>";
+			line2 += NETPRO[2].netpro[addr];				
+			line2 += "</td><td>";
+			line2 += "</td><td class='del-btn'>Delete</td></tr>";
+			$('#usb').append(line+line2);
+		}
+	}
+	if(ALCO2 != null) {
+		var port = parseInt(ALCO2[2].port.replace(/[^0-9^\.]/g,""));
+		var line = "<tr class='al'><td class='dev'>AL-CO2</td><td class='id'>"+ALCO2[1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		for(var addr in ALCO2[2].sensors) {
+			line2 = "</td><td class='mod-addr'>";
+			line2 += ALCO2[2].sensors[addr];				
+			line2 += "</td><td>";
+			line2 += "</td><td class='del-btn'>Delete</td></tr>";
+			$('#usb').append(line+line2);
+		}
+	}
+	if(TONGDY != null) {
+		var port = parseInt(TONGDY[2].port.replace(/[^0-9^\.]/g,""));
+		var line = "<tr class='tongdy'><td class='dev'>Tongdy</td><td class='id'>"+TONGDY[1]+"</td><td class='usb'>";
+		line += "USB"+(port+1);
+		for(var addr in TONGDY[2].sensors) {
+			line2 = "</td><td class='mod-addr'>";
+			line2 += TONGDY[2].sensors[addr];				
+			line2 += "</td><td>";
+			line2 += "</td><td class='del-btn'>Delete</td></tr>";
+			$('#usb').append(line+line2);
+		}
+	}
+}
+
+function update_lan_dev() {
+	$('#lan .itm').remove();
+	$('#lan .itc').remove();
+	$('#lan .wago').remove();
+	$('#lan .dm').remove();
+	$('#lan .dma').remove();
+	$('#lan .gc').remove();
+	$('#lan .svm').remove();
+
+	for(var i in LAN_DEV) {
+		var line;
+
+		switch(LAN_DEV[i][0]) {
+			case "Itm":
+				line = "<tr class='itm' did='"+i+"'><td class='dev'>iTM</td><td class='id'>";
+				break;
+			case "Itc":
+				line = "<tr class='itc' did='"+i+"'><td class='dev'>iTC</td><td class='id'>";
+				break;
+			case "WagoIo":
+				line = "<tr class='wago' did='"+i+"'><td class='dev'>WAGO</td><td class='id'>";
+				break;
+			case "Dmobile":
+				line = "<tr class='dm' did='"+i+"'><td class='dev'>D-Mobile</td><td class='id'>";
+				break;
+			case "DmobileA":
+				line = "<tr class='dma' did='"+i+"'><td class='dev'>D-Mobile A type</td><td class='id'>";
+				break;
+			case "GlobalCache":
+				line = "<tr class='gc' did='"+i+"'><td class='dev'>GlobalCache</td><td class='id'>";
+				break;
+			case "SvmClient":
+				line = "<tr class='svm' did='"+i+"'><td class='dev'>Extension Terminal</td><td class='id'>";
+				break;
+			default:
+				continue;
+		}
+		line += LAN_DEV[i][1];
+		line += "</td><td class='ip'>";
+		line += LAN_DEV[i][2].ip_addr;
+		line += "</td><td class='port'>";
+		if(LAN_DEV[i][2].port != null) line += LAN_DEV[i][2].port;
+		else line += "--";
+		line += "</td><td class='del-btn'>Delete</td>"
+		$('#lan').append(line);
+	}
+}
+
+function update_zw_dev() {
+	if(ZW_DEV == true) {
+		$('#zw-dev').addClass('checked');
+	} else {
+		$('#zw-dev').removeClass('checked');
+	}
+}
+
+function update_in_di() {
+	if(IN_DI == true) {
+		$('#in-di').addClass('checked');
+	} else {
+		$('#in-di').removeClass('checked');
+	}
+}
+
+function update_bl_rm() {
+	if(BL_RM == true) {
+		$('#bl-rm').addClass('checked');
+	} else {
+		$('#bl-rm').removeClass('checked');
+	}
+}
+
+function update_ps3() {
+	if(PS3 == true) {
+		$('#svmps3').addClass('checked');
+		$('input#ps3ipaddr').val(PS3_DATA[2]['ip_addr']);
+		$('input#roomid').val(PS3_DATA[2]['user']);
+	} else {
+		$('#svmps3').removeClass('checked');
+	}
+}
+
+function update_floorc() {
+	if(FLOORC == true) {
+		$('#floorc').addClass('checked');
+		$('input#flcipaddr').val(FLOOR_DATA[2]['ip_addr']);
+		$('input#floorid').val(FLOOR_DATA[2]['user']);
+		$('input#floorpw').val(FLOOR_DATA[2]['passwd']);
+	} else {
+		$('#floorc').removeClass('checked');
+	}
+}
+
+function update_svmc() {
+	if(SVMC == true) {
+		$('#svmc').addClass('checked');
+		$('input#svmipaddr').val(SVM_DATA[2]['ip_addr']);
+	} else {
+		$('#svmc').removeClass('checked');
+	}
+}
+
+function update_rcu() {
+	if(RCU == true) {
+		$('#rcu').addClass('checked');
+		$('input#rcuipaddr').val(RCU_DATA[2]['ip_addr']);
+		$('input#rcuuser').val(RCU_DATA[2]['user']);
+		$('input#rcupasswd').val(RCU_DATA[2]['passwd']);
+	} else {
+		$('#rcu').removeClass('checked');
+	}
+}
+
+function make_dev_data() {
+	var list = [];
+	for(var i in USB_DEV) {
+		list.push(USB_DEV[i]);
+	}
+	if(SMETER != null) list.push(SMETER);
+	if(SPLITON != null) list.push(SPLITON);
+	if(NETPRO != null) list.push(NETPRO);
+	if(ALCO2 != null) list.push(ALCO2);
+	if(TONGDY != null) list.push(TONGDY);
+	
+	for(var i in LAN_DEV) {
+		list.push(LAN_DEV[i]);
+	}
+	if($('#zw-dev').hasClass('checked') == true) ZW_DEV = true;
+	else ZW_DEV = false;
+	if(ZW_DEV == true) {
+		list.push(ZWAVE_DATA);
+	}
+	if($('#in-di').hasClass('checked') == true) IN_DI = true;
+	else IN_DI = false;
+	if(IN_DI == true) {
+		list.push(INTERNAL_DI);
+	}
+	if($('#bl-rm').hasClass('checked') == true) BL_RM = true;
+	else BL_RM = false;
+	if(BL_RM == true) {
+		list.push(BROADLINK_RM);
+	}
+	if($('#svmps3').hasClass('checked') == true) PS3 = true;
+	else PS3 = false;
+	if(PS3) {
+		PS3_DATA[2]['ip_addr'] = $('input#ps3ipaddr').val();
+		PS3_DATA[2]['user'] = $('input#roomid').val();
+		list.push(PS3_DATA);
+	}
+	if($('#floorc').hasClass('checked') == true) FLOORC = true;
+	else FLOORC = false;
+	if(FLOORC) {
+		FLOOR_DATA[2]['ip_addr'] = $('input#flcipaddr').val();
+		FLOOR_DATA[2]['user'] = $('input#floorid').val();
+		FLOOR_DATA[2]['passwd'] = $('input#floorpw').val();
+		list.push(FLOOR_DATA);		
+	}
+	if($('#rcu').hasClass('checked') == true) RCU = true;
+	else RCU = false;
+	if(RCU) {
+		RCU_DATA[2]['ip_addr'] = $('input#rcuipaddr').val();
+		RCU_DATA[2]['user'] = $('input#rcuuser').val();
+		RCU_DATA[2]['passwd'] = $('input#rcupasswd').val();
+		list.push(RCU_DATA);
+	}
+//	if($('#svmc').hasClass('checked') == true) SVMC = true;
+//	else SVMC = false;
+//	if(SVMC) {
+//		SVM_DATA[2]['ip_addr'] = $('input#svmipaddr').val();
+//		list.push(SVM_DATA);		
+//	}
+	return list;
+}
+
+function make_addr(list) {
+	var addrs = Object.keys(list);
+	var max = 0;
+	for(var i = 0; i < addrs.length; i++) {
+		var c = parseInt(addrs[i]);
+		if(c > max) max = c;
+	}
+	max++;
+	return max.toString(10);
+}
+
+function make_addr_sensor(list) {
+	var max = 0;
+	for(var i = 0; i < list.length; i++) {
+		var c = parseInt(list[i]);
+		if(c > max) max = c;
+	}
+	max++;
+	return max;
+}
+
+function delete_meter(port) {
+	if(SMETER == null) return;
+	delete(SMETER[2].meters[port.toString(10)])
+	if(Object.keys(SMETER[2].meters).length == 0) SMETER = null;
+}
+
+function delete_spliton(port) {
+	if(SPLITON == null) return;
+	var i = SPLITON[2].netpro.indexOf(port);
+	SPLITON[2].netpro.splice(i,1);
+	if(SPLITON[2].netpro.length == 0) SPLITON = null;
+}
+
+function delete_netpro(port) {
+	if(NETPRO == null) return;
+	var i = NETPRO[2].netpro.indexOf(port);
+	NETPRO[2].netpro.splice(i,1);
+	if(NETPRO[2].netpro.length == 0) NETPRO = null;
+}
+
+function delete_al(port) {
+	if(ALCO2 == null) return;
+	var i = ALCO2[2].sensors.indexOf(port);
+	ALCO2[2].sensors.splice(i,1);
+	if(ALCO2[2].sensors.length == 0) ALCO2 = null;
+}
+
+function delete_tongdy(port) {
+	if(TONGDY == null) return;
+	var i = TONGDY[2].sensors.indexOf(port);
+	TONGDY[2].sensors.splice(i,1);
+	if(TONGDY[2].sensors.length == 0) TONGDY = null;
+}
+</script>
+
+</head>
+<body class='horizontal-gradation'>
+<h1 class='page-title'>Device Connection Setting</h1>
+
+<!-- for C1, C2, S2, H1 -->
+<h2 class='item-title'>USB port connection devices</h2>
+<table id='usb'>
+	<tr>
+		<th class='dev'>Device</th>
+		<th class='id'>ID</th>
+		<th class='usb'>USB port</th>
+		<th class='mod-addr'>Modbus Address</th>
+		<th class='type'>Meter Type</th>
+		<th></th>
+	</tr>
+</table>
+<div class='note'>* Don't use same ID within the same device.</div>
+<div class='note'>* Don't skip USB port number. It must start from USB1.</div>
+<div class='add-dev'>
+<span class='subtitle'>DTA116A51</span> <span class='button' id='dta'>Add</span>
+</div>
+<!-- for C1, H1 -->
+<div class='add-dev'>
+<span class='subtitle'>Smart Meter</span> <span class='button' id='sm'>Add</span>
+</div>
+
+<div class='add-dev'>
+<span class='subtitle'>Tongdy multi sensor</span> <span class='button' id='tongdy'>Add</span>
+</div>
+
+<!-- for DMB 
+<div class='add-dev'>
+<span class='subtitle'>Spliton</span> <span class='button' id='st'>Add</span>
+</div>
+-->
+<!-- for the future
+<div class='add-dev'>
+<span class='subtitle'>Net Pro</span> <span class='button' id='np'>Add</span>
+</div>
+-->
+<!-- only test
+<div class='add-dev'>
+<span class='subtitle'>Al-CO2</span> <span class='button' id='al'>Add</span>
+</div>
+-->
+<!-- -->
+<h2 class='item-title'>LAN connection devices</h2>
+<table id='lan'>
+	<tr>
+		<th class='dev'>Device</th>
+		<th class='id'>ID</th>
+		<th class='ip'>IP Address</th>
+		<th class='port'>Port</th>
+		<th></th>
+	</tr>
+</table>
+<div class='note'>* Don't use same ID within the same device.</div>
+
+<!-- for C1, C2 -->
+<div class='add-dev'>
+	<span class='subtitle'>iTM</span> <span class='button' id='itm'>Add</span>
+</div>
+<div class='add-dev'>
+	<span class='subtitle'>iTC</span> <span class='button' id='itc'>Add</span>
+</div>
+
+<!-- for C1, H1 -->
+<div class='add-dev'>
+	<span class='subtitle'>WAGO</span> <span class='button' id='wago'>Add</span>
+</div>
+
+<!-- for C1, S2, S3, S4, H1 -->
+<div class='add-dev'>
+	<span class='subtitle'>D-Mobile</span> <span class='button' id='dm'>Add</span>
+</div>
+<div class='add-dev'>
+	<span class='subtitle'>D-Mobile A type</span> <span class='button' id='dma'>Add</span>
+</div>
+<!--
+<div class='add-dev'>
+	<span class='subtitle'>Extension terminal</span> <span class='button' id='svm'>Add</span>
+</div>
+-->
+<!-- only for S4 
+<h2 class='item-title'>Lutron RCU connection for SVMPS4</h2>
+<div class='subtitle check' id='rcu'><span>Lutron RCU connection:</span><img src='../image/check-w.png'></div>
+<input id='rcuipaddr' type="text" placeholder="IP Address of RCU">
+<input id='rcuuser' type="text" placeholder="RCU user ID">
+<input id='rcupasswd' type="text" placeholder="RCU passsword">
+<div></div>
+-->
+<!-- only for H1 
+<div class='add-dev'>
+	<span class='subtitle'>GlobalCache</span> <span class='button' id='gc'>Add</span>
+</div>
+<h2 class='item-title'>Z-Wave connection</h2>
+<div class='subtitle check' id='zw-dev'><span>Use Z-Wave connection</span><img src='../image/check-w.png'></div>
+<h2 class='item-title'>Broadlink Remote</h2>
+<div class='subtitle check' id='bl-rm'><span>Use Broadlink Remote</span><img src='../image/check-w.png'></div>
+-->
+<!-- for S2, S3 
+<h2 class='item-title'>Internal Di</h2>
+<div class='subtitle check' id='in-di'><span>Use Internal Di</span><img src='../image/check-w.png'></div>
+-->
+<!-- only for S3 and S4
+<h2 class='item-title'>Hotel Guest Room controller</h2>
+<div class='subtitle check' id='svmps3'><span>SVMPC1 connection:</span><img src='../image/check-w.png'></div>
+<input id='ps3ipaddr' type="text" placeholder="IP Address of SVMPC1">
+<input id='roomid' type="text" placeholder="Room ID">
+<div></div>
+ -->
+<!-- Special version for SVMPC1t
+<h2 class='item-title'>Floor Controller mode</h2>
+<div class='subtitle check' id='floorc'><span>SVMPC1 connection:</span><img src='../image/check-w.png'></div>
+<input id='flcipaddr' type="text" placeholder="IP Address of SVMPC1">
+<input id='floorid' type="text" placeholder="Floor ID">
+<input id='floorpw' type="password" placeholder="Password">
+<div></div>
+-->
+<!-- Extension adaptor setting
+<h2 class='item-title'>Extension terminal</h2>
+<div class='subtitle check' id='svmc'><span>Extension terminal connection:</span><img src='../image/check-w.png'></div>
+<input id='svmipaddr' type="text" placeholder="IP Address of extension terminal">
+<div></div>
+-->
+<div class='button' id='save'>Save</div>
+
+<div class='dialog'>
+	<input type='text'>
+	<div class='button-area'>
+		<div class='button' id='set'>Set</div>
+		<div class='button' id='cancel'>Cancel</div>
+	</div>
+</div>
+
+</body>
+</html>

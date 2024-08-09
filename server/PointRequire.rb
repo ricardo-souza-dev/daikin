@@ -1,0 +1,16 @@
+#coding: utf-8
+
+require_relative 'FcuItm'
+require_relative 'FcuItc'
+require_relative 'FcuDta116'
+require_relative 'VamItm'
+require_relative 'VamItc'
+require_relative 'DioItm'
+require_relative 'DioItc'
+require_relative 'AiItm'
+require_relative 'PiItm'
+require_relative 'HydroboxItm'
+require_relative 'AhuItm'
+require_relative 'ChillerItm'
+require_relative 'MSioItm'
+require_relative 'FcuDmobile'

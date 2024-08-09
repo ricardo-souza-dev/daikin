@@ -1,0 +1,764 @@
+@font-face {
+	font-family: "Nunito";
+	src: url("../font/Nunito-Regular.ttf") format("truetype");
+}
+
+/* Login page style */
+.center {
+	margin: auto;
+	text-align: center;
+}
+.title-logo {
+	Width: 60px;
+	margin: 0 3px;
+}
+
+.title-str {
+	font-family: "Nunito";
+	font-style: Italic;
+	font-size: 14px;
+	color: steelblue;
+	margin-right: 10px;
+}
+
+/* title font */
+.model {
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-style: italic;
+	color: steelblue;
+	font-size: 30px;
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+.sub {
+	font-size: 60%;
+}
+/* Version */
+#login-page .version {
+	font-family: serif;
+	font-style: italic;
+	font-size: 12px;
+	color: gray;
+	text-align: right;
+	margin: 0 50px 20px 0;
+}
+
+/* label font */
+#login-page label {
+	font-family: "Nunito";
+}
+
+#login-page .register {
+	display: none;
+}
+
+#login-page .custom-logo {
+	margin-top: 30px;
+}
+
+#login-page .custom-logo img {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+/* Common property for each page */
+/* Header title font */
+.ui-header .ui-title {
+	font-size: 20px;
+	text-align: center;
+	font-family: 'Nunito';
+	color: royalblue;
+	margin: 0 40px 0 40px;
+	padding: 5px 0 5px 0;
+}
+
+.header-logo {
+	position: absolute;
+	width: 30px;
+}
+
+.contents-area {
+	font-family: "Nunito";
+}
+
+.hide {
+	display: none;
+}
+
+/* monitor page style */
+.mpoint .ui-btn {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#help {
+	font-family: "Nunito";
+	font-style: italic;
+	font-size: 14px;
+	color: RoyalBlue;
+	margin-top: 5px;
+	padding: 3px 10px;
+}
+
+#legend {
+	font-family: serif;
+	font-style: italic;
+	font-size: 12px;
+	color: RoyalBlue;
+	margin-top: 5px;
+	padding: 3px 10px;
+}
+
+#legend-panel h3 {
+	font-family: "Nunito";
+	font-size: 20px;
+	color: RoyalBlue;
+	margin-top: 0;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+#legend-panel .overlay {
+	position: relative;
+}
+#legend-panel .stat {
+	width: 40px;
+	margin: 5px 15px;
+}
+#legend-panel .icon {
+	width: 70px;
+	height: 70px;
+}
+#legend-panel .icon.on {
+	background-color: lime;
+}
+#legend-panel .icon.comm-error {
+	background-color: navy;
+}
+#legend-panel .error-icon {
+	position: absolute;
+	width: 40px;
+	top: 5px;
+	left: 10px;
+}
+#legend-panel .filter-sign {
+	position: absolute;
+	width: 14px;
+	left: 45px;
+	top: 50px;
+}
+
+#legend-panel .note {
+	font-family: "Nunito";
+	font-size: 18px;
+	font-style: italic;
+	padding-left: 10px;
+}
+
+/* icon style */
+.mpoint {
+	height: 69px;
+}
+.mpoint .icon {
+	background-color: white;
+	width: 69px;
+	height: 69px;
+}
+.mpoint .icon.on {
+	background-color: lime;
+}
+.mpoint .commerr {
+	display: none;
+}
+.mpoint .icon.commerr {
+	display: block;
+	background-color: navy;
+}
+.mpoint .error {
+	position: absolute;
+	width: 40px;
+	top: 5px;
+	left: 10px;
+	display: none;
+}
+.mpoint .error img {
+	width: 40px;
+}
+.mpoint .error .code {
+	position: absolute;
+	top: 0px;
+	left: 30px;
+	font-size: 18px;
+	color: red;
+	border-color: red;
+	border-radius: 4px;
+	padding: 0 4px 0 4px;
+	z-index: 1;
+	display: none;
+}
+
+.mpoint .filter {
+	position: absolute;
+	left: 50px;
+	top: 50px;
+	display: none;
+}
+.mpoint .filter img {
+	width: 12px;
+}
+/* point name */
+.point-info .point-name {
+	font-size: 18px;
+	margin: 0;
+}
+
+/* for DAIPL version */
+.DAIPL .point-info .point-name {
+	margin: 0 0 0 -25px;
+}
+
+/* operation status image */
+.mpoint .stat {
+	position: absolute;
+	top: 0px;
+	left: 70px;
+}
+.mpoint .stat img {
+	width: 30px;
+}
+.DAIPL .mpoint .stat {
+	display: none;
+}
+
+/* operation mode */
+.mpoint .mode {
+	position: absolute;
+	top: 30px;
+	left: 70px;
+}
+.mpoint .mode img {
+	width: 30px;
+}
+/* setpoint */
+.mpoint .setpoint {
+	font-size: 12px;
+	margin-left: 5px;
+}
+.mpoint .setpoint .value {
+	font-size: 16px;
+}
+/* for DAIPL */
+.DAIPL .mpoint .setpoint .value {
+	font-size: 22px;
+}
+.DAIPL .mpoint .setpoint .title {
+	display: none;
+}
+
+/* room temp */
+.mpoint .thermo-icon {
+	width: 10px;
+	margin-left: 10px;
+}
+.mpoint .temp {
+	display: none;
+	font-size: 10px;
+	margin-left: 5px;
+}
+
+.mpoint .temp .value {
+	font-size: 12px;
+}
+
+.mpoint .additional-info {
+	height: 24px;
+	margin: 4px 0 0 10px;
+}
+
+/* Operation page style */
+/* Point name format */
+.page-header-title {
+	font-family: 'Nunito';
+	font-weight: normal;
+	font-size: 20px;
+	padding: 6px;
+	color: royalblue;
+	text-shadow: none;
+}
+
+.page-header-title a {
+	text-decoration: none;
+}
+
+#operation-page .contents-area {
+	padding: 4px;
+}
+
+#operation-page .contents-area table {
+	width: 100%;
+	border: 0;
+}
+
+.operation-panel .legend {
+	font-size: 14px;
+	width: 40%;
+	text-align: center;
+}
+
+.operation-panel .legend .name {
+	background-color: royalblue;
+	color: white;
+	border-radius: 7px;
+	padding: 12px 0;
+}
+
+.operation-panel .image {
+	width: 58%;
+	height: 64px;
+	text-align: center;
+	border-radius: 7px;
+}
+
+.operation-panel .image:active {
+	background-color: lightgray;
+}
+
+.operation-panel .image img {
+	height: 48px;
+}
+
+.operation-panel .mode-ctl .mode-str {
+	font-size: 10px;
+	margin-top: -10px;
+}
+
+/* analog value operation */
+.operation-panel .analog-value #a-value {
+	font-size: 28px;
+	margin-right: 5px;
+}
+
+/* setpoint operation */
+.operation-panel .sp-ctl .sp-value {
+	font-size: 36px;
+}
+.operation-panel .sp-ctl .dec-point {
+	font-size: 36px;
+}
+.operation-panel .sp-ctl .sp-dp {
+	font-size: 24px;
+}
+.operation-panel .sp-ctl .sp-unit {
+	height: 20px;
+}
+
+.operation-panel .filter-sign-clear .button {
+	font-size: 14px;
+	font-weight: bold;
+	color: gray;
+}
+.operation-panel .filter-sign-clear .selected .button {
+	color: red;
+}
+
+.operation-panel .filter-sign-clear .selected:active {
+	/* cancel .image:active. nothing change when this is selected */
+}
+
+#operation-page #duration {
+	font-size: 24px;
+}
+
+#operation-page #duration-val {
+	height: 168px;
+	width: 80px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;	
+}
+#operation-page #duration-val li {
+	font-family: "Nunito";
+	font-size: 24px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#operation-page #duration-val li.selected{
+	background-color: royalblue;
+	color: white;
+}
+
+#operation-page #analog-val {
+	height: 168px;
+	width: 80px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;	
+}
+#operation-page #analog-val li {
+	font-family: "Nunito";
+	font-size: 24px;
+	padding-left: 10px;
+	padding-right: 20px;
+	text-align: right;
+}
+#operation-page #analog-val li.selected{
+	background-color: royalblue;
+	color: white;
+}
+
+#sp-select ul {
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	font-size: 24px;
+	height: 180px;
+	width: 90px;
+	margin: 2px;
+}
+
+#sp-select ul li {
+	padding: 3px 10px 1px;
+}
+
+#sp-select ul li.selected {
+	background-color: royalblue;
+	color: white;
+}
+
+.icon-select .mode-icon {
+	border: 2px outset transparent;
+	text-align: center;
+}
+
+.icon-select .mode-icon.selected {
+	border-color: gray;
+}
+
+.icon-select .mode-icon img {
+	width: 48px;
+}
+
+.icon-select .mode-str {
+	font-size: 10px;
+	margin-top: -10px;
+}
+
+.operation-panel .mode-str {
+	font-size: 10px;
+	margin-top: -10px;
+}
+
+
+/* point menu page */
+#point-menu-page #selected-icon {
+	padding: 0;
+	margin-left: 2em;
+}
+
+#point-menu-page .icon {
+	height: 80px;
+}
+
+#point-menu-page #duration {
+	text-align: center;
+}
+
+#point-menu-page .contents-area .icon {
+	margin-left: 1em;
+	border: 2px solid gray;
+}
+
+#point-menu-page .contents-area .icon:active {
+	border-color: royalblue;
+}
+
+#point-menu-page #icon-list {
+	height: 400px;
+	width: 100px;
+	margin-left: 100px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#point-menu-page #icon-list .icon-list {
+	text-align: center;
+}
+
+#point-menu-page #icon-list .icon-list tr{
+	border: 2px outset transparent;
+}
+
+#point-menu-page #icon-list .selected {
+	border-color: gray;
+}
+
+#point-menu-page #icon-list .icon img {
+	width: 80px;
+}
+
+#point-menu-page #icon-list .name {
+	font-size: 14px;	
+	margin-top: -20px;
+}
+
+/* Setting screen */
+
+/* target list style */
+div.ui-checkbox {
+	margin: 0;
+}
+
+.item-title {
+	margin-bottom: 0;
+}
+
+.target-list,.ui-listview {
+	margin-top: 0.5em;
+}
+
+.ui-listview > .ui-li-static {
+	padding: 0;
+}
+
+.target-list li label {
+	border-width: 0;
+}
+
+/* Manual */
+.manual .inline-img {
+	height: 20px;
+}
+
+.manual .inline-icon {
+	height: 32px;
+	border: 1px solid gray;
+}
+
+.manual ol li {
+	font-size: 18px;
+}
+
+.manual dt {
+	font-size: 14px;
+}
+
+.manual .screen-img img {
+	width: 200px;
+	border: 1px gray solid;
+	margin: 10px;
+}
+
+.manual .case {
+	padding-left: 0;
+}
+
+.manual .legend-screen-img {
+	position: relative;
+	width: 350px;	
+	height: 370px;
+	margin-bottom: 30px;
+}
+
+.manual .legend-screen-img img {
+	position: absolute;
+	width: 200px;
+	left: 40px;
+	top: 10px;
+}
+
+.manual a {
+	text-decoration: none;
+	font-weight: normal;
+}
+.manual .legend-screen-img div {
+	position: absolute;
+	font-size: 11px;
+}
+.manual .legend-screen-img div#bottom-left {
+	left: 60px;
+	top: 350px;
+	width: 90px;
+}
+.manual .legend-screen-img div#bottom-mid {
+	left: 125px;
+	top: 350px;
+	width: 90px;
+}
+.manual .legend-screen-img div#bottom-mid1 {
+	left: 105px;
+	top: 350px;
+	width: 90px;
+}
+.manual .legend-screen-img div#bottom-mid2 {
+	left: 155px;
+	top: 350px;
+	width: 90px;
+}
+.manual .legend-screen-img div#bottom-right {
+	left: 200px;
+	top: 350px;
+	width: 90px;
+}
+
+.manual .legend-screen-img div#menu-legend {
+	left: 240px;
+	top: 20px;
+	width: 110px;
+}
+.manual .legend-screen-img div#idu-name {
+	left: 240px;
+	top: 44px;
+	width: 150px;
+}
+.manual .legend-screen-img div#idu-sp {
+	left: 240px;
+	top: 65px;
+	width: 150px;
+}
+.manual .legend-screen-img div#idu-mode {
+	left: 240px;
+	top: 100px;
+	width: 110px;
+}
+.manual .legend-screen-img div#idu-icon {
+	left: 0px;
+	top: 25px;
+	width: 50px;
+}
+.manual .legend-screen-img div#idu-list {
+	left: 70px;
+	top: 0px;
+	width: 170px;
+}
+.manual .legend-screen-img div#ctl-onoff {
+	left: 235px;
+	top: 46px;
+	width: 100px;
+}
+.manual .legend-screen-img div#ctl-sp {
+	left: 235px;
+	top: 90px;
+	width: 100px;
+}
+.manual .legend-screen-img div#ctl-fan {
+	left: 235px;
+	top: 133px;
+	width: 150px;
+}
+.manual .legend-screen-img div#ctl-flap {
+	left: 235px;
+	top: 170px;
+	width: 150px;
+}
+.manual .legend-screen-img div#ctl-mode {
+	left: 235px;
+	top: 205px;
+	width: 100px;
+}
+.manual .legend-screen-img div#ctl-offtimer {
+	left: 235px;
+	top: 237px;
+	width: 150px;
+}
+.manual .legend-screen-img div#user-list {
+	left: 240px;
+	top: 45px;
+	width: 100px;
+}
+.manual .legend-screen-img div#user-name {
+	left: 235px;
+	top: 75px;
+	width: 100px;
+}
+.manual#user-add-screen .legend-screen-img div#user-passwd {
+	left: 235px;
+	top: 120px;
+	width: 100px;
+}
+.manual#user-modify-screen .legend-screen-img div#user-passwd {
+	left: 235px;
+	top: 103px;
+	width: 100px;
+}
+.manual#lang-setting-screen .legend-screen-img div#lang {
+	left: 237px;
+	top: 58px;
+	width: 100px;
+}
+.manual .legend-screen-img div#user-target {
+	left: 235px;
+	top: 213px;
+	width: 150px;
+}
+.manual .legend-screen-img div#net-ip {
+	left: 235px;
+	top: 70px;
+	width: 100px;
+}
+.manual .legend-screen-img div#net-mask {
+	left: 235px;
+	top: 113px;
+	width: 100px;
+}
+.manual .legend-screen-img div#net-gw {
+	left: 235px;
+	top: 157px;
+	width: 100px;
+}
+.manual .legend-screen-img div#net-dns {
+	left: 235px;
+	top: 200px;
+	width: 100px;
+}
+.manual .legend-screen-img div#point-name {
+	left: 240px;
+	top: 77px;
+	width: 100px;
+}
+.manual .legend-screen-img div#point-icon {
+	left: 240px;
+	top: 105px;
+	width: 112px;
+}
+.manual .legend-screen-img div#off-duration {
+	left: 235px;
+	top: 270px;
+	width: 150px;
+}
+.manual .legend-screen-img div#dev-type {
+	left: 235px;
+	top: 65px;
+	width: 150px;
+}
+.manual .legend-screen-img div#dev-ip {
+	left: 235px;
+	top: 123px;
+	width: 100px;
+}
+.manual .legend-screen-img div#dev-port {
+	left: 235px;
+	top: 168px;
+	width: 100px;
+}
+.manual .legend-screen-img div#dev-usr {
+	left: 235px;
+	top: 210px;
+	width: 100px;
+}
+.manual .legend-screen-img div#dev-pass {
+	left: 235px;
+	top: 255px;
+	width: 100px;
+}
+
+.menu-list li a {
+	font-size: 20px;
+	font-family: "Nunito";
+}
+
+#service-page .delete {
+	background-color: gray;
+}
+
+#alert-mail-setup-page #send-addr {
+}

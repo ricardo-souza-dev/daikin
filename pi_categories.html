@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="apple-touch-icon-precomposed" href="image/icon.png">
+<link rel="shortcut icon" href="image/icon.png">
+
+<title>SVM-C1 Ver.1.0</title>
+
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="jquery-ui-1.11.2/jquery-ui.css">
+<link rel="stylesheet" href="css/svmparts.css">
+<link rel="stylesheet" href="css/svmc1.css">
+<link rel="stylesheet" href="css/svmc1m.css">
+
+
+<style>
+
+</style>
+
+<script src="jquery/jquery-2.1.3.min.js"></script>
+<script src="jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="script/CommModule.js"></script>
+<script src="script/GlobalVal.js"></script>
+<script src="script/svmparts.js"></script>
+<script src="script/common.js"></script>
+<script src="script/svmc1.js"></script>
+<script src="script/svmc1_event.js"></script>
+<script src="script/Schedule.js"></script>
+<script src="script/interlock.js"></script>
+<script src="script/history.js"></script>
+<script src="script/scenes.js"></script>
+<script src="script/reports.js"></script>
+
+<script>
+$(document).ready(function() {
+	if(window.localStorage) {
+		var lang = window.localStorage.getItem('lang');
+		if(lang && lang.length > 0) {
+			LANG = lang;
+		}
+	}
+
+	loadStringTable();
+	setMultiLang('body .mls');
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.screen').show();
+	resize();
+	initInterlockDialogs();
+
+	getInterlock();
+	
+	// show program list
+	//setProgramList();
+});
+
+// SVM-C1 methods
+// SVM-C1 event
+$(window).on('resize',function(e) {
+	// without this, scroll bar will appear when window change to small
+	$('.container').hide(); 
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	// adjust screen size to window sise
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.container').show();
+	resize();
+});
+
+</script>
+
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='pi_Categories'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='pi_category_settings'>PI Category Settings</span>
+				<div class='cell-area'>
+					<div id='pi_category_settings'>
+						<!-- <div class='title' id='pi_setting_title'>Input Categories</div>
+						<div class='instructions'>Add or Edit Categories</div> -->
+						<div>
+							<div class = "classifications">
+							<!-- <button class="accordion classification_labels"><span>Energy Classification: </span></button> -->
+								<div class="classification_labels"><span class="mls" param="energy_classification">Energy Classification </span></div>
+								<span class="slide" id="EnableEnergy"><div class="disable mls hide" param="disable">Disable</div>
+									<div class="slidesw"></div>
+									<div class="enable mls" param="enable">Enable</div>
+								</span>
+								<div class="classification_categories" id="Energy"></div>
+								<div class="classification_labels"><span class="mls" param="energy_generator">Energy Generator </span></div>
+								<span class="slide" id="EnableEnergyGen"><div class="disable mls hide" param="disable">Disable</div>
+									<div class="slidesw"></div>
+									<div class="enable mls" param="enable">Enable</div>
+								</span>
+								<div class="classification_labels"><span class="mls" param="water_consumption">Water </span></div>
+								<span class="slide" id="EnableWater"><div class="disable mls hide" param="disable">Disable</div>
+									<div class="slidesw"></div>
+									<div class="enable mls" param="enable">Enable</div>
+								</span>
+								<div class="classification_labels"><span class="mls" param="recycled_water">Recycled Water </span></div>
+								<span class="slide" id="EnableWaterGen"><div class="disable mls hide" param="disable">Disable</div>
+									<div class="slidesw"></div>
+									<div class="enable mls" param="enable">Enable</div>
+								</span>
+							</div>
+						</div>
+						
+						<span class='button mls' id='pi-category-save' param='save'>Save</span>
+						<script>
+							//displayAccordian();
+							getCategoriesForDisplay();
+						</script>
+					</div>
+				</div>	
+			</div> 
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='piCatgories'><img src='jqm/images/icons-png/gear-white.png'><div class='mls' param='pi_category'>PI Category</div></span>
+				<span class='menu-item' id='piSetting'><img src='jqm/images/icons-png/gear-white.png'><div class='mls' param='pi_setting'>PI Settings</div></span>
+				<span class='menu-item' id='backToReports'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+	
+			
+</body>
+</html>

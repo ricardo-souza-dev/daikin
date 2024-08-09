@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen history'>							
+			<div class='contents-area'>
+				<div class='title'>
+					<div class='page-title mls' param='history'>history</div>
+				</div>						
+				<div class='latest'>
+					<span class='subtitle mls' param='latest'>latest</span>
+					<img src='jqm/images/icons-png/refresh-white.png' id='refresh'>
+				</div>
+				<div class='query'>
+					<span class='subtitle mls' param='date'>date</span>
+					<input type='text' name='from' id='from'>
+				
+					<span class='button mls' id='query' param='query'>query</span>
+					
+					<span class='button mls' id='export' param='export'>export to csv</span>
+				</div>
+				<div class='table'>
+					<table id='history'>
+						<thead>
+							<th id='dateth'><span class='header mls date' param='datetime'>Date and Time</span><span id='date'><b>&nbsp; &uarr; &darr;</b></span></th>
+							<th id='typeth'><span class='header mls type' param='type'>Type</span><img src='image/filter1.png' id='type'></th>
+							<th id='targetth'><span class='header mls target' param='target'>Target</span><img src='image/filter1.png' id='target'></th>
+							<th id='contentsth'><span class='header mls contents' param='contents' id='contents'>Contents</span></th>
+							<th id='sourceth'><span class='header mls source' param='source'>Source</span><img src='image/filter1.png' id='source'></th>
+							<th id='operatorth'><span class='header mls operator' param='operator'>Operator</span><img src='image/filter1.png' id='operator'></th>
+							
+							<th class='header' id='reset'><img src='image/cview.png'></th>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class='pageNav'>
+					<span class='button prevPage'><<</span>
+					<span class='pageNum'>Page 1 of 1</span>
+					<span class='button nextPage'>>></span>
+				</div>						
+				<div class='type'>
+					<div class='dialog point-select'>
+						<div class='multi-selectable-list'>
+							<ul class='list'>
+								<!--<li>System</li>
+								<li>COS</li>
+								<li>Operate</li>-->
+							</ul>
+						</div>
+						<div class='button-area'>
+							<div class='button ok'>OK</div>
+							<div class='button cancel'>Cancel</div>
+						</div>
+					</div>
+				</div>
+				<div class='source'>
+					<div class='dialog point-select'>
+						<div class='multi-selectable-list'>
+							<ul class='list'>
+								<!--<li>Interlock</li>
+								<li>127.0.0.1</li>-->
+							</ul>
+						</div>
+						<div class='button-area'>
+							<div class='button ok'>OK</div>
+							<div class='button cancel'>Cancel</div>
+						</div>
+					</div>
+				</div>
+				<div class='operator'>
+					<div class='dialog point-select'>
+						<div class='multi-selectable-list'>
+							<ul class='list'>
+								<!--<li>Admin</li>-->
+							</ul>
+						</div>
+						<div class='button-area'>
+							<div class='button ok'>OK</div>
+							<div class='button cancel'>Cancel</div>
+						</div>
+					</div>
+				</div>
+				<div class='target'>
+					<div class='dialog point-select'>
+						<div class='multi-selectable-list'>
+							<ul class='list'>
+								<!--<li>hatcp001-00001</li>
+								<li>hatcp001-00002</li>
+								<li>hatcp001-00003</li>-->
+							</ul>
+						</div>
+						<div class='button-area'>
+							<div class='button ok'>OK</div>
+							<div class='button cancel'>Cancel</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

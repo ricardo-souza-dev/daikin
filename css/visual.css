@@ -1,0 +1,129 @@
+.visual-area {
+  position: relative;
+}
+.visual-area .scrnbtn {
+  position: absolute;
+}
+.visual-area .layout {
+  display: block;
+  position: absolute;
+}
+.visual-area .layout .name {
+  font-size: 14px;
+  position: absolute;
+  color: black;
+  background-color: white;
+  border: 1px solid navy;
+  padding: 1px 2px;
+  left: 10px;
+  z-index: 1;
+  white-space: nowrap;
+  display: none;
+}
+.visual-area .layout .icon-area {
+  
+}
+.visual-area .layout .hide {
+  display: none;
+}
+.visual-area .layout .icon-area .icon {
+  width: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+.visual-area .layout .icon-area .icon.stat.off {
+  opacity: 0.8;
+}
+.visual-area .layout.com_err .icon {
+  background: darkblue;
+}
+.visual-area .layout.com_err .icon-area * {
+  opacity: 0;
+}
+.visual-area .layout.com_err .stat-area {
+  opacity: 0;
+}
+.visual-area .layout .icon-area .chmaster {
+  width: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.visual-area .layout .icon-area .filter {
+  width: 15px;
+  position: absolute;
+  top: 25px;
+  left: 35px;
+}
+.visual-area .layout .icon-area .op-cond {
+  width: 15px;
+  position: absolute;
+  top: 10px;
+  left: 50px;
+}
+.visual-area .layout .icon-area .error {
+  width: 30px;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+}
+.visual-area .layout .icon-area .errcode {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  color: red;
+}
+.visual-area .layout .info-area {
+  display: none;
+}
+.visual-area .layout .stat-area {
+  position: absolute;
+  top: 45px;
+  left: 8px;
+}
+.visual-area .layout .stat-area .temp-area .sp * {
+  font-size: 14px;
+}
+.visual-area .layout .stat-area .temp-area .temp {
+  margin-top: -8px;
+  width: 50px;
+}
+.visual-area .layout .stat-area .temp-area .temp img {
+  display: inline-block;
+  width: 7px;
+  margin: 0;
+}
+.visual-area .layout .stat-area .temp-area .temp * {
+  font-size: 12px;
+  display: inline-block;
+  color: black;
+}
+.visual-area .layout .stat-area .val {
+  font-size: 14px;
+  width:auto;
+  display:inline;
+}
+.visual-area .layout .stat-area .val-area .unit {
+  width: auto;
+  font-size: 10px;
+  color: navy;
+  display:inline;
+}
+.visual-area .layout .stat-area .sub-val-area .val {
+  font-size: 12px;
+  color: black;
+  width:auto;
+  display:inline;
+  text-align:right;
+  margin-right:0;
+}
+.visual-area .layout .stat-area .sub-val-area .unit {
+  font-size: 10px;
+  color: black;
+  width: auto;
+  display:inline;
+}

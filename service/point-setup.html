@@ -1,0 +1,602 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>SVM Point Setup</title>
+
+<link rel="stylesheet" href="../jqm/jquery.mobile-1.4.2.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<style>
+.addr {
+	font-weight: bold;
+	margin-right: 20px;
+}
+.title {
+	font-size: 12px;
+	font-weight: normal;
+	margin-right: 10px;
+}
+.value {
+	font-weight: bold;
+	margin-right: 20px;
+	cursor: pointer;
+}
+.master {
+	position: absolute;
+	top: 35px;
+	left: 70px;
+	font-weight: bold;
+}
+
+.name {
+	cursor:pointer;
+}
+.master {
+	cursor:pointer;
+}
+.fan {
+	cursor:pointer;
+}
+.flap {
+	cursor:pointer;
+}
+.fan-auto {
+	cursor:pointer;
+}
+.icon {
+	cursor:pointer;
+}
+.min {
+	cursor:pointer;
+}
+.max {
+	cursor:pointer;
+}
+#set {
+	cursor:pointer;
+}
+
+.not-use {
+	color: gray;
+	text-decoration: line-through;
+}
+
+.attr {
+	display: inline-block;
+	width: 250px;
+	margin-top: -50px;	
+}
+
+.dip {
+	font-size: 12px;
+}
+
+.ui-select {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+	text-shadow: 0 0 0 white;
+	margin-right: 20px;
+}
+
+.ui-checkbox {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.ui-mobile label {
+	font-size: 12px;
+}
+
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jqm/jquery.mobile-1.4.2.js"></script>
+<script src="../script/service.js"></script>
+
+<script>
+var POINT_LIST = {};
+var IR_COMMAND = {};
+
+$(document).on("pagebeforeshow", "#service-page", function(e,data) {
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/GlobalCache.json",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				IR_COMMAND = data;
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "../server/get_pointlist.rb",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				for(var i = 0; i < data.length; i++) {
+					POINT_LIST[data[i][1].id] = data[i];
+				}
+				setPointList();
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+$(document).on("pageshow","#service-page",function() {
+	for(var id in POINT_LIST) {
+		if(POINT_LIST[id][1].type == "Ir") {
+			var model = '--'
+			if(POINT_LIST[id][1].attr.model != null) model = POINT_LIST[id][1].attr.model; 
+			$("#"+POINT_LIST[id][1].id+" span.sel-model").text(model);
+		}
+	}
+});
+
+$(document).on("click","#service-page .name",function(e,data) {
+	if($(this).hasClass('not-use')) $(this).removeClass('not-use');
+	else $(this).addClass('not-use');
+});
+
+$(document).on("click","#service-page .master", function(e,data) {
+	var current = $(this).text();
+	if(current == "-") {$(this).text("M");}
+	else if(current == 'M') {$(this).text("S");}
+	else {$(this).text("-");}
+});
+
+$(document).on("click","#service-page .fan", function(e,data) {
+	var current = $(this).text();
+	var items = ['none','2','3','5'];
+	for(var i in items) {
+		if(items[i] == current) {
+			i++;
+			if(i > 3) {i = 0;}
+			$(this).text(items[i]);
+			return;
+		}
+	}
+});
+
+$(document).on("click","#service-page .flap", function(e,data) {
+	var current = $(this).text();
+	if(current == 'exist') $(this).text('none');
+	else $(this).text('exist');
+});
+
+$(document).on("click","#service-page .fan-auto", function(e,data) {
+	var current = $(this).text();
+	if(current == 'exist') $(this).text('none');
+	else $(this).text('exist');
+});
+
+$(document).on("click","#service-page .icon", function(e,data) {
+	if($(this).hasClass("delete") == true) { // cancel delete
+		$(this).removeClass("delete");
+	} else { // delete
+		$(this).addClass("delete");
+	}
+});
+
+$(document).on('click','.min.value',function(event) {
+	var val = $(this).text();
+	var pid = $(this).parent().attr('id');
+	$('#in-dlg input').val(val);
+	$('#in-dlg').attr('pid',pid);
+	$('#in-dlg').attr('range','min');
+	$('#in-dlg').popup('open',{
+		transition: 'pop',
+		positionTo: event.target
+	});
+});
+
+$(document).on('click','.max.value',function(event) {
+	var val = $(this).text();
+	var pid = $(this).parent().attr('id');
+	$('#in-dlg input').val(val);
+	$('#in-dlg').attr('pid',pid);
+	$('#in-dlg').attr('range','max');
+	$('#in-dlg').popup('open',{
+		transition: 'pop',
+		positionTo: event.target
+	});
+});
+
+$(document).on('click','.llimit.value',function(event) {
+	var val = $(this).text();
+	var pid = $(this).parent().attr('id');
+	$('#in-dlg input').val(val);
+	$('#in-dlg').attr('pid',pid);
+	$('#in-dlg').attr('range','llimit');
+	$('#in-dlg').popup('open',{
+		transition: 'pop',
+		positionTo: event.target
+	});
+});
+
+$(document).on('click','.ulimit.value',function(event) {
+	var val = $(this).text();
+	var pid = $(this).parent().attr('id');
+	$('#in-dlg input').val(val);
+	$('#in-dlg').attr('pid',pid);
+	$('#in-dlg').attr('range','ulimit');
+	$('#in-dlg').popup('open',{
+		transition: 'pop',
+		positionTo: event.target
+	});
+});
+
+$(document).on('click','.unit.value',function(event) {
+	var val = $(this).text();
+	var pid = $(this).parent().attr('id');
+	$('#in-dlg input').val(val);
+	$('#in-dlg').attr('pid',pid);
+	$('#in-dlg').attr('range','unit');
+	$('#in-dlg').popup('open',{
+		transition: 'pop',
+		positionTo: event.target
+	});
+});
+
+$(document).on('click','.inv.value',function(event) {
+	var val = $(this).text();
+	if(val == "true") $(this).text('false');
+	else $(this).text('true');
+});
+
+$(document).on('click','.alert.value',function(event) {
+	var val = $(this).text();
+	if(val == "true") $(this).text('false');
+	else $(this).text('true');
+});
+
+$(document).on('click','#set',function() {
+	var val = $('#in-dlg input').val();
+	var pid = $('#in-dlg').attr('pid');
+	var range = $('#in-dlg').attr('range');
+	if(val == '') val = '--';
+	$('#'+pid+' .'+range+'.value').text(val);
+});
+
+
+$(document).on('click','.save',function() {
+	var point_list = makePointData();
+	try {
+		var param = JSON.stringify(point_list);
+		$.ajax({
+			type: "POST",
+			url: "../server/set_pointlist.rb",
+			async: false,
+			data: {data: param},
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+function setPointList() {
+	var dom = "";
+	for(var id in POINT_LIST) {
+		dom += makePointDOMinServicePage(POINT_LIST[id][1]);
+	}
+	$("#service-page").find('.point-list').html(dom);
+	$("#service-page").find('.point-list').trigger('create').listview('refresh');
+	$("#service-page").find('.point-list').show();
+	for(var id in POINT_LIST) {
+		if(POINT_LIST[id][1].type == "Ir") {
+			var model = '--'
+			if(POINT_LIST[id][1].attr.model != null) model = POINT_LIST[id][1].attr.model; 
+//			$("#"+POINT_LIST[id][1].id+" span.sel-model").text(model);
+			$("#"+POINT_LIST[id][1].id+" .sel-model").val(model);
+		}
+	}
+}
+
+function makeModelDom() {
+	var dom = "";
+	for(var model in IR_COMMAND) {
+		dom += "<option value=\""+model+"\">"+model+"</option>";
+	}
+	return dom;
+}
+
+function makePointDOMinServicePage(point) {
+	var dom;
+	dom = ("<li class='mpoint "+point.type+"' id='"+point.id+"' draggable='true' ondragstart='drag(event)'  ondragover='judge(event)' ondrop='drop(event)'>"+"<img class='icon' src='../icon/"+point.icon+"'>");
+	var notuse = "";
+	if(point.attr.notuse == true) notuse = "not-use";
+	if(point.type == 'Fcu') {
+		var master = "<div class='master'>-</div>";
+		if(point.attr.ch_master !=null) {
+			if(point.attr.ch_master == false) master = "<div class='master'>S</div>";
+			else master = "<div class='master'>M</div>";
+		}
+		dom += (master+"<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span><span class='title'>Fan step</span><span class='fan value'>"+fanCap(point.attr.fansteps,point.attr.fanstep_cap)+"</span><span class='title'>Fan Auto</span><span class='fan-auto value'>"+fanAutoCap(point.attr.fanstep_auto_cap)+"</span><span class='title'>Flap</span><span class='flap value'>"+flapCap(point.attr.flap_cap)+"</span></li>");
+	} else if(point.type == 'LevelSw') {
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>"+
+			"<span class='title'>Min Value</span><span class='min value'>"+getZwLevelMin(point.attr.zw_min)+"</span><span class='title'>Max Value</span><span class='max value'>"+getZwLevelMax(point.attr.zw_max)+"</span></li>");		
+	} else if(point.type == 'Ir') {
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>"+
+			"<span class='attr'><div class='ui-field-contain'><select name='model' class='sel-model'>"+makeModelDom()+"</select></div></span></li>");		
+	} else if(point.type == 'Ai') {
+		if(point.attr.unit_label == '') point.attr.unit_label = '--';
+
+			dom += ("<h2 class='name"+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>");
+			if(point.attr.range != null) {
+				dom += ("<span class='title'>Min Value</span><span class='min value'>"+point.attr.range[0]+"</span><span class='title'>Max Value</span><span class='max value'>"+point.attr.range[1]+"</span>");
+		}
+		var ulimit = "--";
+		var llimit = "--";
+		if(point.attr.ulimit != null && point.attr.ulimit_monitor == true) ulimit = point.attr.ulimit;
+		if(point.attr.llimit != null && point.attr.llimit_monitor == true) llimit = point.attr.llimit;
+
+		dom += ("<span class='unit value'>"+point.attr.unit_label+"</span><span class='title'>Lower limit monitor</span><span class='llimit value'>"+llimit+"</span><span class='title'>Upper limit monitor</span><span class='ulimit value'>"+ulimit+"</span></li>");
+
+	} else if(point.type == 'Ao') {
+		if(point.attr.unit_label == '') point.attr.unit_label = '--';
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>"+
+		"<span class='title'>Min Value</span><span class='min value'>"+point.attr.ao_min+"</span><span class='title'>Max Value</span><span class='max value'>"+point.attr.ao_max+"</span><span class='unit value'>"+point.attr.unit_label+"</span></li>");
+	} else if(point.type == 'Di') {
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>"+
+		"<span class='title'>Signal invert</span><span class='inv value'>"+point.attr.inv+"</span><span class='title'>Alert</span><span class='alert value'>"+point.attr.alert+"</span></li>");
+	} else if(point.type == 'Dio') {
+		var child = point.attr.children;
+		if(child != null) child = Object.keys(child)[0];
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span>"+
+		"<span class='title'>Di point</span><select name='dip' class='dip'>"+makeDiList(child)+"</select><label class='title'><input class='swmode' type='checkbox' "+check(point.attr.mode)+">Multi Switch Circuit</label></li>");
+	} else {
+		dom += ("<h2 class='name "+notuse+"'>"+point.name+"</h2><span class='addr'>"+point.id+"</span></li>");
+	}
+	return dom;
+}
+
+function check(mode) {
+	if(mode == 'msw') return "checked='checked'";
+	else "";
+}
+
+function flapCap(val) {
+	if(val == 'true' || val == true) {
+		return "exist";
+	} else {
+		return "none";
+	}
+}
+function fanCap(val,cap) {
+	val = parseInt(val);
+	if(cap == "false" || cap == false) return "none";
+	if(val == 0 || val == 1 ) return "none";
+	else return val;
+}
+
+function fanAutoCap(val) {
+	if(val == 'true' || val == true) {
+		return "exist";
+	} else {
+		return "none";
+	}
+}
+
+function getZwLevelMin(val) {
+	if(val == null) return 0;
+	return val;
+}
+function getZwLevelMax(val) {
+	if(val == null) return 100;
+	return val;
+}
+
+function drag(event) {
+	event.dataTransfer.setData("text/plain",event.currentTarget.id);
+}
+function judge(event) {
+	event.preventDefault();
+}
+
+function drop(event) {
+	event.preventDefault();
+	var moveId = event.dataTransfer.getData("text/plain");
+	var targetId = event.currentTarget.id;
+	var point = $('#service-page .point-list').find('#'+moveId);
+	var new_point = $('#service-page .point-list').find('#'+targetId);
+	$(new_point).after($(point));
+}
+function dropDelete(event) {
+	event.preventDefault();
+	var delId = event.dataTransfer.getData("text/plain");
+	var point = $('#service-page .point-list').find('#'+delId);
+	$(point).remove();
+}
+
+function makePointData() {
+	var list = $("#service-page").find(".point-list li");
+
+	var point_list = [];
+
+	clearParent();
+	setParent();
+
+	for(var i = 0; i < list.length; i++) {
+		var item = $(list[i]);
+		if($(item).find(".icon.delete").length == 0) {
+			var id = item.attr('id');
+			var point = POINT_LIST[id];
+			point[1].attr.notuse = false;
+			if($(item).find('.name').hasClass('not-use')) point[1].attr.notuse = true;
+
+			if(point[1].type == 'Fcu') {
+				var master = $(item).find('.master').text();
+				var steps = $(item).find('.fan').text();
+				var fan_auto = $(item).find('.fan-auto').text();
+				var flap = $(item).find('.flap').text();
+
+				if(master == 'M') point[1].attr['ch_master'] = true;
+				else if(master == 'S') point[1].attr['ch_master'] = false;
+				else if(point[1].attr['ch_master'] != null) delete point[1].attr.ch_master;
+
+				if(steps == 'none') {point[1].attr.fanstep_cap = false; point[1].attr.fansteps = 0;}
+				else if(steps != '') {point[1].attr.fanstep_cap = true; point[1].attr.fansteps = parseInt(steps);}
+
+				if(fan_auto == 'exist') point[1].attr.fanstep_auto_cap = true;
+				else point[1].attr.fanstep_auto_cap = false;
+
+				if(flap == 'exist') {
+					point[1].attr.flap_cap = true;
+					if(point[1].attr.flap2_cap != null) point[1].attr.flap2_cap = true;
+				} else if(flap == 'none') {
+					point[1].attr.flap_cap = false;
+					if(point[1].attr.flap2_cap != null) point[1].attr.flap2_cap = false;
+				}
+			} else if(point[1].type == "LevelSw") {
+				var min = parseInt($(item).find('.min').text(),10);
+				if(isNaN(min)) min = 0;
+				var max = parseInt($(item).find('.max').text(),10);
+				if(isNaN(max)) max = 100;
+				point[1].attr.zw_min = min;
+				point[1].attr.zw_max = max;
+			} else if(point[1].type == "Ir") {
+				var model = $(item).find('.attr').find('span').text();
+				if(model == "--") {
+
+				} else {
+					point[1].attr.model = model;
+					point[1].attr.command = Object.keys(IR_COMMAND[model]);
+				}
+			} else if(point[1].type == "Ai") {
+				var min = parseInt($(item).find('.min').text(),10);
+				if(isNaN(min)) min = 0;
+				var max = parseInt($(item).find('.max').text(),10);
+				if(isNaN(max)) max = 100;
+				var label = $(item).find('.unit').text();
+				if(point[1].attr.range != null) {
+					point[1].attr.range = [min,max];
+					point[1].attr.unit_label = label;
+				}
+				var llimit = parseInt($(item).find('.llimit').text(),10);
+				if(isNaN(llimit)) llimit = null;
+				var ulimit = parseInt($(item).find('.ulimit').text(),10);
+				if(isNaN(ulimit)) ulimit = null;
+				var ulimit_monitor = false;
+				var llimit_monitor = false;
+				if(ulimit != null) ulimit_monitor = true;
+				if(llimit != null) llimit_monitor = true;
+				point[1].attr.ulimit_monitor = ulimit_monitor;
+				point[1].attr.llimit_monitor = llimit_monitor;
+				point[1].attr.ulimit = ulimit;
+				point[1].attr.llimit = llimit; 
+			} else if(point[1].type == "Ao") {
+				var min = parseInt($(item).find('.min').text(),10);
+				if(isNaN(min)) min = 0;
+				var max = parseInt($(item).find('.max').text(),10);
+				if(isNaN(max)) max = 100;
+				var label = $(item).find('.unit').text();
+				point[1].attr.ao_min = min;
+				point[1].attr.ao_max = max;
+				point[1].attr.unit_label = label;
+			} else if(point[1].type == "Di") {
+				var inv = $(item).find('.inv').text();
+				if(inv == 'true') point[1].attr.inv = true;
+				else point[1].attr.inv = false;
+				var alert = $(item).find('.alert').text();
+				if(alert == 'true') point[1].attr.alert = true;
+				else point[1].attr.alert = false;
+			} else if(point[1].type == 'Dio') {
+				var child = $(item).find('select.dip').val();
+				var mode = $(item).find('input.swmode').prop('checked');
+				point[1].attr.children = null;
+				if(child != 0) {point[1].attr.children = {}; point[1].attr.children[child] = null;}
+				if(mode == true) point[1].attr.mode = 'msw';
+				else point[1].attr.mode = 'std';
+			}
+			point_list.push(point);
+		}
+	}
+	return point_list;
+}
+
+function clearParent() {
+	for(var id in POINT_LIST) {
+		if(POINT_LIST[id][1].type == 'Di') {
+			// clear parent information
+			POINT_LIST[id][1].attr.parent = null;
+		}
+	}
+
+}
+
+function setParent() {
+	var list = $("#service-page").find(".point-list li");
+
+	for(var i = 0; i < list.length; i++) {
+		var item = $(list[i]);
+		if($(item).find(".icon.delete").length == 0) {
+			var id = item.attr('id');
+			var point = POINT_LIST[id];
+
+			if(point[1].type == 'Dio') {
+				var child = $(item).find('select.dip').val();
+				if(POINT_LIST[child] != null) POINT_LIST[child][1].attr.parent = id;
+			}
+		}
+	}
+}
+
+function makeDiList(selected) {
+	var dom = "<option value='0'>---</option>";
+	for(var id in POINT_LIST) {
+		if(POINT_LIST[id][1].type == 'Di') {
+			var name = POINT_LIST[id][1].name;
+			var sel = '';
+			if(id == selected) sel = "selected='selected'";
+			dom += "<option value='"+id+"' "+sel+">"+name+"</option>"
+		}
+	}
+	return dom;
+}
+
+</script>
+
+</head>
+<body>
+	<div data-role="page" id="service-page">
+		<div data-role="header" data-id="comm-header" data-position="fixed" data-tap-toggle="false"  ondragover="judge(event)" ondrop="dropDelete(event)">
+			<img class="header-logo" src="../image/logo.png">
+			<h1 class="page-header-title">SVM setup</h1>
+		</div>
+
+		<div data-role="content">
+			<ul data-role="listview" class="point-list">
+				<li class="mpoint fcu" id="d00-00001">
+					<img class="icon" src="../icon/FXYS.png">
+					<div class="master">M</div>
+					<h2>Management point name</h2>
+					<span class="addr">id</span><span class="title">Fan step</span><span class="fan value">none</span><span class="title">Flap</span><span class="value flap">none</span>
+				</li>
+			</ul>
+			<div id='in-dlg' data-role='popup'>
+				<input id='val' type='text' />
+				<a href='#' data-role='button' data-rel='back' id='set'>Set</a>
+			</div>
+		</div>
+
+		<div data-role="footer" data-id="comm-footer" data-position="fixed" class="footer" data-tap-toggle="false">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" data-icon="edit" data-iconpos="top" class="save">Save</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

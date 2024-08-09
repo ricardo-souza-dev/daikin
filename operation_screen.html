@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen fcu-op' id='operation'>
+			<div class='contents-area'>
+				<div class='operation-panel'>
+					<div class='top-area'>
+						<span id='point-name'>Management Point Name</span>
+					</div>
+					<div class='left-area'>
+						<img src='image/fanstep3-5.png' class='img-button fanstep'>
+						<img src='image/wflap7.png' class='img-button flap'>
+						<img src='image/wvflap7.png' class='img-button flap2'>
+						<img src='image/filter.png' class='img-button filter'>
+					</div>
+					<div class='center-area'>
+						<div class='sp-control' >
+							<div class='sp-frame'>
+								<div class='sp-area'>
+									<div class='sp-container'>
+										<span class='val'>23</span>.<span class='decp'>5</span><span class='unit'>&deg;C</span>
+									</div>
+								</div>
+							</div>
+							<canvas class='sp-canvas' width="300" height="300"></canvas>
+							<canvas class='sp-button down'></canvas>
+							<canvas class='sp-button up'></canvas>
+							<img class='sp-pointer csp' src='image/csp_pointer.png'>
+							<img class='sp-pointer hsp' src='image/hsp_pointer.png'>
+							<img class='sb-pointer csb' src='image/csb_pointer.png'>
+							<img class='sb-pointer hsb' src='image/hsb_pointer.png'>
+						</div>
+					</div>
+					<div class='right-area'>
+						<img src='image/power-green.png' class='img-button circle status'>
+						<img src='image/offtimer-green.png' class='img-button circle offtimer'>
+						<div class='selectable-input off-timer-duration'>
+							<div class='subtitle mls' param='off_duration'>off timer duration</div>
+							<div class='current-val'>value</div>
+							<ul class='popup-list selectable-list'>
+								<li id='d5'>00:05</li>
+								<li id='d60' class='selected'>01:00</li>
+								<li id='d720'>12:00</li>
+							</ul>
+						</div>
+					</div>
+					<div class='bottom-area button-area'>
+						<img src='image/cool.png' class='img-button circle mode' id='cool'>
+						<img src='image/heat.png' class='img-button circle mode' id='heat'>
+						<img src='image/temp.png' class='img-button circle mode' id='temp'>
+						<img src='image/fan.png' class='img-button circle mode' id='fan'>
+						<img src='image/dry.png' class='img-button circle mode' id='dry'>
+						<img src='image/auto.png' class='img-button circle mode' id='auto'>
+					</div>
+				</div>
+			</div>
+			<div class='std-popup menu-popup' id='vrv-ctrl'>
+				<div class='title-frame' id='sp-range'>
+					<div class='title mls' param='sp_range'>setpoint range</div>
+					<div>
+						<table>
+							<tr>
+								<th></th>
+								<th class='mls' param='min'>min</th>
+								<th class='mls' param='max'>max</th>
+								<th></th>
+							</tr>
+							<tr class='cool selectable'>
+								<td class='switch mls' param='cool'>cool</td>
+								<td>
+									<div class='selectable-input min'>
+										<div class='current-val'>16.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>16.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>
+									<div class='selectable-input max'>
+										<div class='current-val'>32.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>32.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>&deg;C</td>
+							</tr>
+							<tr class='heat selectable'>
+								<td class='switch mls' param='heat'>heat</td>
+								<td>
+									<div class='selectable-input min'>
+										<div class='current-val'>16.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>16.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>
+									<div class='selectable-input max'>
+										<div class='current-val'>32.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>32.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>&deg;C</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class='title-frame' id='setback'>
+					<div class='title mls' param='setback'>setback</div>
+					<div>
+						<table>
+							<tr class='cool'>
+								<td class='mls' param='cool'>cool</td>
+								<td>
+									<div class='selectable-input'>
+										<div class='current-val'>16.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>16.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>&deg;C</td>
+							</tr>
+							<tr class='heat'>
+								<td class='mls' param='heat'>heat</td>
+								<td>
+									<div class='selectable-input'>
+										<div class='current-val'>32.0</div>
+										<ul class='popup-list selectable-list'>
+											<li class='selected'>32.0</li>
+										</ul>
+									</div>
+								</td>
+								<td>&deg;C</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class='button-area'>
+					<span class='button mls' id='set' param='set'>set</span>
+					<span class='button mls' id='cancel' param='cancel'>cancel</span>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='setup'><img src='jqm/images/icons-png/bullets-white.png'><div class='mls' param='setup'>setup</div></span>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

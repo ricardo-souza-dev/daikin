@@ -1,0 +1,1 @@
+{"program":{"admin":{"Marte":{"enable":true,"target":["ha001-00009","ha001-00010","ha001-00011"],"schedule":{"Manha":{"wd":[],"spd":[]}}}}},"calendar":{},"pattern":{"admin":{"Ligar":[{"time":450,"action":{"stat":"on","sp":22,"fanstep":"auto","flap":"swing","mode":"cool"}}],"Desligar":[{"time":1080,"action":{"stat":"off"}}],"Manha":[{"time":450,"action":{"scene":"on"}}]}}}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='interlock'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='interlock'>interlocking function</span>
+				<div class='selectable-list' id='interlock-prog-list'>	<!-- First screen, list of interlocks -->
+					<div class='list-title mls' param='interlock_list'>interlock list</div>
+					<ul class='check list'>
+					</ul>
+				</div>			
+				<div class='std-popup' id='interlock-prog-content'>		<!-- second screen, interlock details, with inputs and outputs -->
+					<input type='text' maxlength='19'>
+					<div class='slide'>
+						<div class='disable mls' param='disable'>disable</div>
+						<div class='slidesw'></div>
+						<div class='enable hide mls' param='enable'>enable</div>
+					</div>
+					<div class='content-area'>
+						<div class='selectable-list' id='inter-input'>
+							<div class='list-title mls' param='interlock_input'>input</div>
+							<table class='multi-col-list'>
+								<tr>
+									<td class='input-name'>input name</td>
+								</tr>
+								<tr>
+									<td class='input-name'>input name</td>
+								</tr>
+								<tr><td class='input-name add' colspan='2'>+</td></tr>
+							</table>
+						</div>
+						<div class='selectable-list' id='inter-output1'>
+							<div class='list-title mls' param='interlock_output1'>output1</div>
+							<div class='timer1'>
+								<div class='timer mls' param='timer'>Output1 Delay:</div>
+								<input type='text' maxlength='3' class='allownumericwithoutdecimal'>
+							</div>
+							<div class='output1-condition'>
+								<select id='output1-condition'>
+									<option value='notDetected' class='mls' param='notDetected'>Not Detected</option>
+									<option value='allInputsValid' class='mls' param='allInputsValid'>All Inputs Valid</option>
+									<option value='allInputsInvalid' class='mls' param='allInputsInvalid'>All Inputs Invalid</option>
+									<option value='atLeastOneInputValid' class='mls' param='atLeastOneInputValid'>At Least One Input Valid</option>
+									<option value='atLeastOneInputInvalid' class='mls' param='atLeastOneInputInvalid'>At Least One Input Invalid</option>
+								</select>
+							</div>
+							<table class='multi-col-list'>
+								<tr>
+									<td class='output-name'>output name</td>
+								</tr>
+								<tr>
+									<td class='output-name'>output name</td>
+								</tr>
+								<tr><td class='output-name add' colspan='2'>+</td></tr>
+							</table>
+						</div>
+						<div class='selectable-list' id='inter-output2'>
+							<div class='list-title mls' param='interlock_output2'>output2</div>
+							<div class='timer2'>
+								<div class='timer mls' param='timer'>Output2 Delay:</div>
+								<input type='text' maxlength='3' class='allownumericwithoutdecimal'>
+							</div>
+							<div class='output2-condition'>
+								<select id='output2-condition'>
+									<option value='notDetected' class='mls' param='notDetected'>Not Detected</option>
+									<option value='allInputsValid' class='mls' param='allInputsValid'>All Inputs Valid</option>
+									<option value='allInputsInvalid' class='mls' param='allInputsInvalid'>All Inputs Invalid</option>
+									<option value='atLeastOneInputValid' class='mls' param='atLeastOneInputValid'>At Least One Input Valid</option>
+									<option value='atLeastOneInputInvalid' class='mls' param='atLeastOneInputInvalid'>At Least One Input Invalid</option>
+								</select>
+							</div>
+							<table class='multi-col-list'>
+								<tr>
+									<td class='output-name'>output name</td>
+								</tr>
+								<tr>
+									<td class='output-name'>output name</td>
+								</tr>
+								<tr><td class='output-name add' colspan='2'>+</td></tr>
+							</table>
+						</div>
+					</div>
+					<div class='button-area'>
+						<span class='button mls' id='save' param='save'>save</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+				</div>
+				<div class='std-popup' id='input-set'>		<!-- input screen, program input (error, alarm, temp, stat, mode) -->
+					<div class='button-area'>
+						<!--<div class='list-title mls' param='all_points'>all points:</div>-->
+						<select id='input-point'>
+							<option value='ManagementPoint1'>ManagementPoint1</option>
+							<option value='ManagementPoint2'>ManagementPoint2</option>
+						</select>
+					
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+					<!-- class check should have id which name is command -->
+					<div class='std-frame' id='action'>
+						<div class='an-action' id='stat' val='off'>
+							<span class='subtitle check'><span class='mls' param='onoff'>on/off</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='stat-btn' src='image/power-gray.png'>
+						</div>
+						<div class='an-action' id='error' val='false'>
+							<span class='subtitle check'><span class='mls' param='interlock_error'>error</span><img src='image/check-g.png'></span>
+							<div class='slide'>
+								<div class='disable mls' param='interlock_clear'>clear</div>
+								<div class='slidesw'></div>
+								<div class='enable hide mls' param='interlock_occur'>occur</div>
+							</div>
+						</div>
+						<div class='an-action' id='alarm' val='false'>
+							<span class='subtitle check'><span class='mls' param='alarm'>On Alarm</span><img src='image/check-g.png'></span>
+							<div class='slide'>
+								<div class='disable mls' param='disable'>disable</div>
+								<div class='slidesw'></div>
+								<div class='enable hide mls' param='enable'>enable</div>
+							</div>
+						</div>
+						<div class='an-action' id='mode' val='cool'>
+							<span class='subtitle check'><span class='mls' param='mode'>mode</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='mode-btn' src='image/cool.png'>
+						</div>
+						<div class='an-action' id='temp' val='22.0'>
+							<span class='subtitle check'><span class='mls' param='temp_range'>temperature range: </span><img src='image/check-g.png'></span>
+							<div class='selectable-input'>
+								<div class='current-val' id='lowerLimit'>22.0</div>
+								<ul class='popup-list selectable-list'>
+								</ul>
+							</div>
+							<span class='unit' id='allTemp'>&deg;C</span>
+							
+							<div class='temp-condition'>
+								<select id='temp-condition'>
+									<option value='to'>To</option>
+									<option value='>'>></option>
+									<option value='<'><</option>
+								</select>
+							</div>
+							
+							<div class='selectable-input'>
+								<div class='current-val' id='higherLimit'>24.0</div>
+								<ul class='popup-list selectable-list'>
+								</ul>
+							</div>
+							<span class='unit'>&deg;C</span>
+						</div>
+						<div class='an-action' id='lock'>
+							<span class='subtitle check'><span class='mls' param='keylock'>keylock</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='lock-btn' src='image/lock.png'>
+						</div>
+						<div class='an-action' id='updown'>
+							<span class='subtitle check'><span class='mls' param='shutter'>roller shutter</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='shutter-btn' src='image/roleup.png'>
+						</div>
+						<div class='an-action' id='brightness' val='22.0'>
+							<span class='subtitle check'><span class='mls' param='value'>value: </span><img src='image/check-g.png'></span>
+							<div class='av-input'>
+								<input class='av-val' id='lowerAV'>
+							</div>
+<!--							<span class='unit' id='percent'>%</span> -->
+							
+							<div class='av-condition'>
+								<select id='av-condition'>
+									<option value='to'>To</option>
+									<option value='>'>></option>
+									<option value='<'><</option>
+								</select>
+							</div>
+							
+							<div class='av-input'>
+								<input class='av-val' id='higherAV'>
+							</div>
+<!--							<span class='unit'>%</span> -->
+						</div>	
+					</div>
+				</div>
+				<div class='std-popup' id='output-set'>		<!-- output screen, program output -->
+					<div class='button-area'>
+						<!--<div class='list-title mls' param='all_points'>all points:</div>-->
+						<select id='output-point'>
+							<option value='ManagementPoint1'>ManagementPoint1</option>
+							<option value='ManagementPoint2'>ManagementPoint2</option>
+						</select>
+						
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+					<!-- class check should have id which name is command -->
+					<div class='std-frame' id='action'>
+						<div class='an-action' id='stat' val='off'>
+							<span class='subtitle check'><span class='mls' param='onoff'>on/off</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='stat-btn' src='image/power-gray.png'>
+						</div>
+						<div class='an-action' id='sp' val='22.0'>
+							<span class='subtitle check'><span class='mls'param='setpoint'>setpoint</span><img src='image/check-g.png'></span>
+							<div class='selectable-input'>
+								<div class='current-val'>22.0</div>
+								<ul class='popup-list selectable-list'>
+								</ul>
+							</div>
+							<span class='unit'>&deg;C</span>
+						</div>
+						<div class='an-action' id='fanstep' val='L'>
+							<span class='subtitle check'><span class='mls' param='fanstep'>fanstep</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='fanstep-btn' src='image/fanstep3-1.png'>
+						</div>
+						<div class='an-action' id='flap' val='swing'>
+							<span class='subtitle check'><span class='mls' param='flap'>flap</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='flap-btn' src='image/wflap7.png'>
+						</div>
+						<div class='an-action' id='mode' val='cool'>
+							<span class='subtitle check'><span class='mls' param='mode'>mode</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='mode-btn' src='image/cool.png'>
+						</div>
+						<div class='an-action' id='lock'>
+							<span class='subtitle check'><span class='mls' param='keylock'>keylock</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='lock-btn' src='image/lock.png'>
+						</div>
+						<div class='an-action' id='updown'>
+							<span class='subtitle check'><span class='mls' param='shutter'>roller shutter</span><img src='image/check-g.png'></span>
+							<img class='img-button' id='shutter-btn' src='image/roleup.png'>
+						</div>
+						<div class='an-action' id='brightness'>
+							<span class='subtitle check'>
+								<span class='mls' param='brightness' id='brightText'>brightness</span>
+								<span class='mls' param='value' id='analogText'>analog value</span>
+								<img src='image/check-g.png'>
+							</span>
+							
+							<div class='selectable-input'>
+								<div class='current-val'>50</div>
+								<ul class='popup-list selectable-list'>
+								</ul>
+							</div>
+<!--							<span class='unit'>&percnt;</span> -->
+						</div>
+					</div>
+					<div class='std-frame' id='scenes_display'>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

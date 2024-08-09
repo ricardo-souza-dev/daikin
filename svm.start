@@ -1,0 +1,3 @@
+#! /bin/sh
+ruby -C/var/www/html/server svm.rb > /dev/null
+

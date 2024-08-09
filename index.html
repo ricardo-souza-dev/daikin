@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" manifest="svm.manifest"> 
+<head>
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="apple-touch-icon-precomposed" href="image/icon.png">
+<link rel="shortcut icon" href="image/icon.png">
+
+<title>SVMPC1 Ver.2.1.23</title>
+
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="css/svmparts.css">
+<link rel="stylesheet" href="css/svmc1.css">
+<link rel="stylesheet" href="css/visual.css">
+<link rel="stylesheet" href="css/svmc1m.css">
+<link rel="stylesheet" href="css/reports.css">
+
+<!-- begin -->
+<!-- Load c3.css -->
+<link rel="stylesheet" href="css/c3.css" >
+<!-- end   -->
+
+<style>
+.loading {
+	display: none;
+	position: absolute;
+}
+</style>
+
+<script src="jquery/jquery-2.1.3.min.js"></script>
+<script src="jquery/jquery-ui.min.js"></script>
+<script src='jquery/jquery.ui.touch-punch.min.js'></script>
+<script src='jquery/hammer.min.js'></script>
+<script src="script/CommModule.js"></script>
+<script src="script/GlobalVal.js"></script>
+<script src="script/svmparts.js"></script>
+<script src="script/Common.js"></script>
+<script src="script/svmc1.js"></script>
+<script src="script/svmc1_event.js"></script>
+<script src="script/CellGenerator.js"></script>
+<script src="script/IconGenerator.js"></script>
+<script src="script/ScrnBtnGenerator.js"></script>
+<script src="script/Schedule.js"></script>
+<script src="script/interlock.js"></script>
+<script src="script/history.js"></script>
+<script src="script/scenes.js"></script>
+<script src="script/ConnectionSetup.js"></script>
+<script src="script/HotelInterlock.js"></script>
+<script src="script/MultiHotelInterlock.js"></script>
+<script src="script/billing.js"></script>
+<script src="script/system.js"></script>
+<script src="script/login.js"></script>
+<script src="script/guest_rooms.js"></script>
+<!-- begin -->
+<!-- Load d3.js and c3.js -->
+<script src="script/d3.min.js" charset="utf-8"></script>
+<script src="script/c3.js"></script>
+<script src='script/reports.js'></script>
+
+<script src='jquery-ui-1.11.2/i18n/datepicker-es.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-pt-BR.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-zh-CN.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-zh-TW.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-ja.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-id.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-th.js'></script>
+<script src='jquery-ui-1.11.2/i18n/datepicker-vi.js'></script>
+
+<!-- end   -->
+
+<script>
+</script>
+
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen'>
+		</div>
+		<div class='top-page'>
+			<div class='opening'>
+				<img src='image/DAIKIN-w.png' class='daikin-logo'>
+				<img src='image/VRV-w.png' class='vrv-logo'>
+				<span class='subtitle'>Controller</span>
+				<!--<img src='image/DSmartHome.png' class='vrv-logo'>-->
+			</div>
+			<div class='model'>
+				<span>SVMPC1</span><span class="version">Ver.2.1</span><span id="internet">i</span>
+			</div>
+			<div class='login-panel'>
+				<div class='std'>
+					<input class='user' type='text'>
+					<input class='passwd' type='password'>
+					<div class='button mls' id='login' param='login'>login</div>
+				</div>
+				<div class='register'>
+					<input id='svm-ctrl' type='text'>
+					<div class='button mls' id='reg-btn' param='reg'>register</div>
+				</div>
+			</div>
+		</div>
+		<img class='loading' src='image/loading.gif'>
+		</div>
+	</div>
+</body>
+</html>

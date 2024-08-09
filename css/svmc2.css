@@ -1,0 +1,9 @@
+/*  css file for SVM-C2 */
+
+.menu-area .menu-item#schedule {
+  display: none;
+}
+
+#vrv-ctrl .title-frame#setback {
+  display: none;
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="apple-touch-icon-precomposed" href="image/icon.png">
+<link rel="shortcut icon" href="image/icon.png">
+
+<title>SVM-C1 Ver.1.0</title>
+
+<link rel="stylesheet" href="jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="jquery-ui-1.11.2/jquery-ui.css">
+<link rel="stylesheet" href="css/svmparts.css">
+<link rel="stylesheet" href="css/svmc1.css">
+<link rel="stylesheet" href="css/svmc1m.css">
+
+<style>
+
+</style>
+
+<script src="jquery/jquery-2.1.3.min.js"></script>
+<script src="jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="script/CommModule.js"></script>
+<script src="script/GlobalVal.js"></script>
+<script src="script/svmparts.js"></script>
+<script src="script/common.js"></script>
+<script src="script/svmc1.js"></script>
+<script src="script/svmc1_event.js"></script>
+<script src="script/Schedule.js"></script>
+<script src="script/interlock.js"></script>
+<script src="script/history.js"></script>
+<script src="script/scenes.js"></script>
+<script src="script/reports.js"></script>
+
+<script>
+$(document).ready(function() {
+	if(window.localStorage) {
+		var lang = window.localStorage.getItem('lang');
+		if(lang && lang.length > 0) {
+			LANG = lang;
+		}
+	}
+
+	loadStringTable();
+	setMultiLang('body .mls');
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.screen').show();
+	resize();
+	initInterlockDialogs();
+
+	getInterlock();
+	
+	// show program list
+	//setProgramList();
+});
+
+// SVM-C1 methods
+// SVM-C1 event
+$(window).on('resize',function(e) {
+	// without this, scroll bar will appear when window change to small
+	$('.container').hide(); 
+	WIDTH = $(window).width();
+	HEIGHT = $(window).height();
+	// adjust screen size to window sise
+	$('.container').width(WIDTH);
+	$('.container').height(HEIGHT);
+	$('.container').show();
+	resize();
+});
+
+</script>
+
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='BEI_Analysis_Report'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='bei_analysis_report'>BEI Analysis Report</span>
+				<div class='AITable'>
+					<div id = "Reports_lCol" class="whiteBGchart">
+						<div id="chart"></div>
+						<script>generateChart();</script>
+						<div id='graphFootNote' class='graphFootNote'></div>
+					</div>
+					<div id = "Reports_rCol">
+						<div>
+							<div id="QueryButton"><span class='button mls' id='Query' param='query'>Query</span></div>
+							<div id="Export"><span class='button mls' id='export' param='export'>Export</span></div>
+						</div>
+						<div id="TimeControl" class="TimeControl">
+							<div id='TimePeriod' class="TimePeriod">
+								<div id="past_3_years" class="SelectTimePeriod">
+									<input type="radio" id="SelectTimePeriod_p3y" name="SelectTimePeriod" value="p3y">
+									<span class="mls" param="p3y">Past 3 Years</span>
+								</div>
+								<!-- <div id="month_to_date" class="SelectTimePeriod"><input type="radio" id="SelectTimePeriod_mtd" name="SelectTimePeriod" value="mtd">Month to Date</div> -->
+							</div>
+						</div>
+						<div id="BEI"></div>
+						<div id="Consumption_Details"></div>
+					</div>
+				</div>
+			</div>
+			<div class='std-popup menu-popup' id='startDate-ctrl'>
+				<div id='startDate_Controls'>
+					<div class='subtitle mls' param="start_date_pop_up_inst">Please specify start date and <br>month for graphical comparisons</div>
+					<div id='month'>
+						<div class='item-title mls' style='float: left' param="month">Month: </div>
+						<div>
+							<div class="selectable-input" id='selectMonth' ></div>
+						</div>
+					</div>
+					<div id='date'>
+						<div class='item-title mls' style='float: left' param="date">Date: </div>
+						<div>
+							<div class="selectable-input" id='selectDate'></div>
+						</div>
+						<script>getMonthForSelection();</script>
+						<script>getDateForSelection(false);</script>
+					</div>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+					</div>
+				</div>
+				<div id='bei_regulation_settings'>
+					<div class='subtitle mls' param="bei_regulation_settings">BEI Regulation Settings</div><br>
+					<div id='month'>
+						<div class='item-title mls' style='float: left' param='upper_limit'>Upper Limit </div>
+						<div>
+							<input id="bei_upper_limit" type="number" placeholder="input" class="bei_limit">
+							<!-- <div class="selectable-input" id='selectMonth' ></div> -->
+						</div>
+					</div>
+					<div id='date'>
+						<div class='item-title mls' style='float: left' param='lower_limit'>Lower Limit </div>
+						<div>
+							<input id="bei_lower_limit" type="number" placeholder="input" class="bei_limit">
+							<!-- <div class="selectable-input" id='selectDate'></div> -->
+						</div>
+					</div>
+					<div class='button-area'>
+						<span class='button mls' id='set' param='set'>set</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+					</div>
+					<script>getBEIRegulationsForSelection();</script>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='startDateSetting'><img src='jqm/images/icons-png/bullets-white.png'><div class='mls' param='start_date_month'>Start Date/Month</div></span>
+				<span class='menu-item' id='backToReports'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+		
+</body>
+</html>

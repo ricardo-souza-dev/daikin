@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>Site information Setup</title>
+
+<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="../css/svmparts.css">
+
+<style>
+body {
+	background-color: darkblue;
+	margin: 5px;
+}
+input {
+  display: block;
+}
+
+#save {
+  margin: 10px 0 0 100px;
+}
+
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src="../script/CommModule.js"></script>
+<script src='../script/svmparts.js'></script>
+<script src="../script/GlobalVal.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	// read device_list.json
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/get_siteinfo.rb",
+			async: false,
+			dataType: "json",
+			success: function(data,textStatus,jqXHR) {
+				var name = data.name;
+				var size = data.size;
+				var location = data.location;
+				$('#name').val(name);
+				$('#size').val(size);
+				$('#location').val(location);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+
+});
+
+
+$(document).on('click','#save',function() {
+	try {
+		var name = $('#name').val();
+		var size = parseInt($('#size').val());
+		if(size == null || isNaN(size)) size = 0;
+		var location = $('#location').val();
+		var site_info = {name:name,size:size,location:location};
+		var param = JSON.stringify(site_info);
+		console.log(param);
+		$.ajax({
+			type: "POST",
+			url: "../server/set_siteinfo.rb",
+			async: false,
+			data: {data: param},
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+</script>
+
+</head>
+<body>
+	<h1 class='page-title'>Site information Setting</h1>
+
+	<input id='name' type='text' placeholder='Site Name'/>
+	<input id='size' type='text' placeholder='Floor Size'/>
+	<input id='location' type='text' placeholder='Location'/>
+	<div class='button' id='save'>Save</div>
+
+</body>
+</html>

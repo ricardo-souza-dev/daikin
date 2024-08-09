@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<div class='container horizontal-gradation'>
+		<div class='screen' id='multihotel'>
+			<div class='contents-area'>
+				<span class='page-title mls' param='hotelinterlock'>hotel interlock</span>
+				<div id='hotel-main'>	<!-- First screen, list of hotel interlock settings -->
+				
+					<div class='pointtype std-frame'>
+						<span class='item-title mls' param='rooms'>rooms</span>
+						<img src="image/edit-w.png" class="img-button" id="addroom">
+						<table id='pointtypetable'>
+							<thead>
+								<tr>
+									<th class='roomname mls' param='roomname'>Room Name</th>
+									<th class='checkin mls' param='hotelcheckin'>Check-in Signal</th>
+									<th class='keycard mls' param='hotelkeycard'>Keycard Signal</th>
+									<th class='window mls' param='hotelsensor'>Window Sensor</th>
+									<th class='fcu' param='fcu'>FCU</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class='roomname'>Room A</td>
+									<td class='checkin'>Check-in Signal</td>
+									<td class='keycard'>Keycard Signal</td>
+									<td class='window'>Window Sensor</td>
+									<td class='fcu'>FCU</td>
+								</tr>
+								<tr>
+									<td class='roomname'>Room B</td>
+									<td class='checkin'>Check-in Signal</td>
+									<td class='keycard'>Keycard Signal</td>
+									<td class='window'>Window Sensor</td>
+									<td class='fcu'>FCU</td>
+								</tr>
+								<tr>
+									<td class='roomname'>Room C</td>
+									<td class='checkin'>Check-in Signal</td>
+									<td class='keycard'>Keycard Signal</td>
+									<td class='window'>Window Sensor</td>
+									<td class='fcu'>FCU</td>
+								</tr>
+								<tr>
+									<td class='roomname'>Room D</td>
+									<td class='checkin'>Check-in Signal</td>
+									<td class='keycard'>Keycard Signal</td>
+									<td class='window'>Window Sensor</td>
+									<td class='fcu'>FCU</td>
+								</tr>
+							</tbody>	
+						</table>
+					</div>
+					
+					<div class='submenu'>
+						<div class='unrentedsettings std-frame'>
+							<div class='item-title mls' param='unrentedsettings'>Unrented Settings</div>
+							<table>
+								<tr>
+									<td><div class='subtitle mls' param='opmode'>Operation Mode</div></td>
+									<td><input type='radio' name='opmode' id='opmodeon' value='on'><span class='mls' param='on'>on</span></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type='radio' name='opmode' id='opmodeoff' value='off'><span class='mls' param='off'>off</span></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<div id='OMSB' val='22.0'>
+											<input type='radio' name='opmode' id='opmodesetback' value='setback'><span class='mls' param='setback'>setback</span>
+											<div class='selectable-input'>
+												<div id='unrentedsetback' class='current-val'>22.0</div>
+												<ul class='popup-list selectable-list'>
+												</ul>
+											</div>
+											<span class='unit'>&deg;C</span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div class='subtitle mls' param='setpoint'>Setpoint</div></td>
+									<td>
+										<div id='OMSP' val='22.0'>
+											<div class='selectable-input'>
+												<div id='unrentedsetpoint' class='current-val'>22.0</div>
+												<ul class='popup-list selectable-list'>
+												</ul>
+											</div>
+											<span class='unit'>&deg;C</span>
+										</div>	
+									</td>
+								</tr>
+								<tr>
+									<td><div class='subtitle mls' param='fanstep'>Fan Step</div></td>
+									<td><img class='img-button' id='fanstep-btn' src='image/fanstep3-1.png'></td>
+								</tr>
+							</table>
+						</div>	
+						
+						<div class='rentedsettings std-frame'>
+							<div class='item-title mls' param='rentedsettings'>Rented Settings</div>
+							<table>
+								<tr>
+									<td><div class='subtitle mls' param='opmode'>Operation Mode</div></td>
+									<td><input type='radio' name='rentedopmode' id='opmodeon' value='on'><span class='mls' param='on'>on</span></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type='radio' name='rentedopmode' id='opmodeoff' value='off'><span class='mls' param='off'>off</span></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<div id='OMSB' val='22.0'>
+											<input type='radio' name='rentedopmode' id='opmodesetback' value='setback'><span class='mls' param='setback'>setback</span>
+											<div class='selectable-input'>
+												<div id='rentedsetback' class='current-val'>22.0</div>
+												<ul class='popup-list selectable-list'>
+												</ul>
+											</div>
+											<span class='unit'>&deg;C</span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div class='subtitle mls' param='setpoint'>Setpoint</div></td>
+									<td>
+										<div id='OMSP' val='22.0'>
+											<div class='selectable-input'>
+												<div id='rentedsetpoint' class='current-val'>22.0</div>
+												<ul class='popup-list selectable-list'>
+												</ul>
+											</div>
+											<span class='unit'>&deg;C</span>
+										</div>	
+									</td>
+								</tr>
+								<tr>
+									<td><div class='subtitle mls' param='fanstep'>Fan Step</div></td>
+									<td><img class='img-button' id='fanstep-btn' src='image/fanstep3-1.png'></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class='keycardout std-frame'>
+							<div class='item-title mls' param='unoccupiedsettings'>Unoccupied Settings</div>
+							<table>
+								<tr><td>	
+									<input type='radio' name='keycard' id='keycardoff' value='off'><span class='mls' param='off'>off</span><br>
+								</td></tr>
+								<tr><td>
+									<div id='KCSB' val='22.0'>
+										<input type='radio' name='keycard' id='keycardsetback' value='setback'><span class='mls' param='setback'>setback</span>
+										<div class='selectable-input'>
+											<div id='setback' class='current-val'>22.0</div>
+											<ul class='popup-list selectable-list'>
+											</ul>
+										</div>
+										<span class='unit'>&deg;C</span><br>
+									</div>
+								</td></tr>
+								<tr><td>
+									<div id='KCSP' val='22.0'>
+										<input type='radio' name='keycard' id='keycardsetpoint' value='setpoint'><span class='mls' param='setpointchange'>setpointchangeto</span>
+										<div class='selectable-input'>
+											<div id='setpoint' class='current-val'>22.0</div>
+											<ul class='popup-list selectable-list'>
+											</ul>
+										</div>
+										<span class='unit'>&deg;C</span><br>
+									</div>										
+								</td></tr>
+								<tr><td>
+									<div class='slide'>
+										<div class='disable mls' param='disable'>disable</div>
+										<div class='slidesw'></div>
+										<div class='enable hide mls' param='enable'>enable</div>
+									</div>
+									<span class='mls' param='fsl'>Fan Step Low</span>
+								</td></tr>	
+							</table>	
+						</div>
+							
+						<div class='enablemenu'>	
+							<div class='sensortofcu std-frame'>	
+								<table>
+									<tr>
+										<td><span class='item-title mls' param='devicesdelay'>Devices Delay</span></td>
+										<td><span class='button mls' id='delay' param='delay'>Delay</span></td>
+									</tr>
+								</table>
+							</div>
+							
+							<div class='windowopen1 std-frame'>
+								<table>
+									<tr class='windowopen'>
+										<td><span class='item-title mls' param='windowopen'>Window Open</span></td>
+										<td>
+											<div class='slide'>
+												<div class='disable mls' param='ignore'>ignore</div>
+												<div class='slidesw'></div>
+												<div class='enable hide mls' param='offfcu'>Off FCU</div>
+											</div>
+										</td>	
+									</tr>
+									<tr class='remotecontrol'>
+										<td><span class='item-title mls' param='remotecontrol'>Remote Control</span></td>
+										<td>
+											<div class='slide'>
+												<div class='disable mls' param='allow'>Allow</div>
+												<div class='slidesw'></div>
+												<div class='enable hide mls' param='block'>Block</div>
+											</div>
+										</td>	
+									</tr>	
+								</table>	
+							</div>
+						</div>	
+					</div>
+					
+					<div class='button-area'>
+						<span class='button mls' id='save' param='save'>save</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+					</div>
+					
+				</div>			
+				<div class='std-popup' id='hotel-delay'>		<!-- third screen, hotel device delay -->
+					<span class='item-title mls' param='devicesdelay'>Devices Delay</span>
+					<table>
+						<tr>
+							<td>
+								<span id='kcdelaylabel' class='subtitle mls' param='keycarddelay'>keycard delay</span>
+							</td>
+							<td>
+								<input type='text' id='keycardoutdelay' class='delay allownumericwithoutdecimal' maxlength='3'>
+							</td>
+							<td>	
+								<span class='mls' param='minutes'>minutes</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span id='windowdelaylabel' class='subtitle mls' param='windowdelay'>Window Open Delay</span>
+							</td>
+							<td>	
+								<input type='text' id='windowopendelay' class='delay allownumericwithoutdecimal' maxlength='3'>
+							</td>
+							<td>	
+								<span class='mls' param='minutes'>minutes</span>
+							</td>
+						</tr>
+						<tr class='nocheckoutsignal'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+						<tr class='nocheckoutsignal'>
+							<td>
+								<span id='checkoutdelaylabel' class='subtitle mls' param='checkoutdelay'>Check Out Delay</span>
+							</td>
+							<td>	
+								<input type='text' id='checkoutdelay' class='delay allownumericwithoutdecimal' maxlength='3'>
+							</td>
+							<td>	
+								<span class='mls' param='hours'>hours</span>
+							</td>
+						</tr>
+						<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+					</table>
+					<div class='inline-block button-area'>
+						<div class='button mls' id='save' param='save'>save</div>
+						<div class='button mls' id='cancel' param='cancel'>cancel</div>
+					</div>
+				</div>
+				<div class='std-popup' id='room-detail'>		<!-- fourth screen, hotel room details -->
+					<input id='roomname' type='text'>
+					<div class='button-area'>
+						<span class='button mls' id='save' param='save'>save</span>
+						<span class='button mls' id='cancel' param='cancel'>cancel</span>
+						<span class='button mls' id='delete' param='del'>delete</span>
+					</div>
+					<div class='pointtype std-frame'>
+						<span class='item-title mls' param='ptype'>point type</span>
+						<img src="image/edit-w.png" class="img-button" id="add_di_points">
+						<table id='pointtypetable'>
+							<thead>
+								<tr>
+									<th class='poname mls' param='poname'>Point Name</th>
+									<th class='ptype mls' param='ptype'>Point Type</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class='pname'>Door Sensor</td>
+									<td class='ptype'>Door/Window Sensor</td>
+								</tr>
+								<tr>
+									<td class='pname'>Key Card</td>
+									<td class='ptype'>Keycard Signal</td>
+								</tr>
+								<tr>
+									<td class='pname'>Check-in</td>
+									<td class='ptype'>Check-in Signal</td>
+								</tr>
+								<tr>
+									<td class='pname'>Guest Room A/C</td>
+									<td class='ptype'>FCU</td>
+								</tr>
+							</tbody>	
+						</table>
+					</div>
+					<div class='fcupairing std-frame'>
+						<div class='item-title mls' param='sensorfcu'>Sensor to FCU</div>
+						<div style="display: inline-flex;">
+							<div class='selectable-list inline-block' id='screen-list'>
+								<ul class='list'>
+									<li>Sensor name</li>
+								</ul>
+							</div>
+							<div class='inline-block pnt-panel'>
+								<div id='pnt-select'>
+									<div class='multi-selectable-list set-width'>
+										<ul class='list'>
+											<li>FCU Point name</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+				<div class='dialog point-select'>				<!-- fifth screen, room details point selection -->
+					<div class='multi-selectable-list'>
+						<ul class='list'>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+							<li>Management Point</li>
+						</ul>
+					</div>
+					<div class='button-area'>
+						<div class='button ok'>OK</div>
+						<div class='button cancel'>Cancel</div>
+					</div>
+				</div>
+			</div>
+			<div class='menu-area'>
+				<img id='daikin-logo' src='image/DAIKIN-w.png'>
+				<span class='menu-item' id='back'><img src='jqm/images/icons-png/back-white.png'><div class='mls' param='back'>back</div></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

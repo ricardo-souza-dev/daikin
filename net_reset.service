@@ -1,0 +1,11 @@
+[Unit]
+Description=Network setting reset daemon start up
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=/var/www/html/net_reset.start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

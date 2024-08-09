@@ -1,0 +1,565 @@
+/*  css file for SVM-C1 */
+@media(max-width: 788px) {
+  /* svm parts */
+  .subtitle {
+    font-size: 14px;
+  }
+  input {
+    font-size: 18px;
+  }
+  .button {
+    font-size: 16px;
+    padding: 5px;
+  }
+  .selectable-input {
+    font-size: 18px;
+  }
+  
+  /* opening screen style */
+  .opening .daikin-logo {
+    width: 60px;
+  }
+  .opening .vrv-logo {
+    width: 200px;
+  }
+  
+  .page-title {
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  /*scenes button start*/
+  .scenesbutton {
+    display: inline-block;
+    margin: 0 0 2px 5px;
+    width: 96%;
+  }
+
+  #system .setup-area .scenes #scenes-prog-content {
+    left: 30px;
+  }
+
+  #system .setup-area .scenes #delay-set {
+    left: 100px;
+  }
+
+  #system .setup-area .scenes #command-set {
+    width: 340px;
+  }
+
+  /* cell style in monitor screen */
+  .cell {
+    display: block;
+    position: relative;
+    margin: 0px 0px 0 5px;
+    width: 96%;
+    height: 90px;
+    text-align: left;
+    box-shadow: 2px 2px 2px 2px navy;
+    cursor: pointer;
+  background: linear-gradient(
+     bottom,
+     #0040ff 0%,
+     lightcyan 100%
+    );
+  background: -moz-linear-gradient(
+     bottom,
+     #0040ff 0%,
+     lightcyan 100%
+    );
+  background: -webkit-linear-gradient(
+     bottom,
+     #0040ff 0%,
+     lightcyan 100%
+    );
+  }
+  .cell .name {
+    width: 90%;
+    height: 20px;
+    overflow: hidden;
+    margin: 2px 0 0 15px;
+    font-size: 18px;
+    color: black;
+    text-align: left;
+  }
+  .cell .icon-area {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 70px;
+    margin-left: 10px;
+    margin-right: 20px;
+    vertical-align: top;
+  }
+  .cell .icon-area .icon {
+    width: 70px;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+  }
+  .cell .icon-area .icon.stat.off {
+    opacity: 0.3;
+  }
+  .cell .icon-area .icon.stat.on {
+    opacity: 1;
+  }
+  .cell.com_err {
+    background: blue;
+  } 
+  .cell.com_err .icon-area * {
+    opacity: 0;
+  }
+  .cell.com_err .icon-area .icon {
+    opacity: 0.6;
+  }
+  .cell.com_err .stat-area {
+    opacity: 0;
+  }
+  .cell .icon-area .chmaster {
+    width: 15px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+  }
+  .cell .icon-area .filter {
+    width: 20px;
+    position: absolute;
+    top: 45px;
+    left: 65px
+  }
+  .cell .icon-area .op-cond {
+    width: 20px;
+    position: absolute;
+    top: 35px;
+    left: 70px;
+  }
+  .cell .icon-area .error {
+    width: 50px;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+  }
+  .cell .icon-area .errcode {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-weight: bold;
+    font-size: 20px;
+    color: red;
+  }
+  .cell .icon-area .info-area {
+    width: 110px;
+    position: absolute;
+    top: 45px;
+    left: 80px;
+    text-align: center;
+  }
+  .info-area img {
+    width: 20px;
+  }
+
+  .cell .stat-area {
+    position: relative;
+    display: inline;
+    vertical-align: top;
+    margin-top: 5px;
+  }
+  .stat-area .temp-area {
+    display: inline;
+    font-size: 18px;
+    color: white;
+  }
+  .stat-area .temp-area .sp {
+    display: inline;
+  }
+  .stat-area .temp-area .sp .val {
+    font-size: 36px;
+  }
+  .stat-area .temp-area .sp .dp-val {
+    font-size: 28px;
+  }
+  .stat-area .temp-area .csp {
+    color: navy;
+  }
+  .stat-area .temp-area .hsp {
+    color: red;
+  }
+  .stat-area .temp-area .temp {
+    display: inline;
+  }
+  .stat-area .temp-area .temp img {
+    width: 10px;
+    margin-left: 40px;
+  }
+  .stat-area .val-area {
+    display: inline-block;
+    margin-top: 10px;
+  }
+  .stat-area .val-area .val {
+    display: inline;
+    font-size: 32px;
+    width: 130px;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: right;
+    color: white;
+  }
+  .stat-area .val-area .unit {
+    display: inline;
+  }
+  .stat-area .sub-val-area .val {
+    margin-top: -24px;
+    width: 200px;
+  }
+  .stat-area .sub-val-area .unit {
+    margin-left: 202px;
+  }
+  .msi .stat-area .val-area .val {
+    text-align: center;
+  }
+  .stat-area .val-area .unit {
+    width: 140px;
+    font-size: 20px;
+    margin-top: -5px;
+    text-align: right;
+    color: white;
+  }
+
+  .cell .battery {
+    top: 72px;
+  }
+
+  .scrnbtn .name {
+    font-size: 24px;
+    height: 26px;
+  }
+  .scrnbtn .icon-area {
+    top: 0px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
+  }
+  .scrnbtn .icon-area .error {
+    top: 10px;
+    width: 35px;
+  }
+  .scrnbtn .stat-area {
+    display: block;
+    top: -35px;
+    left: 150px;
+  }
+  .visual-area .scrnbtn {
+    width: 210px;
+    height: 45px;
+    border-radius: 5px;
+  }
+  .visual-area .scrnbtn .name {
+    width: 160px;
+    font-size: 18px;
+    margin-left: 40px;
+    text-align: left;
+  }
+  .scrnbtn .icon-area {
+    top: -28px;
+    left: -5px;
+    width: 30px;
+    height: 30px;
+  }
+  .visual-area .scrnbtn .stat-area {
+    width: 180px;
+    margin-top: 0px;
+    margin-left: -130px;
+  }
+  .visual-area .scrnbtn .stat-area .op-info {
+    margin-left: 0px;
+    font-size: 12px;
+    margin-top: -5px;
+    display: inline-block;
+  }
+  .visual-area .scrnbtn .stat-area .op-value {
+    font-size: 16px;
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+  }
+
+  /* operation screen */
+  .top-area {
+    font-size: 28px;
+    color: white;
+    padding: 10px 0;
+  }
+  .left-area {
+    width: 50px;
+    height: 180px;
+    margin-right: 0px;
+  }
+  .left-area .img-button {
+    width: 40px;
+  }
+  .left-area .filter {
+    width: 30px;  
+  }
+  .center-area {
+    transform: scale(0.6);
+    transform-origin: 0 30%;
+    margin: 0;
+    width: 160px;
+  }
+
+  .right-area {
+    width: 80px;
+    height: 180px;
+  }
+  .right-area .img-button {
+    width: 50px;
+  }
+  .right-area .off-timer-duration .subtitle {
+    font-size: 14px;
+  }
+  .right-area .off-timer-duration .current-val {
+    width: 60px;
+  }
+  
+  .button-area .img-button {
+    width: 50px;
+  }
+  
+  #vrv-ctrl {
+   position: absolute;
+   bottom: 50px;
+   left: 20px;
+   width: 240px;
+  }
+  #vrv-ctrl .title-frame {
+    display: inline-block;
+    margin: 30px 10px 0px 5px;
+  }
+  #vrv-ctrl table .selectable-input {
+    width: 70px;
+  }
+
+  /* system setup screen */
+  #system .setup-area .title {
+    font-size: 20px;
+  }
+  #system .setup-area #language {
+    font-size: 18px;
+    padding: 1px;
+  }
+
+  #system .setup-area .passwdset input {
+    vertical-align: middle;
+    font-size: 18px;
+    padding: 5px;
+  }
+  #system .setup-area .passwdset .button {
+    vertical-align: middle;
+    font-size: 16px;
+  }
+
+  #system .setup-area #points .list {
+    height: 150px;
+    font-size: 14px;
+  }
+
+  #system .setup-area .userset #usr-list .list {
+    margin-top: 20px;
+    width: 280px;
+    height: 150px;
+    font-size: 16px;
+  }
+
+  #system .setup-area .pointset .selectable-list .list {
+    font-size: 18px;
+    height: 250px;
+  }
+  #system .setup-area .pointset .op-panel {
+    margin: 20px 0 0 0;
+    text-align: left;
+  }
+  #system .setup-area .pointset #point-name {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  #system .setup-area .pointset #icon-sel {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px;
+  }
+  #system .setup-area .pointset .op-panel img {
+    width: 70px;
+  }
+  #system .setup-area .pointset .op-panel #icon-sel .img-list {
+    height: 210px;
+  }
+  #system .setup-area .pointset .op-panel #icon-sel .img-list li {
+    height: 70px;
+  }
+  #system .setup-area .pointset .op-panel #point-save {
+    display: block;
+  }
+  
+  /* hide system icons for mobile users */
+  #system .menu-area .menu-item#dpoint {
+    display: none;	  
+  }
+  #system .menu-area .menu-item#screen {
+    display: none;	  
+  }
+  #system .menu-area .menu-item#network {
+    display: none;	  
+  }
+  #system .menu-area .menu-item#datetime {
+    display: none;	  
+  }
+  
+  /* menu area */
+  .menu-area .menu-item {
+    font-size: 12px;
+    padding: 0 2px;
+  }
+  .menu-area #daikin-logo {
+    margin: 0 0px 2px 0px;
+  }
+  .menu-area .menu-item#schedule {
+    display: none;
+  }
+  .menu-area .menu-item#interlock {
+    display: none;
+  }
+  .menu-area .menu-item#ppd {
+    display: none;
+  }
+  .menu-area .menu-item#history {
+    display: none;
+  }  
+  .menu-area .menu-item#report {
+    display: none;
+  }  
+}
+
+/*for 7" touchscreen start*/
+@media (max-width: 1009px) {	
+  /*interlock start*/
+  #interlock #interlock-prog-content {
+    position: absolute;
+    top: 5px; 
+    left: 60px;
+    width: 355px;
+    height: 420px;
+    overflow: auto;
+  }
+  #interlock #interlock-prog-content #inter-input .multi-col-list {
+    margin-top: 0px;
+  }
+  /*interlock end*/
+  
+  /*history start*/
+  .history .title { 
+    width: 800px;
+  }	
+
+  .history .latest {
+	display: inline;  
+  }
+  
+  .history .query {
+	  display: inline;
+	  padding: 0 50px;
+	  /*padding-top: 0px;
+	  padding-bottom: 0px;*/
+	  width: 800px;
+  }
+
+  .history .query #export {
+	display:none;
+  }
+
+  .history .table tbody {
+    height: 260px;
+    overflow: auto;
+  }
+
+  .history table {
+    border-collapse: collapse;
+    width: 800px;
+    color: white;
+    overflow: auto;
+    overflow-x: auto;
+    table-layout: fixed;
+  }
+
+  .history th, .history td {
+    font-size: 12px;
+    padding: 8px;	
+    text-align: left;
+    border-bottom: 1px solid white !important;
+  }
+
+  .history th {
+    width: 800px;
+  }  
+
+  .history .table .date, .history .table #dateth {
+    width: 17%;
+  }	
+
+  .history .table .type, .history .table #typeth {
+    width: 15%;
+  }
+
+  .history .table .target, .history .table #targetth {
+    width: 10%;
+  }
+
+  .history .table .contents, .history .table #contentsth {
+    width: 33%;
+    min-width: 250px;
+  }
+
+  .history .table .source, .history .table #sourceth {
+    width: 15%;
+  }
+
+  .history .table .operator, .history .table #operatorth {
+    width: 15%;
+  } 
+
+  .history .table #date:active {
+    opacity: 0.5;
+  }
+
+  .history .table img {
+    height: 15px;
+    width: auto;
+    cursor: pointer;
+  }	
+
+  .history .point-select.dialog {
+    left: 200px !important;
+  }
+
+  .history .pageNav {
+    display: block;
+    color: white;
+    margin-left: 300px;
+  }
+  /*history end*/
+
+  /*scene setup start*/
+  #system .setup-area .scenes #scenes-prog-content {
+    top: 10px;
+    max-height: 380px;
+  }
+
+  #system .setup-area .scenes #scenes-prog-content .content-area .multi-col-list {
+    height: 180px;
+  }
+
+  #system .setup-area .scenes #scenes-prog-content .button-area #save {
+    margin-top: 0
+  }
+  /*scene setup end*/
+}
+/*for 7" touchscreen end*/

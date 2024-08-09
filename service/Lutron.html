@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8"/>
+<meta name="Viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+
+<title>Lutron RCU connection setting</title>
+
+<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="../css/svmparts.css">
+
+<style>
+body {
+  padding: 5px 10px 10px 20px;
+}
+
+#save {
+	margin-top: 50px;
+}
+
+table {
+	background-color: white;
+	font-size: 18px;
+	margin: 10px 0 20px 40px;
+}
+table tr * {
+	padding: 0 10px 0 10px;
+}
+table td.id {
+	text-align: right;
+	cursor: pointer;
+}
+
+.note {
+	font-size: 16px;
+	color: white;
+	margin-left: 70px;
+}
+
+input {
+	font-size: 18px;
+	background: whitesmoke;
+	text-align: right;
+	width: 40px;
+}
+
+.small {
+	font-size: 12px;
+}
+</style>
+<script src="../jquery/jquery-2.1.3.min.js"></script>
+<script src="../jquery-ui-1.11.2/jquery-ui.min.js"></script>
+<script src='../script/svmparts.js'></script>
+<script src="../script/CommModule.js"></script>
+<script src="../script/GlobalVal.js"></script>
+<script src="../script/service.js"></script>
+
+<script>
+var LUTRON_DATA = []; //["LutronThermo",1,{"ip_addr":"","port":23,"user":"","passwd":"","attr":[{"dev":1,"pid":"","sb":true}]}]
+var POINT_LIST = {};	// store FCU point data
+var DEV_DATA = [];	// store other device setting
+
+$(document).ready(function() {
+	// read device_list.json
+	try {
+		$.ajax({
+			type: "POST",
+			url: "../server/get_pointlist.rb",
+			async: false,
+			dataType: "json"
+		}).then(
+			function(data) {
+				for(var i = 0; i < data.length; i++) {
+					if(data[i][1].type == 'Fcu') POINT_LIST[data[i][1].id] = data[i];
+				}
+			},
+			function() {}
+		);
+
+		var flag = false;
+		$.ajax({
+			type: "POST",
+			url: "../server/get_devices.rb",
+			async: false,
+			dataType: "json"
+		}).then(
+			function(data) {
+				for(var i = 0; i < data.length; i++) {
+					if(data[i][0] == 'LutronRcu') {
+						LUTRON_DATA = data[i];
+						flag = true;
+					} else {
+						DEV_DATA.push(data[i]);
+					}
+				}
+			},
+			function() {}
+		);
+		// set point list to screen
+		set_point();
+		if(flag == false) {	// no Lutron setting
+			alert("Lutron RCU is not include in setting. Please add Lutron RCU in controller connection setting before this setting.");
+		}
+	} catch(e) {
+		alert(e);
+	}
+
+});
+
+
+$(document).on('click','#save',function() {
+	// generate json file from data
+	var list = make_dev_data();
+	try {
+		var param = JSON.stringify(list);
+		console.log(param);
+		$.ajax({
+			type: "POST",
+			url: "../server/set_devices.rb",
+			async: false,
+			data: {data: param},
+			success: function(data, textStatus, jqXHR) {
+				alert(data);
+			}
+		});
+	} catch(e) {
+		alert(e);
+	}
+});
+
+function make_dev_data() {
+	make_pair();
+	var list = [];
+	for(var i in DEV_DATA) {
+		list.push(DEV_DATA[i]);
+	}
+	if(LUTRON_DATA.length != 0) {
+		list.push(LUTRON_DATA);
+	}
+	return list;
+}
+
+// make pair of integration id and point id for Lutron setting
+function make_pair() {
+	var attr = [];
+	$('#fcu .point').each(function(i, element) {
+		var pid = $(element).attr('id');
+		var lid = $(element).find('input').val();
+		var lid = parseInt(lid);
+		if(isNaN(lid) == false) {
+			// {"dev":1,"pid":"","sb":true}
+			attr.push({"dev":lid,"pid":pid,"sb":true});
+		}
+	});
+	if(LUTRON_DATA.length == 0) return;
+	LUTRON_DATA[2].attr = attr;
+}
+
+function set_point() {
+	// clear table data
+	$('#fcu .point').remove();
+	for(var i in POINT_LIST) {
+		var point = POINT_LIST[i][1];
+		line = "<tr class='point' id="+point.id+"><td><div class='iid'><input></div></td><td>"+point.name+"<span class='small'>("+point.id+")</span></td></tr>";
+		$('#fcu').append(line);
+	}
+	// set integration id
+	var attr = LUTRON_DATA[2].attr;
+	for(var i in attr) {
+		var pid = attr[i].pid;
+		var id = attr[i].dev;
+		$('#'+pid).find('input').val(id);
+	}
+}
+
+</script>
+
+</head>
+<body class='horizontal-gradation'>
+<h1 class='page-title'>Lutron RCU connection Setting</h1>
+
+<h2 class='item-title'>Thermostat and Indoor unit pairing</h2>
+<table id='fcu'>
+	<tr>
+		<th class='id'>Integration ID</th>
+		<th class='pid'>Indoor unit</th>
+		<th></th>
+	</tr>
+	<tr class='point'>
+		<td><input></td><td>FCU NAME</td>
+	</tr>
+</table>
+<div class='button' id='save'>Save</div>
+
+<div class='dialog'>
+	<input type='text'>
+	<div class='button-area'>
+		<div class='button' id='set'>Set</div>
+		<div class='button' id='cancel'>Cancel</div>
+	</div>
+</div>
+
+</body>
+</html>

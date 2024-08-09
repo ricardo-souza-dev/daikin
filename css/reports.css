@@ -1,0 +1,1124 @@
+/*  css file for Reports */
+
+/* Kaiwei 16/07/2018 CSS for Report Type Button */
+/*******************************************/
+.reportTypebutton {
+  display: inline-block;
+  margin: 5px 0 0 20px;
+  width: 240px;
+  height: 80px;
+  box-shadow: 2px 2px 2px 2px navy;
+  cursor: pointer;
+  vertical-align: top;
+  background: linear-gradient(
+     bottom,
+     blue 0%,
+     lightcyan 100%
+    );
+  background: -moz-linear-gradient(
+     bottom,
+     blue 0%,
+     lightcyan 100%
+    );
+  background: -webkit-linear-gradient(
+     bottom,
+     blue 0%,
+     lightcyan 100%
+    );
+}
+
+.reportTypebutton .name {
+    /*width: 230px;*/
+    /*height: 30px;*/
+    overflow: hidden;
+    margin: 2px 0 0 55px;
+    font-size: 24px;
+    color: black;
+    text-align: left;
+    padding-top: 8px;
+    height: 70px;
+}
+
+.reportTypebutton .icon-area {
+	position: relative;
+    display: block;
+    top: -24px;
+    left: 0px;
+    width: 50px;
+    /*height: 50px;*/
+}
+
+.reportTypebutton .icon-area .icon {
+    width: 50px;
+    position: absolute;
+    top: -50px;
+    left: 5px;
+}
+
+.reportTitle {
+    font-size: 24px;
+    color: white;
+    margin-top: 10px;
+}
+
+#reports .cell-area{
+	/*text-align: left;*/
+    padding-top: 10px;
+}
+
+/*******************************************/
+/* Kaiwei Add CSS for backToReports button */
+/*******************************************/
+.menu-area .menu-item#backToReports {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  right: 20px;
+  bottom: 0px;
+}
+
+/*******************************************/
+/*CSS For Analog Input Reports
+/*******************************************/
+.AITable {
+	/*width: 100%;*/
+    /*border: 1px solid grey;*/
+    border-bottom-color: black;
+    border-right-color: black;
+    margin-left: 2px;
+    padding-bottom: 5px;
+    margin-right: 2px;
+}
+
+.AITable #Reports_lCol{
+	float: left;
+	width: 74%;
+	vertical-align: top;
+    /*border: 1px solid black;*/
+    margin: 2px;
+    border-bottom-color: grey;
+    border-right-color: grey;
+    padding: 2px;
+}
+
+.AITable #Reports_rCol{
+	/*vertical-align: top;*/
+	/*width: 20%;*/
+	margin-left: 76%;
+	/*border: 1px solid black;*/
+    border-bottom-color: grey;
+    border-right-color: grey;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 2px;
+}
+
+.AITable #Reports_rCol .QueryButton{
+	max-width: 40px;
+    float: left;
+}
+
+.AITable .labels{
+	-webkit-text-fill-color: #FFFFFF;
+    float: left;
+    /*width: 40px;*/
+    margin-top: 12px;
+}
+
+.AITable .input{
+	margin-left: 45px;
+}
+
+.AITable .styleSelect{
+	font-family: 'Myriad';
+	font-size: 16px;
+	/*padding: 4px 70px;*/
+	width: 100px;
+    max-width: 100px;
+	margin: 6px;
+}
+
+.AITable .SelectIntervals{
+	margin-left: 60px;
+}
+
+#ToD{
+	margin-top: 10px;
+    margin-bottom: 6px;
+}
+
+#Intervals{
+	margin-top: 10px;
+}
+
+.TimeControl{
+	border: 2px solid white;
+    border-radius: 6px;
+    padding: 2px;
+}
+
+.TimeControl .TimePeriod{
+	-webkit-text-fill-color: #FFFFFF;
+    padding: 2px;
+    font-size: 22px;
+    /* border: 2px solid white; */
+    /* border-radius: 6px; */
+    padding: 2px;
+    text-align: left;
+    width: 100%;
+}
+
+.TimeControl .TimePeriod .SelectTimePeriod{
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.TimeControl .FromD{
+	vertical-align: middle;
+}
+
+.TimeControl .ToD{
+	vertical-align: middle;
+}
+
+.TimeControl .Intervals{
+	vertical-align: middle;
+}
+
+.energyCategories{
+	border: 2px solid white;
+    border-radius: 6px;
+    padding: 2px;
+    margin-top: 2px;
+}
+
+.energyCategories .energyCategorieslabel{
+	-webkit-text-fill-color: #FFFFFF;
+    font-size: 22px;
+    padding: 2px;
+}
+
+.energyCategories .energyCheckbox{
+	
+}
+
+.energyCategories .energyCheckbox .selectEnergyCategory{
+	/*-webkit-text-fill-color: #FFFFFF;*/
+    font-size: 22px;
+    padding: 2px;
+}
+
+.Management_Points{
+	/*border: 2px solid white;
+    border-radius: 6px;*/
+    padding: 2px;
+    padding-bottom: 10px;
+    /*overflow:scroll;*/ 
+	overflow: hidden;
+    /*height: 300px;*/
+	height: 350px;
+    width: 95%;
+    vertical-align: top;
+}
+
+#Analog_Input_Report #Reports_rCol #Management_Points{
+	border: 2px solid white;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 5px;
+    width: 98%;
+}
+
+#Analog_Input_Report #Reports_rCol #Management_Points .multi-selectable-list{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 20px;
+    box-sizing: content-box;	
+}
+
+.managementPointLabels{
+	-webkit-text-fill-color: #FFFFFF;
+    font-size: 22px;
+}
+
+.ulManagementPointList{
+	-webkit-text-fill-color: #FFFFFF;
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 50px;
+    font-size: 18px;
+}
+
+.Management_Points .editButton{
+	width: 18px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.Management_Points .selectAllButton{
+    cursor: pointer;
+    -webkit-text-fill-color: #FFFFFF;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.Management_Points .containerManagementPoint{
+	padding: 5px;
+}
+
+.Management_Points .containerSelectAll #selectAll{
+
+}
+
+.Management_Points .containerSelectAll .selectAllButton{
+	display: inline-block;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 3px;
+    margin: 3px;
+    text-decoration: underline;
+}
+
+.input #from.hasDatepicker{
+	width: 50%;
+	min-width: 130px;
+    float: left;
+}
+
+.input #to.hasDatepicker{
+    width: 50%;
+    min-width: 130px;
+    float: left;
+}
+
+.input #from{
+	width: 50%;
+    float: left;
+    font-size: 22px;
+}
+
+.input #to{
+	width: 50%;
+    float: left;
+    font-size: 22px;
+}
+
+.HH.HH{
+    width: 35%;
+	min-width: 85px;
+    font-size: 24px;
+    margin-top: 3px;
+}
+
+#fromHH{
+
+}
+
+.input .semi-colon{
+    float:  left;
+    font-size:  30px;
+    vertical-align:  middle;
+    -webkit-text-fill-color: #FFFFFF;
+	
+}
+
+#Query.button.mls{
+	float: left;
+}
+
+#Analog_Input_Report #Reports_lCol{
+	/*height: 1200;
+	width: 60%;*/
+}
+
+.whiteBGchart .c3 {
+    background-color: #FFF;
+   /* margin: 5px; */
+    border: 3px solid #4a4a4a;
+    border-radius: 6px;
+}
+
+/*
+.c3-target-SetPoint-hatcp001-00001{
+  stroke-dasharray: 5,5;
+}
+*/
+
+.upper-limit-zw001-00501{
+	fill: rgb(0,0,0);	
+}
+
+.c3-ygrid-line.upper-limit-zw001-00501 line {
+    stroke: rgb(0,0,0);
+}
+.c3-ygrid-line.upper-limit-zw001-00501 text {
+    fill: rgb(0,0,0);
+}
+
+.graphFootNote {
+	color: white;
+    font-style: italic;
+}
+/*
+.accordion {
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: blue;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}*/
+
+.categories {
+	border: 2px solid white;
+    border-radius: 6px;
+    padding: 2px;
+    margin-top: 5px;
+}
+/*******************************************/
+/* Kaiwei 23/08/2018 added css for 		   */
+/* Energy Management Report				   */
+/*******************************************/
+
+#SelectEnergyCategories{
+	margin-top: 10px;
+}
+
+#SelectEnergyCategories .title-frame .title{
+	margin-top: 0px;
+}
+
+
+/*******************************************/
+/* kaiwei 15/08/2018 added css for 		   */
+/* pi_setting screen 					   */
+/*******************************************/
+#pi_category_settings{
+	float: left;
+	margin-left: 10px;
+	text-align: left;
+	/*width: 25%;*/
+	/*border: 2px solid white;
+    border-radius: 6px;*/
+    padding: 2px;
+}
+
+#pi_details{
+	/*margin-left: 27%;*/
+	margin-left: 10px;
+    margin-right: 10px;
+	/*border: 2px solid white;
+    border-radius: 6px;*/
+    padding: 2px;
+    min-height: 570px;
+}
+
+#pi_setting{
+	margin: 10px;
+}
+
+.Pi_Management_Points {
+	/*float: left;
+	height: 500px;
+    width: 16.5%;
+    */
+    display: inline-block;
+}
+
+#pi_Categories .classification_labels{
+	font-size: 20px;
+	color: white;
+	margin: 5px 2px 0 2px;
+	width: 295px;
+	/*float: left;*/
+	-webkit-text-fill-color: white;
+	padding: 10px;
+	display: inline-block;
+}
+
+#pi_Categories .classifications{
+    /*border: 2px solid white;
+    border-radius: 6px;*/
+    display: inline-block;
+    vertical-align: top;
+    /*height: 400px;*/
+    width: 400px;
+}
+
+.category_labels{
+  	font-size: 16px;
+	color: white;
+	margin: 5px 2px 0 2px;
+	width: 40px;
+}
+
+#pi_Setting .labels{
+	font-size: 20px;
+	color: white;
+	margin: 5px 2px 0 2px;
+	width: 40px;
+}
+
+#pi_Categories .labels{
+	font-size: 20px;
+	color: white;
+	margin: 5px 2px 0 2px;
+	width: 40px;
+}
+
+#Category_Details {
+	text-align: left;
+	/*margin-left: 300px;*/
+	display: inline-block;
+	vertical-align: top;
+}
+
+#categoryType{
+	/*margin-left: 35px;*/
+}
+
+#pi_name{
+    margin-left: 45px;
+}
+
+#pi_save{
+	margin-left: 360px;
+}
+
+#pi_setting_right{
+    /*margin-left: 18.5%;*/
+}
+
+.category_details_input{
+	/*margin-left: 10px;*/
+	width: 200px;
+}
+
+.category_type_input{
+	margin-left: 10px;
+    width: 65%;
+	font-size: 18px;
+}
+
+#Pi_Categorized{
+    margin-top: 20px;
+    text-align: left;
+}
+
+#Pi_Categorized .categorized{
+	height: 150px;
+    /*display: inline-block;*/
+    /* margin-top: 120px; */
+    margin: 2px 10px;
+    width: 300px;
+}
+
+.ulPiList{
+	text-align: left;
+	-webkit-text-fill-color: #FFFFFF;
+	list-style-type: none;
+    margin: 0;
+    padding: 0 0 0 5px;
+    font-size: 18px;
+    height: 5.5em;
+}
+
+#pi_id{
+	-webkit-text-fill-color: white;
+    background-color: #8a8a5c;
+}
+
+#pi_Setting .title{
+	-webkit-text-fill-color: white;
+	text-align: left;
+	/*font-size: 24px;*/
+	margin-bottom: 10px;
+}
+
+#pi_Categories .title{
+	-webkit-text-fill-color: white;
+	text-align: left;
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+#pi_category_settings .classification_categories{
+	margin-top: 10px;
+	margin-left: 20px
+}
+
+#pi-category-save{
+	margin-top: 12px;
+}
+
+.instructions{
+	-webkit-text-fill-color: white;
+	text-align: left;
+	font-size: 16px;
+}
+
+#pi_Setting #categoryType option:disabled{
+    color: white;
+    background-color: #8a8a5c;
+    font-weight: bold;
+}
+
+#Pi_Categorized .img-button{
+	/*width: 20px;
+    margin-left: 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;*/
+}
+
+#unCategorizedDialog{
+	top: 20px;
+    left: 200px;
+    display: block;
+    /*width: 300px;*/
+}
+
+.removePi{
+    text-align: right;
+}
+
+.removePiButton{
+	font-size: 16px;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+}
+
+.list.unCategorizedDialogList{
+	height: 450px;
+	border: none;
+}
+
+#dialogControls{
+    text-align: left;
+}
+
+.categoryLine{
+	margin-left: 2px;
+}
+
+#Pi_Energy{
+	margin-left: 38%;
+	display: -webkit-box;
+}
+
+#Pi_Generator{
+	/*margin-left: 10px;*/
+}
+
+#Pi_Water{
+	/*margin-left: 10px;*/
+	/*margin-top: 155px;*/
+}
+
+#Total{
+    float: left;
+    width: 18%;
+    height: 480px;
+}
+
+#Pi_Categorized .list{
+	/*border: none;*/
+}
+
+.ENERGY{
+	width: 900px;
+}
+
+#Pi_Water #Water_Consumption{
+	display: inline-block;
+}
+
+#Pi_Water #Recycled_Water{
+	display: inline-block;
+}
+
+#startDate-ctrl{
+  position: absolute;
+  bottom: 50px;
+  left: 40px;
+}
+
+#startDate-ctrl #selectMonth .current-val{
+	width: 150px;
+}
+
+#startDate-ctrl #selectDate .current-val{
+	width: 150px;
+}
+/* BEI Ratings */
+.bei_label{
+    -webkit-text-fill-color: #FFFFFF;
+    float: left;
+    width: 80px;
+    margin-top: 12px;
+}
+
+.bei_label_e{
+    -webkit-text-fill-color: #FFFFFF;
+    float: left;
+    width: 80px;
+    margin-top: 5px;
+}
+
+.bei_info{
+    margin-left: 85px;
+}
+
+.bei_info .bei_rating{
+    width: 90%;
+}
+
+#startDate_Controls{
+	float: left;
+}
+
+#bei_regulation_settings{
+    border-left: 1px solid white;
+    border-bottom-color: black;
+    border-right-color: black;
+    margin-left: 300px;
+    padding: 10px;
+    width: 300px;
+}
+
+.bei_limit{
+	width: 150px;
+}
+
+.consumption_label{
+    -webkit-text-fill-color: #FFFFFF;
+    float: left;
+    width: 160px;
+    margin-top: 12px;
+}
+
+.consumption_det .total_consumption{
+    width: 180px;
+}
+
+.consumption_det .total_generated{
+    width: 180px;
+}
+
+/* BEI RATING DISPLAY */
+#bei_rating_display .contents-area{
+/*	background-color: lightgray; #FFFFFF;*/
+	background-image: url("/image/bg1.png"); /* Image url */
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+#bei_rating_display #header{
+    background-color: white; /*#00A0C6;*/
+    width: 100%;
+    height:50px;
+}
+
+#bei_rating_display .dashboard_header{
+    display: inline-block;
+    /* margin-left: 10px; */
+/*    margin-top: 10px;
+    padding: 10px; */
+    vertical-align: middle;
+}
+
+#bei_rating_display #Company_logo img{
+    /*width: 20%; */
+    display: block;
+    position: absolute;
+    height: 50px;
+}
+
+#bei_rating_display .dashboard_header img{
+	/*width: 65%;*/
+    height: 50px;		
+}
+
+#bei_rating_display #header_title{
+   	width: 100%;
+    text-align: right;
+    font-size: 42px;
+    color: black;
+    font-weight: bold;
+    margin-left: -100px;
+}
+
+#bei_rating_display #Dashboard_BEI{
+	background-color: rgba(170,0,0,0.7); /*(206,14,45,0.9) #92D050;*/
+    margin: 0px 10px 10px 85px;
+    height: 450px;
+}
+
+#bei_rating_display #Dashboard_BEI #building_name{
+    font-size: 30px;
+    padding: 15px;
+}
+
+#bei_rating_display #Dashboard_BEI #building_label{
+	display: inline-block;
+}
+
+#bei_rating_display #Dashboard_BEI #site_name{
+	display: inline-block;
+}
+
+#bei_rating_display #Dashboard_BEI #bei{
+	text-align: center;
+    margin-top: 60px;
+    /*font-size: 70px;*/
+}
+
+#bei_rating_display #Dashboard_BEI #bei_rating_label{
+    font-size: 24px;
+}
+
+#bei_rating_display #Dashboard_BEI #bei_rating{
+    font-size: 50px;
+}
+
+#bei_rating_display #Dashboard_BEI #bei_pastYear{
+	text-align: center;
+    margin-top: 50px;
+    /*font-size: 70px;*/
+}
+
+#bei_rating_display #Dashboard_BEI #bei_rating_label_pastYear{
+    font-size: 22px;
+}
+
+#bei_rating_display #Dashboard_BEI #bei_rating_pastYear{
+    font-size: 50px;
+}
+
+
+#bei_rating_display #main_display_area #left{
+	float: left;
+    width: 45%;
+    -webkit-text-fill-color: #FFFFFF;
+}
+
+#bei_rating_display #main_display_area #right{
+    margin-left: 50%;
+    margin-top: 50px;
+    -webkit-text-fill-color: #FFFFFF;
+}
+
+#bei_rating_display #right #date{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    width: 85%;
+    margin: 10px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+}
+
+#bei_rating_display #right #date #date_inner{
+    /*margin-top: 10px;*/
+}
+
+#bei_rating_display #right #date #today_label{
+	display: inline-block;
+    margin-top: 10px;
+}
+
+#bei_rating_display #right #date #today_date{
+	display: inline-block;
+}
+
+#bei_rating_display #right #Total_Energy_Consumption{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    width: 85%;
+    margin: 10px 10px 0 10px;
+    height: 100px;
+    text-align: center;
+    font-size: 18px;
+}
+
+#bei_rating_display #right #Total_Energy_Consumption #total_consumption_label{
+    padding-top: 2%;	
+    font-size: 25px;
+}
+
+#bei_rating_display #right #card1{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    display: inline-block;
+    width: 41%;
+    height: 140px;
+    margin: 10px 10px 0 10px;
+    text-align: center;
+    font-size: 25px;
+}
+
+#bei_rating_display #right #card2{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    display: inline-block;
+    width: 41%;
+    height: 140px;
+    margin: 10px 10px 0 0;
+    text-align: center;
+    font-size: 25px;
+}
+
+#bei_rating_display #right #card3{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    display: inline-block;
+    width: 41%;
+    height: 140px;
+    margin: 10px 10px 0 10px;
+    text-align: center;
+    font-size: 25px;
+    vertical-align: bottom;
+}
+
+#bei_rating_display #right #card4{
+	background-color: rgba(0, 150, 0,0.7); /*(0,174,77,0.9) #00A0C6;*/
+    display: inline-block;
+    width: 41%;
+    height: 140px;
+    margin: 10px 10px 0 0;
+    text-align: center;
+    font-size: 25px;
+    vertical-align: bottom;
+}
+
+#bei_rating_display #right #card1 #card1_label{
+    padding-top: 28px;
+    font-size: 18px;
+}	
+
+#bei_rating_display #right #card2 #card2_label{
+    padding-top: 28px;
+    font-size: 18px;
+}	
+
+#bei_rating_display #right #card3 #card3_label{
+    padding-top: 28px;
+    font-size: 18px;
+}	
+
+#bei_rating_display #right #card4 #card4_label{
+    padding-top: 28px;
+    font-size: 18px;
+}	
+
+#bei_rating_display .menu-area{
+	background-color: #00A0C6;
+}
+
+#bei_rating_display #right #card4 #card4_label.card_water{
+	padding-top: 50px;
+}
+
+#bei_rating_display #main_display_area #BEI_leaf_icon img{
+	width: 12.5%;
+    margin-left: 3%;
+}
+
+#bei_rating_display #main_display_area #BEI_battery_icon{
+	width: 10%;
+    margin-left: 3%;
+	float: left;
+}
+
+#bei_rating_display #main_display_area #total_consumption{
+	text-align: center; 
+}
+
+#bei_rating_display #main_display_area #total_consumption_label #total_consumption_label_name{
+	margin-left: -8%;
+}
+
+#operation_info #period_title{
+	display: inline-block;
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
+
+#operation_info #op_info_period{
+	display: inline-block;
+}
+
+#operation_info #op_info_content{
+    overflow: auto;
+    overflow-x: auto;
+    max-height: 480px;
+    /*max-width: 550px;*/
+}
+
+#operation_info #op_info_table{
+    margin-left: 15px;
+    border-collapse: collapse;
+}
+
+#operation_info #op_info_table th{
+	border-bottom: 1px solid white !important;
+    font-weight: normal;
+    font-size: 16px;
+    width: 20%;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#operation_info #op_info_table td{
+	border-bottom: 1px solid white !important;
+    font-size: 20px;
+    text-align: right;
+    color: white;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#operation_info #op_info_table #h_mp{
+    min-width: 140px;
+    text-align: left;
+}
+
+#operation_info #op_info_table #h_op{
+    min-width: 60px;
+}
+
+#operation_info #op_info_table #h_tot_op{
+    min-width: 60px;
+}
+
+#operation_info #op_info_table #h_on{
+    min-width: 60px;
+}
+
+#operation_info #op_info_table #h_tot_on{
+    min-width: 60px;
+}
+
+#err_reporting .TimeControl .FromD {
+    vertical-align: top;
+}
+
+#err_reporting .AITable .labels {
+    -webkit-text-fill-color: #FFFFFF;
+    display: inline-block;
+}
+
+#err_reporting .AITable #FromD .input {
+    margin-left: 0px;
+    display: inline-block;
+    width: 80%;
+}
+
+#err_reporting .input #from {
+    width: 80%;
+    min-width: 150px;
+    font-size: 22px;
+    display: inline-block;
+}
+
+#err_reporting .TimeControl .ToD {
+    vertical-align: top;
+}
+
+#err_reporting .input #to {
+    width: 80%;
+    min-width: 150px;
+    float: none;
+    font-size: 22px;
+}
+
+#err_reporting .AITable #ToD .input {
+    margin-left: 20px;
+    display: inline-block;
+    width: 80%;
+}
+
+#err_reporting #err_table{
+    margin-left: 15px;
+    border-collapse: collapse;
+}
+
+#err_reporting #err_table th{
+	border-bottom: 1px solid white !important;
+    font-weight: normal;
+    font-size: 16px;
+    width: 30%;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#err_reporting #err_table td{
+	border-bottom: 1px solid white !important;
+    font-size: 20px;
+    text-align: right;
+    color: white;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#err_reporting #err_table #h_err_mp{
+    min-width: 200px;
+    text-align: left;
+}
+
+#err_reporting #err_table #h_err_code{
+    min-width: 80px;
+}
+
+#err_reporting #err_table #h_err_freq{
+    min-width: 120px;
+}
+
+#err_reporting #period_title{
+	display: inline-block;
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
+
+#err_reporting #err_period{
+	display: inline-block;
+}
+
+.AITable #ChangeTimePeriodInput #from{
+	float: none; 
+	margin-left: -40px; 
+	width: 240px;
+}
