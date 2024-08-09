@@ -16,7 +16,7 @@ class Dta116 < Device
 		@parity_val = {'EVEN'=>SerialPort::EVEN,'NONE'=>SerialPort::NONE,'ODD'=>SerialPort::ODD}
 		@slave = nil
 		@timeout = false
-		@poling_wait = 0.05 
+		@poling_wait = 0.05
 		@silent_interval = 0.03
 		@code_table = ['0','A','C','E','H','F','J','L','P','U','9','8','7','6','5','4','3','2','1','G','K','M','N','R','T','V','W','X','Y','Z']
 		@code_table2 = ['0','1','2','3','4','5','6','7','8','9','A','H','C','J','E','F']
@@ -51,7 +51,7 @@ class Dta116 < Device
 		return true if(@stopbit != attr['stopbit'])
 		return false
 	end
-	
+
 	def connect
 		@thread = Thread.new do
 			hist_flag = true
@@ -64,7 +64,7 @@ class Dta116 < Device
 					ModBus::RTUClient.connect(@port, @speed, {:data_bits => 8, :stop_bits => @stopbit, :parity => @parity_val[@parity], :read_timeout => 1000}) do |cl| # read timeout change from 100 for stability 30/04/2017
 						hist_flag = true
 						connect_slave(cl)
-					end					
+					end
 				rescue => e
 					# dev_disconnected('disconnected_dta')	# remove this line for stealth re-connection 30/04/2017
 					puts "Error: #{e}"
@@ -81,6 +81,7 @@ class Dta116 < Device
 	def connect_slave(client)
 		client.with_slave(@addr) do |slave|
 			puts "connect slave"
+			puts @addr
 			contents = ['connected_dta']
 			@data_man.add_history('System',contents) if(@connected == false)
 			@connected =true
@@ -134,11 +135,11 @@ class Dta116 < Device
 		else 	# normal status
 			sleep @silent_interval	# silent interval time
 			stat_reg = @slave.input_registers[stat_read_addr(id)]
-			# check auto mode 
+			# check auto mode
 			# if no auto cap but stat is auto then change mode depend on actual mode
 			pid = ManagementPoint.get_id(id,@dev_id)
 			if((stat_reg[1] & 0x000f) == 3 && @data_man.point_list[pid].auto_cap? == false)
-				# set actual mode to mode				
+				# set actual mode to mode
 				stat_reg[1] = (stat_reg[1] | 0xfff0) | ((stat_reg[1] >> 8) & 0x000f)
 			end
 
@@ -212,7 +213,7 @@ class Dta116 < Device
 		send_one_command
 	end
 
-	def updated?(current,update) 
+	def updated?(current,update)
 		return true if(current == nil)
 		return true if(current[0..2] != update[0..2])
 		return false
@@ -249,11 +250,11 @@ class Dta116 < Device
 	# get attribute of id_list and register it to attr_list
 	def make_point_list(reg)
 		point_list = {}
-		id_list = bitmap_to_array(reg)		
+		id_list = bitmap_to_array(reg)
 		id_list.each do |id|
 			flag = ''
 			sleep @silent_interval	# silent interval time
-			attr = @slave.input_registers[attr_addr(id)]		 
+			attr = @slave.input_registers[attr_addr(id)]
 			(attr[0] = 0; flag = 'VAM') if((attr[0] & 0x1f) == 0)	# this is VAM or unknown equipment
 			point = FcuDta116.new(id,@dev_id)
 			point.set_dev_attr(attr)
@@ -298,11 +299,11 @@ class Dta116 < Device
 			if(@point_list[id][2] == 'VAM')
 				sleep @silent_interval	# silent interval time
 				@slave.holding_registers[stat_write_addr(id).begin],fan_attr = convert_to_holding_reg(com,@point_list[id][1])[0]
-			else 
+			else
 				sleep @silent_interval	# silent interval time
 				@slave.holding_registers[stat_write_addr(id)],fan_attr = convert_to_holding_reg(com,@point_list[id][1])
 				if(fan_attr != 0)	# fan command is sent
-					@point_list[id][3] = fan_attr 
+					@point_list[id][3] = fan_attr
 					@point_list[id][4] = Time.now
 				end
 			end
@@ -319,11 +320,11 @@ class Dta116 < Device
 			if(@point_list[id][2] == 'VAM')
 				sleep @silent_interval	# silent interval time
 				@slave.holding_registers[stat_write_addr(id).begin],fan_attr = convert_to_holding_reg(com,@point_list[id][1])[0]
-			else 
+			else
 				sleep @silent_interval	# silent interval time
 				@slave.holding_registers[stat_write_addr(id)],fan_attr = convert_to_holding_reg(com,@point_list[id][1])
 				if(fan_attr != 0)	# fan command is sent
-					@point_list[id][3] = fan_attr 
+					@point_list[id][3] = fan_attr
 					@point_list[id][4] = Time.now
 				end
 			end
@@ -384,7 +385,7 @@ class Dta116 < Device
 				fan_attr &= 0xf0ff
 				reg[0] &= 0xf0ff
 				if(val == 'swing')
-					reg[0] |= 0x700 
+					reg[0] |= 0x700
 				else
 					reg[0] |= (val << 8)
 				end
@@ -433,7 +434,7 @@ class Dta116 < Device
 		when 0
 			stat['mode'] = 'fan'
 		when 1
-			stat['mode'] = 'heat' 
+			stat['mode'] = 'heat'
 		when 2
 			stat['mode'] = 'cool'
 		when 3
@@ -450,7 +451,7 @@ class Dta116 < Device
 			stat['actual_mode'] = 'cool'
 		end
 		if((input_reg[1]&0xf0) > 0)
-			stat['filter'] = true 
+			stat['filter'] = true
 		else
 			stat['filter'] = false
 		end
@@ -465,10 +466,10 @@ class Dta116 < Device
 			stat['err_code'] = get_error_code(input_reg[3])
 			stat['error'] = true if(err & 1 > 0)
 			stat['alarm'] = true if(err & 2 > 0)
-		end 
+		end
 		stat['temp'] = (input_reg[4]/10.0).round(1)
-		if(input_reg[5] & 0x100 > 0)	
-			stat['thermo_err'] = true 
+		if(input_reg[5] & 0x100 > 0)
+			stat['thermo_err'] = true
 		else
 			stat['thermo_err'] = false
 		end
