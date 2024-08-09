@@ -81,7 +81,6 @@ class Dta116 < Device
 	def connect_slave(client)
 		client.with_slave(@addr) do |slave|
 			puts "connect slave"
-			puts @addr
 			contents = ['connected_dta']
 			@data_man.add_history('System',contents) if(@connected == false)
 			@connected =true
